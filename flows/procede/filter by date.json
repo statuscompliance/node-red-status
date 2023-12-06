@@ -1,0 +1,68 @@
+[
+    {
+        "id": "bc04b966a21c5de9",
+        "type": "subflow",
+        "name": "filter by date",
+        "info": "",
+        "category": "procede",
+        "in": [
+            {
+                "x": 380,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "ab9b67db9d4a3990"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 640,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "ab9b67db9d4a3990",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "startDate",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "endDate",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "attribute",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "ab9b67db9d4a3990",
+        "type": "function",
+        "z": "bc04b966a21c5de9",
+        "name": "Date",
+        "func": "// FilterByDate\nvar startDate = new Date(env.get('startDate')); // Convertir la fecha inicial a un objeto Date\nvar endDate = new Date(env.get('endDate')); // Convertir la fecha final a un objeto Date\nvar attribute = env.get('attribute')\nvar documentDate = new Date(msg.payload[attribute]); // Suponiendo que 'fecha' es la propiedad de fecha en el documento\n\n// Filtrar mensajes basados en el rango de fechas\nif (documentDate >= startDate && documentDate <= endDate) {\n    return msg; // Devolver el mensaje si la fecha del documento está dentro del rango especificado\n} else {\n    return null; // Descartar el mensaje si la fecha del documento está fuera del rango especificado\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    }
+]

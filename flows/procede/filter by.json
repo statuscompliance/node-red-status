@@ -1,0 +1,357 @@
+[
+    {
+        "id": "ddd25d823f4085ee",
+        "type": "subflow",
+        "name": "filter by",
+        "info": "",
+        "category": "procede",
+        "in": [
+            {
+                "x": 140,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "1f1d718014af2612"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "5831f09fc30f58fb",
+                        "port": 0
+                    },
+                    {
+                        "id": "3daae4721b46afde",
+                        "port": 0
+                    },
+                    {
+                        "id": "72c8e2240ff99c17",
+                        "port": 0
+                    },
+                    {
+                        "id": "bd918e3f7ac96bb3",
+                        "port": 0
+                    },
+                    {
+                        "id": "b22cc09d03ed8d33",
+                        "port": 0
+                    },
+                    {
+                        "id": "d067b4485b4ca6e3",
+                        "port": 0
+                    },
+                    {
+                        "id": "6fc86b0d925a5862",
+                        "port": 0
+                    },
+                    {
+                        "id": "18f91a15fd272fa5",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "type",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "type": "select",
+                    "opts": {
+                        "opts": [
+                            {
+                                "l": {
+                                    "en-US": "Clasification"
+                                },
+                                "v": "Clasification"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "Importance"
+                                },
+                                "v": "Importance"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "ContentType"
+                                },
+                                "v": "ContentType"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "Date"
+                                },
+                                "v": "ContentType"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "DateFromToday"
+                                },
+                                "v": "DateFromToday"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "State"
+                                },
+                                "v": "State"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "ActivityPipe"
+                                },
+                                "v": "ActivityPipe"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "AssetPipe"
+                                },
+                                "v": "AssetPipe"
+                            },
+                            {
+                                "l": {
+                                    "en-US": "ActorPipe"
+                                },
+                                "v": "ActorPipe"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "attribute",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "value",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "1f1d718014af2612",
+        "type": "switch",
+        "z": "ddd25d823f4085ee",
+        "name": "FilterBy",
+        "property": "type",
+        "propertyType": "env",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Clasification",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Importance",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "ContentType",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "DateFromToday",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "State",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "ActivityPipe",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "AssetPipe",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "ActorPipe",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": true,
+        "outputs": 8,
+        "x": 280,
+        "y": 300,
+        "wires": [
+            [
+                "5831f09fc30f58fb"
+            ],
+            [
+                "3daae4721b46afde"
+            ],
+            [
+                "72c8e2240ff99c17"
+            ],
+            [
+                "bd918e3f7ac96bb3"
+            ],
+            [
+                "b22cc09d03ed8d33"
+            ],
+            [
+                "d067b4485b4ca6e3"
+            ],
+            [
+                "6fc86b0d925a5862"
+            ],
+            [
+                "18f91a15fd272fa5"
+            ]
+        ]
+    },
+    {
+        "id": "5831f09fc30f58fb",
+        "type": "function",
+        "z": "ddd25d823f4085ee",
+        "name": "Clasification",
+        "func": "var attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar clasificationState = env.get('value');\n// Filtrar mensajes basados en el estado específico\nif (msg.payload[attribute] === clasificationState) {\n    return msg; // Devolver el mensaje si coincide con el estado\n} else {\n    return null; // Descartar el mensaje si no coincide con el estado\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3daae4721b46afde",
+        "type": "function",
+        "z": "ddd25d823f4085ee",
+        "name": "Importancia",
+        "func": "// FilterByImportancia\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar importance = env.get('value');\n// Filtrar mensajes basados en el nivel de importancia\nif (msg.payload[attribute] === importance) {\n    return msg; // Devolver el mensaje si coincide con el nivel de importancia\n} else {\n    return null; // Descartar el mensaje si no coincide con el nivel de importancia\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "72c8e2240ff99c17",
+        "type": "function",
+        "z": "ddd25d823f4085ee",
+        "name": "ContentType",
+        "func": "// FilterByContentType\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar documentName = env.get('value');\n// Filtrar mensajes basados en el nombre del documento\nif (msg.payload[attribute] === documentName) {\n    return msg; // Devolver el mensaje si coincide con el nombre del documento\n} else {\n    return null; // Descartar el mensaje si no coincide con el nombre del documento\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd918e3f7ac96bb3",
+        "type": "function",
+        "z": "ddd25d823f4085ee",
+        "name": "DateFromToday",
+        "func": "// FilterByDateFromToday\nvar attribute = env.get('attribute');\nvar months = env.get('value'); // Suponiendo que 'meses' es el parámetro de entrada para los últimos N meses\n\nvar documentDate = new Date(msg.payload[attribute]); // Suponiendo que 'fecha' es la propiedad de fecha en el documento\nvar limitDate = new Date(); // Obtener la fecha actual\nlimitDate.setMonth(limitDate.getMonth() - months); // Restar N meses a la fecha actual\n\n// Filtrar mensajes basados en los últimos N meses\nif (documentDate >= limitDate) {\n    return msg; // Devolver el mensaje si la fecha del documento está dentro de los últimos N meses\n} else {\n    return null; // Descartar el mensaje si la fecha del documento está fuera de los últimos N meses\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b22cc09d03ed8d33",
+        "type": "function",
+        "z": "ddd25d823f4085ee",
+        "name": "State",
+        "func": "// FilterByState\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar state = env.get('value');\n\n// Filtrar mensajes basados en el estado específico\nif (msg.payload[attribute] === state) {\n    return msg; // Devolver el mensaje si coincide con el estado\n} else {\n    return null; // Descartar el mensaje si no coincide con el estado\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d067b4485b4ca6e3",
+        "type": "function",
+        "z": "ddd25d823f4085ee",
+        "name": "ActividadPipe",
+        "func": "// FiltrarActividadPipe\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar activityName = env.get('value');\n// Filtrar mensajes basados en el nombre de la actividad\nif (msg.payload[attribute] === activityName) {\n    return msg; // Devolver el mensaje si coincide con el nombre de la actividad\n} else {\n    return null; // Descartar el mensaje si no coincide con el nombre de la actividad\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6fc86b0d925a5862",
+        "type": "function",
+        "z": "ddd25d823f4085ee",
+        "name": "ActivoPipe",
+        "func": "// FiltrarActivoPipe\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar assetName = env.get('value');\n// Filtrar mensajes basados en el nombre del activo\nif (msg.payload[attribute] === assetName) {\n    return msg; // Devolver el mensaje si coincide con el nombre del activo\n} else {\n    return null; // Descartar el mensaje si no coincide con el nombre del activo\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "18f91a15fd272fa5",
+        "type": "function",
+        "z": "ddd25d823f4085ee",
+        "name": "ActorPipe",
+        "func": "// FiltrarActorPipe\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar actorName = env.get('value');\n// Filtrar mensajes basados en el nombre del actor\nif (msg.payload[attribute] === actorName) {\n    return msg; // Devolver el mensaje si coincide con el nombre del actor\n} else {\n    return null; // Descartar el mensaje si no coincide con el nombre del actor\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    }
+]

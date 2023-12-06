@@ -1,0 +1,130 @@
+[
+    {
+        "id": "34ec4089297e4ab1",
+        "type": "subflow",
+        "name": "trello collector",
+        "info": "",
+        "category": "trello",
+        "in": [
+            {
+                "x": 180,
+                "y": 240,
+                "wires": [
+                    {
+                        "id": "002c4f4e141257c9"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1000,
+                "y": 240,
+                "wires": [
+                    {
+                        "id": "b8b39b587637d6db",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "boardId",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "key",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "token",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "7903774cc95e586d",
+        "type": "http request",
+        "z": "34ec4089297e4ab1",
+        "name": "Trello request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.trello.com/1/boards/{{boardId}}/actions?key={{key}}&token={{token}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 500,
+        "y": 240,
+        "wires": [
+            [
+                "067d602e8ac85247"
+            ]
+        ]
+    },
+    {
+        "id": "067d602e8ac85247",
+        "type": "function",
+        "z": "34ec4089297e4ab1",
+        "name": "GitHub URLs",
+        "func": "var jsonData = msg.payload;\n\ntry {\n    var trelloResponses = JSON.parse(jsonData);\n\n    var githubRepoUrls = trelloResponses\n        .filter(response => response && response.data && response.data.attachment && response.data.attachment.url)\n        .map(response => response.data.attachment.url);\n\n    msg.payload = githubRepoUrls;\n} catch (error) {\n    msg.payload = \"Error al procesar la respuesta de Trello: \" + error.message;\n}\n\nmsg.githubRepoUrls = msg.payload;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 240,
+        "wires": [
+            [
+                "b8b39b587637d6db"
+            ]
+        ]
+    },
+    {
+        "id": "b8b39b587637d6db",
+        "type": "function",
+        "z": "34ec4089297e4ab1",
+        "name": "Sequence",
+        "func": "// Obtenemos la matriz de URLs\nvar input = msg.githubRepoUrls;\n\n// Verificamos si la entrada es una matriz y tiene al menos un elemento\nif (Array.isArray(input) && input.length > 0) {\n    // Iteramos sobre cada URL\n    input.forEach(function (url, index) {\n        // Creamos un nuevo mensaje para cada URL\n        var newMsg = {};\n        newMsg.payload = url;\n\n        // Enviamos cada URL a un nodo de salida (por ejemplo, un nodo \"debug\")\n        node.send(newMsg);\n    });\n} else {\n    // Si la estructura de entrada no es la esperada, enviamos un mensaje de error\n    node.error(\"La entrada no es una matriz válida de URLs\", msg);\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "002c4f4e141257c9",
+        "type": "function",
+        "z": "34ec4089297e4ab1",
+        "name": "Auxiliaries",
+        "func": "msg.boardId = env.get(\"boardId\");\nmsg.key = env.get(\"key\");\nmsg.token = env.get(\"token\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 240,
+        "wires": [
+            [
+                "7903774cc95e586d"
+            ]
+        ]
+    }
+]

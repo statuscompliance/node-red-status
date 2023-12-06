@@ -1,0 +1,25 @@
+{
+    "name": "@node-red-contrib/status",
+    "version": "0.0.1",
+    "description": "Collection of STATUS project components.",
+    "keywords": [
+        "node-red"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/statuscompliance/node-red-contrib-status"
+    },
+    "author": {
+        "name": "Álvaro Bernal",
+        "url": "https://github.com/alvarobernal2412"
+    },
+    "contributors": [
+        {
+            "name": "Francisco Montero",
+            "url": "https://github.com/FJMonteroInformatica"
+        }
+    ],
+    "files": [
+        "flows/*"
+    ]
+}

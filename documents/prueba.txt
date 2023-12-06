@@ -1,0 +1,14 @@
+Primera sección
+
+Esta es la primera
+sección del documento
+
+Segunda sección
+
+Esta es la segunda
+sección del documento
+
+Tercera sección
+
+Esta es la tercera
+sección del documento

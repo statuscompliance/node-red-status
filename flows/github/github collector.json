@@ -1,0 +1,169 @@
+[
+    {
+        "id": "e682c2c03858b3c4",
+        "type": "subflow",
+        "name": "github collector",
+        "info": "",
+        "category": "github",
+        "in": [
+            {
+                "x": 260,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "a064d87776ebf2c7"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1220,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "81a521ca691feb5d",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "username",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "repoName",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "path",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "token",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "c53c87869baf1662",
+        "type": "http request",
+        "z": "e682c2c03858b3c4",
+        "name": "GitHub request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.github.com/repos/{{username}}/{{repoName}}/contents/{{path}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "bearer",
+        "senderr": false,
+        "headers": [],
+        "x": 860,
+        "y": 400,
+        "wires": [
+            [
+                "81a521ca691feb5d"
+            ]
+        ]
+    },
+    {
+        "id": "a064d87776ebf2c7",
+        "type": "function",
+        "z": "e682c2c03858b3c4",
+        "name": "Auxiliaries",
+        "func": "msg.username = env.get(\"username\");\nmsg.repoName = env.get(\"repoName\");\nmsg.path = env.get(\"path\");\nmsg.token = env.get(\"token\");\n\nmsg.headers = {};\nmsg.headers['Authorization'] = 'Bearer ' + msg.token;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "5aec3edf5f6f6e06"
+            ]
+        ]
+    },
+    {
+        "id": "5aec3edf5f6f6e06",
+        "type": "switch",
+        "z": "e682c2c03858b3c4",
+        "name": "If is empty",
+        "property": "path",
+        "propertyType": "env",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "false",
+        "repair": true,
+        "outputs": 2,
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "a6f0b7363ae5e15b"
+            ],
+            [
+                "c53c87869baf1662"
+            ]
+        ]
+    },
+    {
+        "id": "a6f0b7363ae5e15b",
+        "type": "http request",
+        "z": "e682c2c03858b3c4",
+        "name": "GitHub request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.github.com/repos/{{username}}/{{repoName}}d/contents",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "bearer",
+        "senderr": false,
+        "headers": [],
+        "x": 860,
+        "y": 240,
+        "wires": [
+            [
+                "81a521ca691feb5d"
+            ]
+        ]
+    },
+    {
+        "id": "81a521ca691feb5d",
+        "type": "function",
+        "z": "e682c2c03858b3c4",
+        "name": "Validation",
+        "func": "if (msg.statusCode !== 200) {\n    msg.payload = false;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    }
+]

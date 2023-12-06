@@ -1,0 +1,209 @@
+[
+    {
+        "id": "c24cc92d30737b65",
+        "type": "subflow",
+        "name": "exists url",
+        "info": "",
+        "category": "procede",
+        "in": [
+            {
+                "x": 220,
+                "y": 400,
+                "wires": [
+                    {
+                        "id": "19507bd1feef36d9"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1300,
+                "y": 660,
+                "wires": [
+                    {
+                        "id": "dd688433e3744555",
+                        "port": 0
+                    },
+                    {
+                        "id": "45ed35959725f8a2",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "cardId",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "key",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "trelloToken",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "githubToken",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "4293b91d7c9ffb9a",
+        "type": "http request",
+        "z": "c24cc92d30737b65",
+        "name": "Trello request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.trello.com/1/cards/{{cardId}}/attachments?key={{key}}&token={{trelloToken}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 540,
+        "y": 400,
+        "wires": [
+            [
+                "976f962dc8b95353"
+            ]
+        ]
+    },
+    {
+        "id": "19507bd1feef36d9",
+        "type": "function",
+        "z": "c24cc92d30737b65",
+        "name": "Auxiliaries",
+        "func": "msg.cardId = env.get(\"cardId\");\nmsg.key = env.get(\"key\");\nmsg.trelloToken = env.get(\"trelloToken\");\nmsg.githubToken = env.get(\"githubToken\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 400,
+        "wires": [
+            [
+                "4293b91d7c9ffb9a"
+            ]
+        ]
+    },
+    {
+        "id": "976f962dc8b95353",
+        "type": "function",
+        "z": "c24cc92d30737b65",
+        "name": "GitHub URL",
+        "func": "var jsonData = msg.payload;\n\nmsg.payload = jsonData.toString().indexOf('github') != -1;\n\nif(msg.payload) {\n    msg.githubRepoUrl = JSON.parse(jsonData)[0].url;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 400,
+        "wires": [
+            [
+                "45ed35959725f8a2"
+            ]
+        ]
+    },
+    {
+        "id": "dd688433e3744555",
+        "type": "function",
+        "z": "c24cc92d30737b65",
+        "name": "Exists repo",
+        "func": "msg.payload = msg.statusCode === 200;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1130,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "22de7ce057115acd",
+        "type": "http request",
+        "z": "c24cc92d30737b65",
+        "name": "GitHub request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.github.com/repos/{{username}}/{{repoName}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "bearer",
+        "senderr": false,
+        "headers": [],
+        "x": 940,
+        "y": 580,
+        "wires": [
+            [
+                "dd688433e3744555"
+            ]
+        ]
+    },
+    {
+        "id": "45ed35959725f8a2",
+        "type": "switch",
+        "z": "c24cc92d30737b65",
+        "name": "If the card is associated",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "false",
+        "repair": true,
+        "outputs": 2,
+        "x": 350,
+        "y": 660,
+        "wires": [
+            [
+                "5ea3e9ceb594dedb"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5ea3e9ceb594dedb",
+        "type": "function",
+        "z": "c24cc92d30737b65",
+        "name": "Obtain username and repo name",
+        "func": "var githubRepoUrl = msg.githubRepoUrl;\n\nvar regex = /^https:\\/\\/github\\.com\\/([^\\/]+)\\/([^\\/]+)\\/?(tree\\/[^\\/]+)?\\/?$/; \nvar match = githubRepoUrl.match(regex); \nmsg.username = match[1]; \nmsg.repoName = match[2];\n\nmsg.headers = {};\nmsg.headers['Authorization'] = 'Bearer ' + msg.githubToken;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 580,
+        "wires": [
+            [
+                "22de7ce057115acd"
+            ]
+        ]
+    }
+]

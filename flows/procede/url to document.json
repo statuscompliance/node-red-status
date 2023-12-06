@@ -1,0 +1,130 @@
+[
+    {
+        "id": "31ecca3656562749",
+        "type": "subflow",
+        "name": "url to document",
+        "info": "",
+        "category": "procede",
+        "in": [
+            {
+                "x": 120,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "b364cd4fd052cbf2"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1180,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "a307729f5084751b",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "repoUrl",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "path",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "token",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "1fa1e70b836b9136",
+        "type": "http request",
+        "z": "31ecca3656562749",
+        "name": "GitHub request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.github.com/repos/{{username}}/{{repoName}}/contents/{{path}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "bearer",
+        "senderr": false,
+        "headers": [],
+        "x": 840,
+        "y": 320,
+        "wires": [
+            [
+                "a307729f5084751b"
+            ]
+        ]
+    },
+    {
+        "id": "b364cd4fd052cbf2",
+        "type": "function",
+        "z": "31ecca3656562749",
+        "name": "Auxiliaries",
+        "func": "msg.repoUrl = env.get(\"repoUrl\");\nmsg.path = env.get(\"path\");\nmsg.token = env.get(\"token\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 320,
+        "wires": [
+            [
+                "f09f63187f4ecbf9"
+            ]
+        ]
+    },
+    {
+        "id": "f09f63187f4ecbf9",
+        "type": "function",
+        "z": "31ecca3656562749",
+        "name": "Obtain username and repo name",
+        "func": "var githubRepoUrl = msg.repoUrl;\n\nvar regex = /^https:\\/\\/github\\.com\\/([^\\/]+)\\/([^\\/]+)\\/?(tree\\/[^\\/]+)?\\/?$/; \nvar match = githubRepoUrl.match(regex); \nmsg.username = match[1]; \nmsg.repoName = match[2];\n\nmsg.headers = {};\nmsg.headers['Authorization'] = 'Bearer ' + msg.token;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 320,
+        "wires": [
+            [
+                "1fa1e70b836b9136"
+            ]
+        ]
+    },
+    {
+        "id": "a307729f5084751b",
+        "type": "function",
+        "z": "31ecca3656562749",
+        "name": "Sequence",
+        "func": "var input = JSON.parse(msg.payload);\n\nif (Array.isArray(input) && input.length > 0) {\n    input.forEach(function (item, index) {\n        var newMsg = {};\n        newMsg.payload = item['name'];\n        node.send(newMsg);\n    });\n} else {\n    node.error(\"La entrada no es una matriz válida\", msg);\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    }
+]
