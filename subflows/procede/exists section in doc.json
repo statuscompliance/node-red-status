@@ -1,0 +1,92 @@
+[
+    {
+        "id": "5fc3400ef9add378",
+        "type": "subflow",
+        "name": "exist-section-in-document",
+        "info": "",
+        "category": "procede",
+        "in": [
+            {
+                "x": 480,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "6e1b962c0f7582cb"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 920,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "d08b2d2782aa5979",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "section",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "d08b2d2782aa5979",
+        "type": "function",
+        "z": "5fc3400ef9add378",
+        "name": "checkSection",
+        "func": "var data = msg.payload;\nvar section = env.get(\"section\");\n//OJO,sensible a las mayusculas y minusculas\nmsg.payload = data.includes(section).toString();\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6e1b962c0f7582cb",
+        "type": "urlToDoc",
+        "z": "5fc3400ef9add378",
+        "name": "",
+        "x": 580,
+        "y": 300,
+        "wires": [
+            [
+                "d08b2d2782aa5979"
+            ]
+        ]
+    },
+    {
+        "id": "d54991b2ae0a7f61",
+        "type": "subflow:5fc3400ef9add378",
+        "z": "f55d52643ddb8141",
+        "name": "",
+        "env": [
+            {
+                "name": "section",
+                "value": "Álvaro",
+                "type": "str"
+            }
+        ],
+        "x": 520,
+        "y": 220,
+        "wires": [
+            [
+                "da09126709264f32"
+            ]
+        ]
+    }
+]

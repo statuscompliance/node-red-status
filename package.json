@@ -1,13 +1,16 @@
 {
-    "name": "@node-red-contrib/status",
-    "version": "0.0.1",
+    "name": "@alvarobc2412/status",
+    "version": "1.0.0",
     "description": "Collection of STATUS project components.",
+    "license": "Apache-2.0",
     "keywords": [
-        "node-red"
+        "node-red",
+        "status",
+        "compliance"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/statuscompliance/node-red-contrib-status"
+        "url": "https://github.com/statuscompliance/node-red-status"
     },
     "author": {
         "name": "Álvaro Bernal",
@@ -20,6 +23,26 @@
         }
     ],
     "files": [
-        "flows/*"
-    ]
+        "nodes/*",
+        "README.md",
+        "LICENSE",
+        "flows.json"
+    ],
+    "node-red": {
+        "nodes": {
+            "github-collector": "nodes/subflows/github/github-collector.js",
+            "trello-collector": "nodes/subflows/trello/trello-collector.js",
+            "url-to-doc": "nodes/procede/url-to-doc.js",
+            "exists-pipe": "nodes/subflows/procede/exists-pipe.js",
+            "exists-url": "nodes/procede/exists-url.js",
+            "filter-by-date": "nodes/subflows/procede/filter-by-date.js",
+            "filter-by": "nodes/procede/filter-by.js",
+            "project-to-url": "nodes/procede/project-to-url.js",
+            "exists-section-in-doc": "nodes/procede/exists-section-in-doc.js"
+        }
+    },
+    "dependencies": {
+        "axios": "^1.6.7",
+        "pdf-parse": "^1.1.1"
+    }
 }

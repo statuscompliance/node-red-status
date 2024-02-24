@@ -8,1452 +8,12 @@
         "env": []
     },
     {
-        "id": "34ec4089297e4ab1",
-        "type": "subflow",
-        "name": "trello collector",
+        "id": "93e6cf2049ba8ebd",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
         "info": "",
-        "category": "trello",
-        "in": [
-            {
-                "x": 180,
-                "y": 240,
-                "wires": [
-                    {
-                        "id": "002c4f4e141257c9"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1000,
-                "y": 240,
-                "wires": [
-                    {
-                        "id": "b8b39b587637d6db",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "boardId",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "key",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "token",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "f75e263f71b198a8",
-        "type": "subflow",
-        "name": "exists pipe",
-        "info": "",
-        "category": "procede",
-        "in": [
-            {
-                "x": 280,
-                "y": 240,
-                "wires": [
-                    {
-                        "id": "c4cced54cfb1d9ca"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 640,
-                "y": 240,
-                "wires": [
-                    {
-                        "id": "c4cced54cfb1d9ca",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "count",
-                "type": "num",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "e682c2c03858b3c4",
-        "type": "subflow",
-        "name": "github collector",
-        "info": "",
-        "category": "github",
-        "in": [
-            {
-                "x": 260,
-                "y": 320,
-                "wires": [
-                    {
-                        "id": "a064d87776ebf2c7"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1220,
-                "y": 320,
-                "wires": [
-                    {
-                        "id": "81a521ca691feb5d",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "username",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "repoName",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "path",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "token",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "74e5fb917d9b19b2",
-        "type": "subflow",
-        "name": "section exists in document",
-        "info": "",
-        "category": "procede",
-        "in": [
-            {
-                "x": 220,
-                "y": 300,
-                "wires": [
-                    {
-                        "id": "229a4f6a790daeb3"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 520,
-                "y": 300,
-                "wires": [
-                    {
-                        "id": "229a4f6a790daeb3",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "section",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "c3b0865bd79e770b",
-        "type": "subflow",
-        "name": "file to json string",
-        "info": "",
-        "category": "procede",
-        "in": [
-            {
-                "x": 240,
-                "y": 300,
-                "wires": [
-                    {
-                        "id": "e99cfec0886f97cb"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 780,
-                "y": 300,
-                "wires": [
-                    {
-                        "id": "7e5c1bac7ed751b0",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "path",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "31ecca3656562749",
-        "type": "subflow",
-        "name": "url to document",
-        "info": "",
-        "category": "procede",
-        "in": [
-            {
-                "x": 120,
-                "y": 320,
-                "wires": [
-                    {
-                        "id": "b364cd4fd052cbf2"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1180,
-                "y": 320,
-                "wires": [
-                    {
-                        "id": "a307729f5084751b",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "repoUrl",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "path",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "token",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "e11c5db9a3433093",
-        "type": "subflow",
-        "name": "project to url",
-        "info": "",
-        "category": "procede",
-        "in": [
-            {
-                "x": 120,
-                "y": 360,
-                "wires": [
-                    {
-                        "id": "157726a19f27f58c"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1220,
-                "y": 360,
-                "wires": [
-                    {
-                        "id": "97cb9570dae8ba46",
-                        "port": 0
-                    },
-                    {
-                        "id": "209148e5d2dafe3b",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "cardId",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "key",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "trelloToken",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "githubToken",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "c24cc92d30737b65",
-        "type": "subflow",
-        "name": "exists url",
-        "info": "",
-        "category": "procede",
-        "in": [
-            {
-                "x": 220,
-                "y": 400,
-                "wires": [
-                    {
-                        "id": "19507bd1feef36d9"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1300,
-                "y": 660,
-                "wires": [
-                    {
-                        "id": "dd688433e3744555",
-                        "port": 0
-                    },
-                    {
-                        "id": "45ed35959725f8a2",
-                        "port": 1
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "cardId",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "key",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "trelloToken",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "githubToken",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "ddd25d823f4085ee",
-        "type": "subflow",
-        "name": "filter by",
-        "info": "",
-        "category": "procede",
-        "in": [
-            {
-                "x": 140,
-                "y": 300,
-                "wires": [
-                    {
-                        "id": "1f1d718014af2612"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 760,
-                "y": 300,
-                "wires": [
-                    {
-                        "id": "5831f09fc30f58fb",
-                        "port": 0
-                    },
-                    {
-                        "id": "3daae4721b46afde",
-                        "port": 0
-                    },
-                    {
-                        "id": "72c8e2240ff99c17",
-                        "port": 0
-                    },
-                    {
-                        "id": "bd918e3f7ac96bb3",
-                        "port": 0
-                    },
-                    {
-                        "id": "b22cc09d03ed8d33",
-                        "port": 0
-                    },
-                    {
-                        "id": "d067b4485b4ca6e3",
-                        "port": 0
-                    },
-                    {
-                        "id": "6fc86b0d925a5862",
-                        "port": 0
-                    },
-                    {
-                        "id": "18f91a15fd272fa5",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "type",
-                "type": "str",
-                "value": "",
-                "ui": {
-                    "type": "select",
-                    "opts": {
-                        "opts": [
-                            {
-                                "l": {
-                                    "en-US": "Clasification"
-                                },
-                                "v": "Clasification"
-                            },
-                            {
-                                "l": {
-                                    "en-US": "Importance"
-                                },
-                                "v": "Importance"
-                            },
-                            {
-                                "l": {
-                                    "en-US": "ContentType"
-                                },
-                                "v": "ContentType"
-                            },
-                            {
-                                "l": {
-                                    "en-US": "Date"
-                                },
-                                "v": "ContentType"
-                            },
-                            {
-                                "l": {
-                                    "en-US": "DateFromToday"
-                                },
-                                "v": "DateFromToday"
-                            },
-                            {
-                                "l": {
-                                    "en-US": "State"
-                                },
-                                "v": "State"
-                            },
-                            {
-                                "l": {
-                                    "en-US": "ActivityPipe"
-                                },
-                                "v": "ActivityPipe"
-                            },
-                            {
-                                "l": {
-                                    "en-US": "AssetPipe"
-                                },
-                                "v": "AssetPipe"
-                            },
-                            {
-                                "l": {
-                                    "en-US": "ActorPipe"
-                                },
-                                "v": "ActorPipe"
-                            }
-                        ]
-                    }
-                }
-            },
-            {
-                "name": "attribute",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "value",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "bc04b966a21c5de9",
-        "type": "subflow",
-        "name": "filter by date",
-        "info": "",
-        "category": "procede",
-        "in": [
-            {
-                "x": 380,
-                "y": 200,
-                "wires": [
-                    {
-                        "id": "ab9b67db9d4a3990"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 640,
-                "y": 200,
-                "wires": [
-                    {
-                        "id": "ab9b67db9d4a3990",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "startDate",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "endDate",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "attribute",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "7903774cc95e586d",
-        "type": "http request",
-        "z": "34ec4089297e4ab1",
-        "name": "Trello request",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.trello.com/1/boards/{{boardId}}/actions?key={{key}}&token={{token}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 500,
-        "y": 240,
-        "wires": [
-            [
-                "067d602e8ac85247"
-            ]
-        ]
-    },
-    {
-        "id": "067d602e8ac85247",
-        "type": "function",
-        "z": "34ec4089297e4ab1",
-        "name": "GitHub URLs",
-        "func": "var jsonData = msg.payload;\n\ntry {\n    var trelloResponses = JSON.parse(jsonData);\n\n    var githubRepoUrls = trelloResponses\n        .filter(response => response && response.data && response.data.attachment && response.data.attachment.url)\n        .map(response => response.data.attachment.url);\n\n    msg.payload = githubRepoUrls;\n} catch (error) {\n    msg.payload = \"Error al procesar la respuesta de Trello: \" + error.message;\n}\n\nmsg.githubRepoUrls = msg.payload;\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 690,
-        "y": 240,
-        "wires": [
-            [
-                "b8b39b587637d6db"
-            ]
-        ]
-    },
-    {
-        "id": "b8b39b587637d6db",
-        "type": "function",
-        "z": "34ec4089297e4ab1",
-        "name": "Sequence",
-        "func": "// Obtenemos la matriz de URLs\nvar input = msg.githubRepoUrls;\n\n// Verificamos si la entrada es una matriz y tiene al menos un elemento\nif (Array.isArray(input) && input.length > 0) {\n    // Iteramos sobre cada URL\n    input.forEach(function (url, index) {\n        // Creamos un nuevo mensaje para cada URL\n        var newMsg = {};\n        newMsg.payload = url;\n\n        // Enviamos cada URL a un nodo de salida (por ejemplo, un nodo \"debug\")\n        node.send(newMsg);\n    });\n} else {\n    // Si la estructura de entrada no es la esperada, enviamos un mensaje de error\n    node.error(\"La entrada no es una matriz válida de URLs\", msg);\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 860,
-        "y": 240,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "002c4f4e141257c9",
-        "type": "function",
-        "z": "34ec4089297e4ab1",
-        "name": "Auxiliaries",
-        "func": "msg.boardId = env.get(\"boardId\");\nmsg.key = env.get(\"key\");\nmsg.token = env.get(\"token\");\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 310,
-        "y": 240,
-        "wires": [
-            [
-                "7903774cc95e586d"
-            ]
-        ]
-    },
-    {
-        "id": "c4cced54cfb1d9ca",
-        "type": "function",
-        "z": "f75e263f71b198a8",
-        "name": "Validation",
-        "func": "var flowData = msg.payload;\nvar expectedCount = parseInt(env.get(\"count\"));\n\nmsg.payload = Object.keys(flowData).length == expectedCount;\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 460,
-        "y": 240,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c53c87869baf1662",
-        "type": "http request",
-        "z": "e682c2c03858b3c4",
-        "name": "GitHub request",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.github.com/repos/{{username}}/{{repoName}}/contents/{{path}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "bearer",
-        "senderr": false,
-        "headers": [],
-        "x": 860,
-        "y": 400,
-        "wires": [
-            [
-                "81a521ca691feb5d"
-            ]
-        ]
-    },
-    {
-        "id": "a064d87776ebf2c7",
-        "type": "function",
-        "z": "e682c2c03858b3c4",
-        "name": "Auxiliaries",
-        "func": "msg.username = env.get(\"username\");\nmsg.repoName = env.get(\"repoName\");\nmsg.path = env.get(\"path\");\nmsg.token = env.get(\"token\");\n\nmsg.headers = {};\nmsg.headers['Authorization'] = 'Bearer ' + msg.token;\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 430,
-        "y": 320,
-        "wires": [
-            [
-                "5aec3edf5f6f6e06"
-            ]
-        ]
-    },
-    {
-        "id": "5aec3edf5f6f6e06",
-        "type": "switch",
-        "z": "e682c2c03858b3c4",
-        "name": "If is empty",
-        "property": "path",
-        "propertyType": "env",
-        "rules": [
-            {
-                "t": "empty"
-            },
-            {
-                "t": "nempty"
-            }
-        ],
-        "checkall": "false",
-        "repair": true,
-        "outputs": 2,
-        "x": 630,
-        "y": 320,
-        "wires": [
-            [
-                "a6f0b7363ae5e15b"
-            ],
-            [
-                "c53c87869baf1662"
-            ]
-        ]
-    },
-    {
-        "id": "a6f0b7363ae5e15b",
-        "type": "http request",
-        "z": "e682c2c03858b3c4",
-        "name": "GitHub request",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.github.com/repos/{{username}}/{{repoName}}d/contents",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "bearer",
-        "senderr": false,
-        "headers": [],
-        "x": 860,
-        "y": 240,
-        "wires": [
-            [
-                "81a521ca691feb5d"
-            ]
-        ]
-    },
-    {
-        "id": "81a521ca691feb5d",
-        "type": "function",
-        "z": "e682c2c03858b3c4",
-        "name": "Validation",
-        "func": "if (msg.statusCode !== 200) {\n    msg.payload = false;\n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1080,
-        "y": 320,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "229a4f6a790daeb3",
-        "type": "function",
-        "z": "74e5fb917d9b19b2",
-        "name": "Validation",
-        "func": "var documentContent = msg.payload;\nvar expectedSection = env.get(\"section\");\n\nmsg.payload = documentContent.toString().indexOf(expectedSection) != -1;\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "e99cfec0886f97cb",
-        "type": "file in",
-        "z": "c3b0865bd79e770b",
-        "name": "Read file",
-        "filename": "path",
-        "filenameType": "env",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 400,
-        "y": 300,
-        "wires": [
-            [
-                "7e5c1bac7ed751b0"
-            ]
-        ]
-    },
-    {
-        "id": "7e5c1bac7ed751b0",
-        "type": "json",
-        "z": "c3b0865bd79e770b",
-        "name": "Json Parser",
-        "property": "payload",
-        "action": "str",
-        "pretty": false,
-        "x": 610,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "1fa1e70b836b9136",
-        "type": "http request",
-        "z": "31ecca3656562749",
-        "name": "GitHub request",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.github.com/repos/{{username}}/{{repoName}}/contents/{{path}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "bearer",
-        "senderr": false,
-        "headers": [],
-        "x": 840,
-        "y": 320,
-        "wires": [
-            [
-                "a307729f5084751b"
-            ]
-        ]
-    },
-    {
-        "id": "b364cd4fd052cbf2",
-        "type": "function",
-        "z": "31ecca3656562749",
-        "name": "Auxiliaries",
-        "func": "msg.repoUrl = env.get(\"repoUrl\");\nmsg.path = env.get(\"path\");\nmsg.token = env.get(\"token\");\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 270,
-        "y": 320,
-        "wires": [
-            [
-                "f09f63187f4ecbf9"
-            ]
-        ]
-    },
-    {
-        "id": "f09f63187f4ecbf9",
-        "type": "function",
-        "z": "31ecca3656562749",
-        "name": "Obtain username and repo name",
-        "func": "var githubRepoUrl = msg.repoUrl;\n\nvar regex = /^https:\\/\\/github\\.com\\/([^\\/]+)\\/([^\\/]+)\\/?(tree\\/[^\\/]+)?\\/?$/; \nvar match = githubRepoUrl.match(regex); \nmsg.username = match[1]; \nmsg.repoName = match[2];\n\nmsg.headers = {};\nmsg.headers['Authorization'] = 'Bearer ' + msg.token;\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 560,
-        "y": 320,
-        "wires": [
-            [
-                "1fa1e70b836b9136"
-            ]
-        ]
-    },
-    {
-        "id": "a307729f5084751b",
-        "type": "function",
-        "z": "31ecca3656562749",
-        "name": "Sequence",
-        "func": "var input = JSON.parse(msg.payload);\n\nif (Array.isArray(input) && input.length > 0) {\n    input.forEach(function (item, index) {\n        var newMsg = {};\n        newMsg.payload = item['name'];\n        node.send(newMsg);\n    });\n} else {\n    node.error(\"La entrada no es una matriz válida\", msg);\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1040,
-        "y": 320,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "248a4c09df3eb35a",
-        "type": "subflow:c24cc92d30737b65",
-        "z": "e11c5db9a3433093",
-        "name": "",
-        "env": [
-            {
-                "name": "cardId",
-                "value": "cardId",
-                "type": "env"
-            },
-            {
-                "name": "key",
-                "value": "key",
-                "type": "env"
-            },
-            {
-                "name": "trelloToken",
-                "value": "trelloToken",
-                "type": "env"
-            },
-            {
-                "name": "githubToken",
-                "value": "githubToken",
-                "type": "env"
-            }
-        ],
-        "x": 420,
-        "y": 360,
-        "wires": [
-            [
-                "5f05c13b7fc64e01"
-            ]
-        ]
-    },
-    {
-        "id": "5f05c13b7fc64e01",
-        "type": "switch",
-        "z": "e11c5db9a3433093",
-        "name": "If exists",
-        "property": "payload",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "true"
-            },
-            {
-                "t": "false"
-            }
-        ],
-        "checkall": "false",
-        "repair": true,
-        "outputs": 2,
-        "x": 580,
-        "y": 360,
-        "wires": [
-            [
-                "2edfa1a8112a2548"
-            ],
-            [
-                "97cb9570dae8ba46"
-            ]
-        ]
-    },
-    {
-        "id": "97cb9570dae8ba46",
-        "type": "function",
-        "z": "e11c5db9a3433093",
-        "name": "Error message",
-        "func": "node.error(\"The input data is not correct or there is no repository on that card.\", msg);",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 920,
-        "y": 420,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "2edfa1a8112a2548",
-        "type": "http request",
-        "z": "e11c5db9a3433093",
-        "name": "Trello request",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.trello.com/1/cards/{{cardId}}/attachments?key={{key}}&token={{trelloToken}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 820,
-        "y": 260,
-        "wires": [
-            [
-                "209148e5d2dafe3b"
-            ]
-        ]
-    },
-    {
-        "id": "209148e5d2dafe3b",
-        "type": "function",
-        "z": "e11c5db9a3433093",
-        "name": "GitHub URL",
-        "func": "var jsonData = msg.payload;\nmsg.payload = JSON.parse(jsonData)[0].url;\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1010,
-        "y": 260,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "157726a19f27f58c",
-        "type": "function",
-        "z": "e11c5db9a3433093",
-        "name": "Auxiliaries",
-        "func": "msg.cardId = env.get(\"cardId\");\nmsg.key = env.get(\"key\");\nmsg.trelloToken = env.get(\"trelloToken\");\nmsg.githubToken = env.get(\"githubToken\");\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 250,
-        "y": 360,
-        "wires": [
-            [
-                "248a4c09df3eb35a"
-            ]
-        ]
-    },
-    {
-        "id": "4293b91d7c9ffb9a",
-        "type": "http request",
-        "z": "c24cc92d30737b65",
-        "name": "Trello request",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.trello.com/1/cards/{{cardId}}/attachments?key={{key}}&token={{trelloToken}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 540,
-        "y": 400,
-        "wires": [
-            [
-                "976f962dc8b95353"
-            ]
-        ]
-    },
-    {
-        "id": "19507bd1feef36d9",
-        "type": "function",
-        "z": "c24cc92d30737b65",
-        "name": "Auxiliaries",
-        "func": "msg.cardId = env.get(\"cardId\");\nmsg.key = env.get(\"key\");\nmsg.trelloToken = env.get(\"trelloToken\");\nmsg.githubToken = env.get(\"githubToken\");\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 350,
-        "y": 400,
-        "wires": [
-            [
-                "4293b91d7c9ffb9a"
-            ]
-        ]
-    },
-    {
-        "id": "976f962dc8b95353",
-        "type": "function",
-        "z": "c24cc92d30737b65",
-        "name": "GitHub URL",
-        "func": "var jsonData = msg.payload;\n\nmsg.payload = jsonData.toString().indexOf('github') != -1;\n\nif(msg.payload) {\n    msg.githubRepoUrl = JSON.parse(jsonData)[0].url;\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 730,
-        "y": 400,
-        "wires": [
-            [
-                "45ed35959725f8a2"
-            ]
-        ]
-    },
-    {
-        "id": "dd688433e3744555",
-        "type": "function",
-        "z": "c24cc92d30737b65",
-        "name": "Exists repo",
-        "func": "msg.payload = msg.statusCode === 200;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1130,
-        "y": 580,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "22de7ce057115acd",
-        "type": "http request",
-        "z": "c24cc92d30737b65",
-        "name": "GitHub request",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.github.com/repos/{{username}}/{{repoName}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "bearer",
-        "senderr": false,
-        "headers": [],
-        "x": 940,
-        "y": 580,
-        "wires": [
-            [
-                "dd688433e3744555"
-            ]
-        ]
-    },
-    {
-        "id": "45ed35959725f8a2",
-        "type": "switch",
-        "z": "c24cc92d30737b65",
-        "name": "If the card is associated",
-        "property": "payload",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "true"
-            },
-            {
-                "t": "false"
-            }
-        ],
-        "checkall": "false",
-        "repair": true,
-        "outputs": 2,
-        "x": 350,
-        "y": 660,
-        "wires": [
-            [
-                "5ea3e9ceb594dedb"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "5ea3e9ceb594dedb",
-        "type": "function",
-        "z": "c24cc92d30737b65",
-        "name": "Obtain username and repo name",
-        "func": "var githubRepoUrl = msg.githubRepoUrl;\n\nvar regex = /^https:\\/\\/github\\.com\\/([^\\/]+)\\/([^\\/]+)\\/?(tree\\/[^\\/]+)?\\/?$/; \nvar match = githubRepoUrl.match(regex); \nmsg.username = match[1]; \nmsg.repoName = match[2];\n\nmsg.headers = {};\nmsg.headers['Authorization'] = 'Bearer ' + msg.githubToken;\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 680,
-        "y": 580,
-        "wires": [
-            [
-                "22de7ce057115acd"
-            ]
-        ]
-    },
-    {
-        "id": "1f1d718014af2612",
-        "type": "switch",
-        "z": "ddd25d823f4085ee",
-        "name": "FilterBy",
-        "property": "type",
-        "propertyType": "env",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "Clasification",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "Importance",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "ContentType",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "DateFromToday",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "State",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "ActivityPipe",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "AssetPipe",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "ActorPipe",
-                "vt": "str"
-            }
-        ],
-        "checkall": "false",
-        "repair": true,
-        "outputs": 8,
-        "x": 280,
-        "y": 300,
-        "wires": [
-            [
-                "5831f09fc30f58fb"
-            ],
-            [
-                "3daae4721b46afde"
-            ],
-            [
-                "72c8e2240ff99c17"
-            ],
-            [
-                "bd918e3f7ac96bb3"
-            ],
-            [
-                "b22cc09d03ed8d33"
-            ],
-            [
-                "d067b4485b4ca6e3"
-            ],
-            [
-                "6fc86b0d925a5862"
-            ],
-            [
-                "18f91a15fd272fa5"
-            ]
-        ]
-    },
-    {
-        "id": "5831f09fc30f58fb",
-        "type": "function",
-        "z": "ddd25d823f4085ee",
-        "name": "Clasification",
-        "func": "var attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar clasificationState = env.get('value');\n// Filtrar mensajes basados en el estado específico\nif (msg.payload[attribute] === clasificationState) {\n    return msg; // Devolver el mensaje si coincide con el estado\n} else {\n    return null; // Descartar el mensaje si no coincide con el estado\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 510,
-        "y": 140,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "3daae4721b46afde",
-        "type": "function",
-        "z": "ddd25d823f4085ee",
-        "name": "Importancia",
-        "func": "// FilterByImportancia\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar importance = env.get('value');\n// Filtrar mensajes basados en el nivel de importancia\nif (msg.payload[attribute] === importance) {\n    return msg; // Devolver el mensaje si coincide con el nivel de importancia\n} else {\n    return null; // Descartar el mensaje si no coincide con el nivel de importancia\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 510,
-        "y": 180,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "72c8e2240ff99c17",
-        "type": "function",
-        "z": "ddd25d823f4085ee",
-        "name": "ContentType",
-        "func": "// FilterByContentType\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar documentName = env.get('value');\n// Filtrar mensajes basados en el nombre del documento\nif (msg.payload[attribute] === documentName) {\n    return msg; // Devolver el mensaje si coincide con el nombre del documento\n} else {\n    return null; // Descartar el mensaje si no coincide con el nombre del documento\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 510,
-        "y": 220,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "bd918e3f7ac96bb3",
-        "type": "function",
-        "z": "ddd25d823f4085ee",
-        "name": "DateFromToday",
-        "func": "// FilterByDateFromToday\nvar attribute = env.get('attribute');\nvar months = env.get('value'); // Suponiendo que 'meses' es el parámetro de entrada para los últimos N meses\n\nvar documentDate = new Date(msg.payload[attribute]); // Suponiendo que 'fecha' es la propiedad de fecha en el documento\nvar limitDate = new Date(); // Obtener la fecha actual\nlimitDate.setMonth(limitDate.getMonth() - months); // Restar N meses a la fecha actual\n\n// Filtrar mensajes basados en los últimos N meses\nif (documentDate >= limitDate) {\n    return msg; // Devolver el mensaje si la fecha del documento está dentro de los últimos N meses\n} else {\n    return null; // Descartar el mensaje si la fecha del documento está fuera de los últimos N meses\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 520,
-        "y": 280,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "b22cc09d03ed8d33",
-        "type": "function",
-        "z": "ddd25d823f4085ee",
-        "name": "State",
-        "func": "// FilterByState\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar state = env.get('value');\n\n// Filtrar mensajes basados en el estado específico\nif (msg.payload[attribute] === state) {\n    return msg; // Devolver el mensaje si coincide con el estado\n} else {\n    return null; // Descartar el mensaje si no coincide con el estado\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 510,
-        "y": 320,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "d067b4485b4ca6e3",
-        "type": "function",
-        "z": "ddd25d823f4085ee",
-        "name": "ActividadPipe",
-        "func": "// FiltrarActividadPipe\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar activityName = env.get('value');\n// Filtrar mensajes basados en el nombre de la actividad\nif (msg.payload[attribute] === activityName) {\n    return msg; // Devolver el mensaje si coincide con el nombre de la actividad\n} else {\n    return null; // Descartar el mensaje si no coincide con el nombre de la actividad\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 520,
-        "y": 380,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "6fc86b0d925a5862",
-        "type": "function",
-        "z": "ddd25d823f4085ee",
-        "name": "ActivoPipe",
-        "func": "// FiltrarActivoPipe\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar assetName = env.get('value');\n// Filtrar mensajes basados en el nombre del activo\nif (msg.payload[attribute] === assetName) {\n    return msg; // Devolver el mensaje si coincide con el nombre del activo\n} else {\n    return null; // Descartar el mensaje si no coincide con el nombre del activo\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 510,
-        "y": 420,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "18f91a15fd272fa5",
-        "type": "function",
-        "z": "ddd25d823f4085ee",
-        "name": "ActorPipe",
-        "func": "// FiltrarActorPipe\nvar attribute = env.get('attribute');// Suponiendo que 'estado' es el parámetro de filtrado\nvar actorName = env.get('value');\n// Filtrar mensajes basados en el nombre del actor\nif (msg.payload[attribute] === actorName) {\n    return msg; // Devolver el mensaje si coincide con el nombre del actor\n} else {\n    return null; // Descartar el mensaje si no coincide con el nombre del actor\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 500,
-        "y": 460,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "ab9b67db9d4a3990",
-        "type": "function",
-        "z": "bc04b966a21c5de9",
-        "name": "Date",
-        "func": "// FilterByDate\nvar startDate = new Date(env.get('startDate')); // Convertir la fecha inicial a un objeto Date\nvar endDate = new Date(env.get('endDate')); // Convertir la fecha final a un objeto Date\nvar attribute = env.get('attribute')\nvar documentDate = new Date(msg.payload[attribute]); // Suponiendo que 'fecha' es la propiedad de fecha en el documento\n\n// Filtrar mensajes basados en el rango de fechas\nif (documentDate >= startDate && documentDate <= endDate) {\n    return msg; // Devolver el mensaje si la fecha del documento está dentro del rango especificado\n} else {\n    return null; // Descartar el mensaje si la fecha del documento está fuera del rango especificado\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 510,
-        "y": 200,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "1db827cc66538a3a",
-        "type": "subflow:34ec4089297e4ab1",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "x": 420,
-        "y": 120,
-        "wires": [
-            [
-                "a36c8664107b1913"
-            ]
-        ]
+        "env": []
     },
     {
         "id": "a36c8664107b1913",
@@ -1469,95 +29,8 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 590,
-        "y": 120,
+        "y": 200,
         "wires": []
-    },
-    {
-        "id": "cdc3153932b72fc0",
-        "type": "subflow:f75e263f71b198a8",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "env": [
-            {
-                "name": "flow",
-                "value": "{}",
-                "type": "json"
-            }
-        ],
-        "x": 430,
-        "y": 240,
-        "wires": [
-            [
-                "61d47bbbdbdd9f28"
-            ]
-        ]
-    },
-    {
-        "id": "39a09838d9ae028a",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"documents\":[{\"date\":\"2023-11-21\",\"documentName\":\"Invoice123\",\"state\":\"Processed\"},{\"date\":\"2023-10-15\",\"documentName\":\"Contract789\",\"state\":\"Approved\"},{\"date\":\"2023-09-05\",\"documentName\":\"Report456\",\"state\":\"Processed\"}],\"otherThings\":[{\"name\":\"I don't know\",\"state\":\"Very good\"}]}",
-        "payloadType": "json",
-        "x": 250,
-        "y": 240,
-        "wires": [
-            [
-                "cdc3153932b72fc0"
-            ]
-        ]
-    },
-    {
-        "id": "61d47bbbdbdd9f28",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 590,
-        "y": 240,
-        "wires": []
-    },
-    {
-        "id": "dffc3adaf512f84a",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "x": 250,
-        "y": 720,
-        "wires": [
-            [
-                "ddde0112f3d70994"
-            ]
-        ]
     },
     {
         "id": "1786c3e5a22144a7",
@@ -1577,23 +50,10 @@
         "payload": "",
         "payloadType": "str",
         "x": 250,
-        "y": 180,
+        "y": 280,
         "wires": [
             [
-                "af7ca8268e2f1f0c"
-            ]
-        ]
-    },
-    {
-        "id": "af7ca8268e2f1f0c",
-        "type": "subflow:e682c2c03858b3c4",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "x": 420,
-        "y": 180,
-        "wires": [
-            [
-                "df4e41427e9921e8"
+                "213703e50a691391"
             ]
         ]
     },
@@ -1611,7 +71,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 590,
-        "y": 180,
+        "y": 280,
         "wires": []
     },
     {
@@ -1632,227 +92,12 @@
         "payload": "",
         "payloadType": "str",
         "x": 250,
-        "y": 120,
+        "y": 200,
         "wires": [
             [
-                "1db827cc66538a3a"
+                "d1c766aa440e6049"
             ]
         ]
-    },
-    {
-        "id": "ddde0112f3d70994",
-        "type": "subflow:c3b0865bd79e770b",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "x": 420,
-        "y": 720,
-        "wires": [
-            [
-                "e01316c4aea8e29b"
-            ]
-        ]
-    },
-    {
-        "id": "e01316c4aea8e29b",
-        "type": "subflow:74e5fb917d9b19b2",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "x": 660,
-        "y": 720,
-        "wires": [
-            [
-                "4fae87b4a9389305"
-            ]
-        ]
-    },
-    {
-        "id": "b257f2d0207d39f4",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "x": 250,
-        "y": 300,
-        "wires": [
-            [
-                "d8940999718bf502"
-            ]
-        ]
-    },
-    {
-        "id": "d8940999718bf502",
-        "type": "subflow:c24cc92d30737b65",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "env": [
-            {
-                "name": "token",
-                "value": "ATTA188667b74900b0224ef9a4a521373403e53ee9616f4917e27ab442f2608bab2eF43CF10C",
-                "type": "str"
-            }
-        ],
-        "x": 420,
-        "y": 300,
-        "wires": [
-            [
-                "d0e6b6acf7680c3f"
-            ]
-        ]
-    },
-    {
-        "id": "4fae87b4a9389305",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 870,
-        "y": 720,
-        "wires": []
-    },
-    {
-        "id": "d0e6b6acf7680c3f",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 590,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "1a7526f5b200542f",
-        "type": "subflow:31ecca3656562749",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "x": 420,
-        "y": 360,
-        "wires": [
-            [
-                "164cfae14bb0cc31"
-            ]
-        ]
-    },
-    {
-        "id": "31342006256c1fed",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "x": 250,
-        "y": 360,
-        "wires": [
-            [
-                "1a7526f5b200542f"
-            ]
-        ]
-    },
-    {
-        "id": "164cfae14bb0cc31",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 590,
-        "y": 360,
-        "wires": []
-    },
-    {
-        "id": "5d6b34dd0277914f",
-        "type": "subflow:e11c5db9a3433093",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "x": 430,
-        "y": 420,
-        "wires": [
-            [
-                "b45a9b423842f37d"
-            ]
-        ]
-    },
-    {
-        "id": "e8fea7cd09dab277",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "x": 250,
-        "y": 420,
-        "wires": [
-            [
-                "5d6b34dd0277914f"
-            ]
-        ]
-    },
-    {
-        "id": "b45a9b423842f37d",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 590,
-        "y": 420,
-        "wires": []
     },
     {
         "id": "2d178a0362158736",
@@ -1871,8 +116,8 @@
         "topic": "",
         "payload": "{\"documents\":[{\"date\":\"2023-11-21\",\"name\":\"Invoice123\",\"state\":\"Processed\",\"priority\":\"High\"},{\"date\":\"2023-10-15\",\"name\":\"Contract789\",\"state\":\"Approved\",\"priority\":\"High\"},{\"date\":\"2023-09-05\",\"name\":\"Report456\",\"state\":\"Processed\",\"priority\":\"Low\"}]}",
         "payloadType": "json",
-        "x": 250,
-        "y": 600,
+        "x": 230,
+        "y": 540,
         "wires": [
             [
                 "d74b5d414d4d9055"
@@ -1892,8 +137,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 790,
-        "y": 600,
+        "x": 770,
+        "y": 540,
         "wires": []
     },
     {
@@ -1903,137 +148,16 @@
         "name": "JSONSequence",
         "func": "// Obtenemos el objeto JSON\nvar input = msg.payload;\n\n// Verificamos si el objeto tiene la estructura esperada\nif (input && input.documents && Array.isArray(input.documents)) {\n    // Accedemos a la matriz de documentos\n    var documents = input.documents;\n\n    // Iteramos sobre cada documento\n    documents.forEach(function (document, index) {\n        // Creamos un nuevo mensaje para cada documento\n        var newMsg = {};\n        newMsg.payload = document;\n\n        // Enviamos cada documento a un nodo de salida (por ejemplo, un nodo \"debug\")\n        node.send(newMsg);\n    });\n} else {\n    // Si la estructura del objeto no es la esperada, enviamos un mensaje de error\n    node.error(\"El objeto JSON no tiene la estructura esperada\", msg);\n}\n",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 420,
-        "y": 600,
-        "wires": [
-            [
-                "cfcaa24e33963655"
-            ]
-        ]
-    },
-    {
-        "id": "83695df6b2b44396",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"documents\":[{\"date\":\"2023-11-21\",\"name\":\"Invoice123\",\"state\":\"Processed\",\"priority\":\"High\"},{\"date\":\"2023-10-15\",\"name\":\"Contract789\",\"state\":\"Approved\",\"priority\":\"High\"},{\"date\":\"2023-09-05\",\"name\":\"Report456\",\"state\":\"Processed\",\"priority\":\"Low\"}]}",
-        "payloadType": "json",
-        "x": 250,
-        "y": 660,
-        "wires": [
-            [
-                "204ca36aaced4786"
-            ]
-        ]
-    },
-    {
-        "id": "2520aa319849f47c",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 790,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "204ca36aaced4786",
-        "type": "function",
-        "z": "264cc5c5b8338394",
-        "name": "JSONSequence",
-        "func": "// Obtenemos el objeto JSON\nvar input = msg.payload;\n\n// Verificamos si el objeto tiene la estructura esperada\nif (input && input.documents && Array.isArray(input.documents)) {\n    // Accedemos a la matriz de documentos\n    var documents = input.documents;\n\n    // Iteramos sobre cada documento\n    documents.forEach(function (document, index) {\n        // Creamos un nuevo mensaje para cada documento\n        var newMsg = {};\n        newMsg.payload = document;\n\n        // Enviamos cada documento a un nodo de salida (por ejemplo, un nodo \"debug\")\n        node.send(newMsg);\n    });\n} else {\n    // Si la estructura del objeto no es la esperada, enviamos un mensaje de error\n    node.error(\"El objeto JSON no tiene la estructura esperada\", msg);\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 420,
-        "y": 660,
-        "wires": [
-            [
-                "44fa8cbf306b1f3a"
-            ]
-        ]
-    },
-    {
-        "id": "7a446d20ffc2f199",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"documents\":[{\"date\":\"2023-11-21\",\"name\":\"Invoice123\",\"state\":\"Processed\",\"priority\":\"High\"},{\"date\":\"2023-10-15\",\"name\":\"Contract789\",\"state\":\"Approved\",\"priority\":\"High\"},{\"date\":\"2023-09-05\",\"name\":\"Report456\",\"state\":\"Processed\",\"priority\":\"Low\"}]}",
-        "payloadType": "json",
-        "x": 250,
+        "x": 400,
         "y": 540,
         "wires": [
             [
-                "1333e93b6bbeae27"
-            ]
-        ]
-    },
-    {
-        "id": "e2106750354884e8",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 790,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "1333e93b6bbeae27",
-        "type": "function",
-        "z": "264cc5c5b8338394",
-        "name": "JSONSequence",
-        "func": "// Obtenemos el objeto JSON\nvar input = msg.payload;\n\n// Verificamos si el objeto tiene la estructura esperada\nif (input && input.documents && Array.isArray(input.documents)) {\n    // Accedemos a la matriz de documentos\n    var documents = input.documents;\n\n    // Iteramos sobre cada documento\n    documents.forEach(function (document, index) {\n        // Creamos un nuevo mensaje para cada documento\n        var newMsg = {};\n        newMsg.payload = document;\n\n        // Enviamos cada documento a un nodo de salida (por ejemplo, un nodo \"debug\")\n        node.send(newMsg);\n    });\n} else {\n    // Si la estructura del objeto no es la esperada, enviamos un mensaje de error\n    node.error(\"El objeto JSON no tiene la estructura esperada\", msg);\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 420,
-        "y": 540,
-        "wires": [
-            [
-                "1fef7450e432475d"
+                "filterBy"
             ]
         ]
     },
@@ -2054,7 +178,7 @@
         "topic": "",
         "payload": "{\"documents\":[{\"date\":\"2023-11-21\",\"name\":\"Invoice123\",\"state\":\"Processed\",\"priority\":\"High\"},{\"date\":\"2023-10-15\",\"name\":\"Contract789\",\"state\":\"Approved\",\"priority\":\"High\"},{\"date\":\"2023-09-05\",\"name\":\"Report456\",\"state\":\"Processed\",\"priority\":\"Low\"}]}",
         "payloadType": "json",
-        "x": 250,
+        "x": 230,
         "y": 480,
         "wires": [
             [
@@ -2075,7 +199,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 790,
+        "x": 770,
         "y": 480,
         "wires": []
     },
@@ -2086,52 +210,29 @@
         "name": "JSONSequence",
         "func": "// Obtenemos el objeto JSON\nvar input = msg.payload;\n\n// Verificamos si el objeto tiene la estructura esperada\nif (input && input.documents && Array.isArray(input.documents)) {\n    // Accedemos a la matriz de documentos\n    var documents = input.documents;\n\n    // Iteramos sobre cada documento\n    documents.forEach(function (document, index) {\n        // Creamos un nuevo mensaje para cada documento\n        var newMsg = {};\n        newMsg.payload = document;\n\n        // Enviamos cada documento a un nodo de salida (por ejemplo, un nodo \"debug\")\n        node.send(newMsg);\n    });\n} else {\n    // Si la estructura del objeto no es la esperada, enviamos un mensaje de error\n    node.error(\"El objeto JSON no tiene la estructura esperada\", msg);\n}\n",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 420,
+        "x": 400,
         "y": 480,
         "wires": [
             [
-                "d0aaa856bcf26357"
+                "9970c6ef46fa2aad"
             ]
         ]
     },
     {
-        "id": "1fef7450e432475d",
-        "type": "subflow:ddd25d823f4085ee",
+        "id": "filterBy",
+        "type": "filter-by",
         "z": "264cc5c5b8338394",
         "name": "",
-        "env": [
-            {
-                "name": "type",
-                "value": null,
-                "type": "str"
-            }
-        ],
-        "x": 620,
+        "valueType": "State",
+        "attribute": "state",
+        "value": "Processed",
+        "x": 600,
         "y": 540,
-        "wires": [
-            [
-                "e2106750354884e8"
-            ]
-        ]
-    },
-    {
-        "id": "cfcaa24e33963655",
-        "type": "subflow:ddd25d823f4085ee",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "env": [
-            {
-                "name": "type",
-                "value": null,
-                "type": "str"
-            }
-        ],
-        "x": 620,
-        "y": 600,
         "wires": [
             [
                 "52c08b56d2932a2e"
@@ -2139,35 +240,272 @@
         ]
     },
     {
-        "id": "44fa8cbf306b1f3a",
-        "type": "subflow:ddd25d823f4085ee",
+        "id": "9970c6ef46fa2aad",
+        "type": "sf:filter-by-date",
         "z": "264cc5c5b8338394",
         "name": "",
-        "env": [
-            {
-                "name": "type",
-                "value": null,
-                "type": "str"
-            }
-        ],
-        "x": 620,
-        "y": 660,
-        "wires": [
-            [
-                "2520aa319849f47c"
-            ]
-        ]
-    },
-    {
-        "id": "d0aaa856bcf26357",
-        "type": "subflow:bc04b966a21c5de9",
-        "z": "264cc5c5b8338394",
-        "name": "",
+        "startDate": "2023-11-19",
+        "endDate": "2023-11-24",
+        "attribute": "date",
         "x": 610,
         "y": 480,
         "wires": [
             [
                 "b4e437facd83875b"
+            ]
+        ]
+    },
+    {
+        "id": "39a09838d9ae028a",
+        "type": "inject",
+        "z": "264cc5c5b8338394",
+        "name": "Start",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{    \"documents\":[       {          \"date\":\"2023-11-21\",          \"documentName\":\"Invoice123\",          \"state\":\"Processed\"       },       {          \"date\":\"2023-10-15\",          \"documentName\":\"Contract789\",          \"state\":\"Approved\"       },       {          \"date\":\"2023-09-05\",          \"documentName\":\"Report456\",          \"state\":\"Processed\"       }    ],    \"otherThings\":[       {          \"name\":\"I don't know\",          \"state\":\"Very good\"       }    ] }",
+        "payloadType": "json",
+        "x": 310,
+        "y": 620,
+        "wires": [
+            [
+                "970d7117fc1a9a4e"
+            ]
+        ]
+    },
+    {
+        "id": "61d47bbbdbdd9f28",
+        "type": "debug",
+        "z": "264cc5c5b8338394",
+        "name": "Result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "970d7117fc1a9a4e",
+        "type": "sf:exists-pipe",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "count": 2,
+        "x": 490,
+        "y": 620,
+        "wires": [
+            [
+                "61d47bbbdbdd9f28"
+            ]
+        ]
+    },
+    {
+        "id": "95784f6d4016fb4b",
+        "type": "exists-section-in-doc",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "section": "Álvaro",
+        "x": 520,
+        "y": 680,
+        "wires": [
+            [
+                "73b0d73b8b2799bf"
+            ]
+        ]
+    },
+    {
+        "id": "01830a18ba2e2491",
+        "type": "http in",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "url": "/existsSection",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 290,
+        "y": 680,
+        "wires": [
+            [
+                "95784f6d4016fb4b"
+            ]
+        ]
+    },
+    {
+        "id": "73b0d73b8b2799bf",
+        "type": "http response",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 710,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "9b545e850df2f908",
+        "type": "http in",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "url": "/urlToDoc",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 280,
+        "y": 740,
+        "wires": [
+            [
+                "8e63d9da573b96f1"
+            ]
+        ]
+    },
+    {
+        "id": "13c3047b49d8595b",
+        "type": "http response",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 710,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "8e63d9da573b96f1",
+        "type": "url-to-doc",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "x": 500,
+        "y": 740,
+        "wires": [
+            [
+                "13c3047b49d8595b"
+            ]
+        ]
+    },
+    {
+        "id": "213703e50a691391",
+        "type": "sf:github-collector",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "username": "gii-is-psg2",
+        "repoName": "psg2-2223-g1-12",
+        "path": "docs",
+        "token": "",
+        "x": 420,
+        "y": 280,
+        "wires": [
+            [
+                "df4e41427e9921e8"
+            ]
+        ]
+    },
+    {
+        "id": "d1c766aa440e6049",
+        "type": "sf:trello-collector",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "boardId": "",
+        "key": "",
+        "token": "",
+        "x": 420,
+        "y": 200,
+        "wires": [
+            [
+                "a36c8664107b1913"
+            ]
+        ]
+    },
+    {
+        "id": "41bd0483274cd3ec",
+        "type": "exists-url",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "x": 440,
+        "y": 360,
+        "wires": [
+            [
+                "5fa2ce756fbb4e30"
+            ]
+        ]
+    },
+    {
+        "id": "5fa2ce756fbb4e30",
+        "type": "http response",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 630,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "074a543b69090a8e",
+        "type": "http in",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "url": "/existsUrl",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 360,
+        "wires": [
+            [
+                "41bd0483274cd3ec"
+            ]
+        ]
+    },
+    {
+        "id": "03db9e26af802098",
+        "type": "http in",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "url": "/projectToUrl",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 420,
+        "wires": [
+            [
+                "3b7b3f09882b9b7b"
+            ]
+        ]
+    },
+    {
+        "id": "717c3c52253eb20e",
+        "type": "http response",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 610,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "3b7b3f09882b9b7b",
+        "type": "project-to-url",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "x": 450,
+        "y": 420,
+        "wires": [
+            [
+                "717c3c52253eb20e"
             ]
         ]
     }

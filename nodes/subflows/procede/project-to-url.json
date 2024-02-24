@@ -1,0 +1,184 @@
+{
+    "id": "project-to-url",
+    "type": "subflow",
+    "name": "project to url",
+    "info": "",
+    "category": "procede",
+    "icon": "subflow.svg",
+    "in": [
+        {
+            "x": 120,
+            "y": 360,
+            "wires": [
+                {
+                    "id": "157726a19f27f58c"
+                }
+            ]
+        }
+    ],
+    "out": [
+        {
+            "x": 1220,
+            "y": 360,
+            "wires": [
+                {
+                    "id": "97cb9570dae8ba46",
+                    "port": 0
+                },
+                {
+                    "id": "209148e5d2dafe3b",
+                    "port": 0
+                }
+            ]
+        }
+    ],
+    "env": [
+        {
+            "name": "cardId",
+            "type": "str",
+            "value": ""
+        },
+        {
+            "name": "key",
+            "type": "str",
+            "value": ""
+        },
+        {
+            "name": "trelloToken",
+            "type": "str",
+            "value": ""
+        },
+        {
+            "name": "githubToken",
+            "type": "str",
+            "value": ""
+        }
+    ],
+    "meta": {},
+    "color": "#DDAA99",
+    "flow":[
+        {
+            "id": "5f05c13b7fc64e01",
+            "type": "switch",
+            "z": "project-to-url",
+            "name": "If exists",
+            "property": "payload",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "true"
+                },
+                {
+                    "t": "false"
+                }
+            ],
+            "checkall": "false",
+            "repair": true,
+            "outputs": 2,
+            "x": 580,
+            "y": 360,
+            "wires": [
+                [
+                    "2edfa1a8112a2548"
+                ],
+                [
+                    "97cb9570dae8ba46"
+                ]
+            ]
+        },
+        {
+            "id": "97cb9570dae8ba46",
+            "type": "function",
+            "z": "project-to-url",
+            "name": "Error message",
+            "func": "node.error(\"The input data is not correct or there is no repository on that card.\", msg);",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 920,
+            "y": 420,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "2edfa1a8112a2548",
+            "type": "http request",
+            "z": "project-to-url",
+            "name": "Trello request",
+            "method": "GET",
+            "ret": "txt",
+            "paytoqs": "ignore",
+            "url": "https://api.trello.com/1/cards/{{cardId}}/attachments?key={{key}}&token={{trelloToken}}",
+            "tls": "",
+            "persist": false,
+            "proxy": "",
+            "insecureHTTPParser": false,
+            "authType": "",
+            "senderr": false,
+            "headers": [],
+            "x": 820,
+            "y": 260,
+            "wires": [
+                [
+                    "209148e5d2dafe3b"
+                ]
+            ]
+        },
+        {
+            "id": "209148e5d2dafe3b",
+            "type": "function",
+            "z": "project-to-url",
+            "name": "GitHub URL",
+            "func": "var jsonData = msg.payload;\nmsg.payload = JSON.parse(jsonData)[0].url;\n\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 1010,
+            "y": 260,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "157726a19f27f58c",
+            "type": "function",
+            "z": "project-to-url",
+            "name": "Auxiliaries",
+            "func": "msg.cardId = env.get(\"cardId\");\nmsg.key = env.get(\"key\");\nmsg.trelloToken = env.get(\"trelloToken\");\nmsg.githubToken = env.get(\"githubToken\");\n\nreturn msg;",
+            "outputs": 1,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 250,
+            "y": 360,
+            "wires": [
+                [
+                    "ce9557c0e90c60d3"
+                ]
+            ]
+        },
+        {
+            "id": "ce9557c0e90c60d3",
+            "type": "sf:exists-url",
+            "z": "project-to-url",
+            "name": "",
+            "cardId": "",
+            "key": "",
+            "trelloToken": "",
+            "githubToken": "",
+            "x": 400,
+            "y": 360,
+            "wires": [
+                [
+                    "5f05c13b7fc64e01"
+                ]
+            ]
+        }
+    ]
+}

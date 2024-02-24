@@ -1,0 +1,33 @@
+<script type="text/javascript">
+    RED.nodes.registerType('exists-section-in-doc', {
+        category: 'procede',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: '' },
+            section: { value: ''}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'subflow.svg', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'exists-section-in-doc';
+        },
+        oneditprepare: function () {
+            // Lógica específica cuando se abre el editor del nodo
+        },
+        oneditsave: function () {
+            // Lógica específica cuando se guarda la configuración del nodo
+        },
+        oneditcancel: function () {
+            // Lógica específica cuando se cancela la edición del nodo
+        },
+    });
+</script>
+
+<!-- Contenido del editor del nodo -->
+<script type="text/x-red" data-template-name="exists-section-in-doc">
+    <div class="form-row">
+        <label for="node-input-section"><i class="fa fa-tag"></i>Section</label>
+        <input type="text" id="node-input-section" placeholder="Section">
+    </div>
+</script>
