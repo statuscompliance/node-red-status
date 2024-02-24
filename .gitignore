@@ -40,3 +40,4 @@ node_modules
 # Node-RED
 .config*
 .flows*
+flows_cred*

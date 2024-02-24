@@ -12,13 +12,49 @@ Node-RED is an open-source flow-based programming tool designed for visual progr
 
 
 ## ⚙ Running the server locally
-#### Installation pre-requisites
+### Installation prerequisites
+- Before starting with the installation it is necessary to install docker
+### Installation Guide for MacOS
 
-- First of all, installing Node-RED involves using Node Package Manager (npm) with the command `npm install -g node-red`. This command, when executed in a terminal or command prompt, globally installs Node-RED, making it accessible from any directory within your system.
+1. Open a terminal.
 
-#### Deploy node-red locally
-- Use the `node-red` command to start Node-RED in your terminal. 
-- Visit **[http://127.0.0.1:1880](http://127.0.0.1:1880/)** 
+2. Clone the GitHub repository by running the following command:
+   ```bash
+   git clone https://github.com/statuscompliance/node-red-status
+   ```
+
+3. Change to the newly cloned directory:
+   ```bash
+   cd node-red-status
+   ```
+
+4. Grant execution permissions to the `setup.sh` script:
+   ```bash
+   chmod +x setup.sh
+   ```
+
+5. Run the setup script:
+   ```bash
+   ./setup.sh
+   ```
+
+### Installation Guide for Windows
+
+1. Open Git Bash or your preferred terminal on Windows.
+
+2. Clone the GitHub repository with the following command:
+   ```bash
+   git clone https://github.com/statuscompliance/node-red-status
+   ```
+3. Find the `node-red-status` folder or execute:
+   ```bash
+   cd .\node-red-status\
+   ```
+4.  Run the setup script:
+```bash
+   .\setup.bat\
+```
+
 
 ## 📚 Getting started with Node-RED
 
