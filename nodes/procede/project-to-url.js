@@ -13,10 +13,12 @@ module.exports = function (RED) {
             axios.get(`https://api.trello.com/1/cards/${cardId}/attachments?key=${apiKey}&token=${trelloToken}`)
                 .then(response => {
                     const attachments = response.data;
-                    fetchData(attachments, msg); // Pasar msg como argumento
+                    fetchData(attachments, msg);
                 })
                 .catch(error => {
-                    console.error('Error fetching Trello attachments:', error);
+                    node.error('Error fetching Trello attachments, check if the card exists or if the API key and token are correct.');
+                    msg.payload = `Failed to fetch Trello attachments, check if the card exists or if the API key and token are correct. Status code: ${error.response.status}`;
+                    node.send(msg);
                 });
         });
 
@@ -27,6 +29,8 @@ module.exports = function (RED) {
                 node.send(msg);
             } else {
                 node.error('There is no URL to a GitHub repository in the card');
+                msg.payload = 'There is no URL to a GitHub repository in the card';
+                node.send(msg);
             }
         }
     }

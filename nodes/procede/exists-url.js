@@ -16,7 +16,9 @@ module.exports = function (RED) {
                     existsData(attachments, githubToken, msg); // Pasar msg como argumento
                 })
                 .catch(error => {
-                    console.error('Error fetching Trello attachments:', error);
+                    node.error('Error fetching Trello attachments:', error);
+                    msg.payload = ('Error fetching Trello attachments:', error);
+                    node.send(msg);
                 });
         });
 
@@ -41,13 +43,19 @@ module.exports = function (RED) {
                             node.send(msg);
                         })
                         .catch(error => {
-                            console.error('Error fetching GitHub repository:', error);
+                            node.error('Error fetching GitHub repository:', error);
+                            msg.payload = ('Error fetching GitHub repository:', error);
+                            node.send(msg);
                         });
                 } else {
                     node.error('Invalid GitHub repository URL');
+                    msg.payload = 'Invalid GitHub repository URL';
+                    node.send(msg);
                 }
             } else {
                 node.error('There is no URL to a GitHub repository in the card');
+                msg.payload = 'There is no URL to a GitHub repository in the card';
+                node.send(msg);
             }
         }
     }

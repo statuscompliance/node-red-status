@@ -8,14 +8,7 @@ module.exports = function (RED) {
         const node = this;
         node.on('input', async function (msg) {
             switch (msg.req.body.valueType) {
-            // switch (config.valueType) {
                 case 'GithubUrl':
-                    //Mejor en el body
-                    // const user = config.user;
-                    // const repo = config.repo;
-                    // const path = config.path;
-                    // const docName = encodeURIComponent(`${config.docName}.pdf`);
-                    // const githubToken = config.githubToken;
                     const user = msg.req.body.user;
                     const repo = msg.req.body.repo;
                     const path = msg.req.body.path;
@@ -25,10 +18,14 @@ module.exports = function (RED) {
                     
                     if (!githubUrl) {
                         node.error('GitHub URL not provided');
+                        msg.payload = 'GitHub URL not provided';
+                        node.send(msg);
                         return;
                     }
                     if (!user) {
                         node.error('GitHub user not provided');
+                        msg.payload = 'GitHub user not provided';
+                        node.send(msg);
                         return;
                     }
                     try {
@@ -47,16 +44,22 @@ module.exports = function (RED) {
                                 extractTextFromPDF(pdfContent, node, msg);
                             })
                             .catch(error => {
-                                console.error('Error fetching PDF:', error);
+                                node.error('Error fetching PDF:', error);
+                                msg.payload = 'Error fetching PDF: ' + error.message;
+                                node.send(msg);
                             });
                     } catch (error) {
-                        console.error('Error fetching GitHub HTML:', error);
+                        node.error('Error fetching GitHub HTML:', error);
+                        msg.payload = 'Error fetching GitHub HTML: ' + error.message;
+                        node.send(msg);
                     }
                     break;
                 case 'URL':
                     const url = msg.req.body.url;
                     if (!url) {
                         node.error('URL not provided');
+                        msg.payload = 'URL not provided';  
+                        node.send(msg);
                         return;
                     }
 
@@ -67,7 +70,9 @@ module.exports = function (RED) {
                                 extractTextFromPDF(pdfContent, node, msg);
                             })
                             .catch(error => {
-                                console.error('Error fetching PDF:', error);
+                                node.error('Error fetching PDF:', error);
+                                msg.payload = 'Error fetching PDF: ' + error.message;
+                                node.send(msg);
                             });
                     
                     } else if (url.endsWith('.txt')) {
@@ -77,10 +82,14 @@ module.exports = function (RED) {
                                 node.send(msg);
                             })
                             .catch(error => {
-                                console.error('Error fetching TXT:', error);
+                                node.error('Error fetching TXT:', error);
+                                msg.payload = 'Error fetching TXT: ' + error.message;
+                                node.send(msg);
                             });
                     } else {
                         node.error('Unsupported file type');
+                        msg.payload = 'Unsupported file type';
+                        node.send(msg);
                     }
                 default:
                     node.warn("Invalid filter type");
@@ -96,6 +105,8 @@ module.exports = function (RED) {
                 })
                 .catch(error => {
                     node.error('Error extracting text from PDF: ' + error.message);
+                    msg.payload = 'Error extracting text from PDF: ' + error.message;
+                    node.send(msg);
                 });
         }
     }
