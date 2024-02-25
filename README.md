@@ -10,10 +10,25 @@
 
 Node-RED is an open-source flow-based programming tool designed for visual programming and wiring together hardware devices, APIs, and online services. It provides a browser-based flow editor that allows users to create applications by wiring together nodes to perform tasks.
 
-
 ## ⚙ Running the server locally
 ### Installation prerequisites
-- Before starting with the installation it is necessary to install docker
+- Before starting with the installation it is necessary to install docker and check that it is running correctly. You can find the installation guide for your operating system [here](https://docs.docker.com/get-docker/).
+### Installation Guide for Windows
+
+1. Open Git Bash or your preferred terminal on Windows.
+
+2. Clone the GitHub repository with the following command:
+   ```bash
+   git clone https://github.com/statuscompliance/node-red-status
+   ```
+3. Find the `node-red-status` folder or execute:
+   ```bash
+   cd .\node-red-status\
+   ```
+4. Run the setup script:
+   ```bash
+   .\setup.bat
+   ```
 ### Installation Guide for MacOS
 
 1. Open a terminal.
@@ -37,24 +52,6 @@ Node-RED is an open-source flow-based programming tool designed for visual progr
    ```bash
    ./setup.sh
    ```
-
-### Installation Guide for Windows
-
-1. Open Git Bash or your preferred terminal on Windows.
-
-2. Clone the GitHub repository with the following command:
-   ```bash
-   git clone https://github.com/statuscompliance/node-red-status
-   ```
-3. Find the `node-red-status` folder or execute:
-   ```bash
-   cd .\node-red-status\
-   ```
-4.  Run the setup script:
-```bash
-   .\setup.bat\
-```
-
 
 ## 📚 Getting started with Node-RED
 
