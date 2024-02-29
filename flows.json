@@ -53,7 +53,7 @@
         "y": 280,
         "wires": [
             [
-                "213703e50a691391"
+                "github-collector"
             ]
         ]
     },
@@ -95,7 +95,7 @@
         "y": 200,
         "wires": [
             [
-                "d1c766aa440e6049"
+                "trello-collector"
             ]
         ]
     },
@@ -219,7 +219,7 @@
         "y": 480,
         "wires": [
             [
-                "9970c6ef46fa2aad"
+                "filterByDate"
             ]
         ]
     },
@@ -236,22 +236,6 @@
         "wires": [
             [
                 "52c08b56d2932a2e"
-            ]
-        ]
-    },
-    {
-        "id": "9970c6ef46fa2aad",
-        "type": "sf:filter-by-date",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "startDate": "2023-11-19",
-        "endDate": "2023-11-24",
-        "attribute": "date",
-        "x": 610,
-        "y": 480,
-        "wires": [
-            [
-                "b4e437facd83875b"
             ]
         ]
     },
@@ -276,7 +260,7 @@
         "y": 620,
         "wires": [
             [
-                "970d7117fc1a9a4e"
+                "a37b3eaedab804d2"
             ]
         ]
     },
@@ -296,20 +280,6 @@
         "x": 650,
         "y": 620,
         "wires": []
-    },
-    {
-        "id": "970d7117fc1a9a4e",
-        "type": "sf:exists-pipe",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "count": 2,
-        "x": 490,
-        "y": 620,
-        "wires": [
-            [
-                "61d47bbbdbdd9f28"
-            ]
-        ]
     },
     {
         "id": "95784f6d4016fb4b",
@@ -395,39 +365,6 @@
         ]
     },
     {
-        "id": "213703e50a691391",
-        "type": "sf:github-collector",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "username": "gii-is-psg2",
-        "repoName": "psg2-2223-g1-12",
-        "path": "docs",
-        "token": "",
-        "x": 420,
-        "y": 280,
-        "wires": [
-            [
-                "df4e41427e9921e8"
-            ]
-        ]
-    },
-    {
-        "id": "d1c766aa440e6049",
-        "type": "sf:trello-collector",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "boardId": "",
-        "key": "",
-        "token": "",
-        "x": 420,
-        "y": 200,
-        "wires": [
-            [
-                "a36c8664107b1913"
-            ]
-        ]
-    },
-    {
         "id": "41bd0483274cd3ec",
         "type": "exists-url",
         "z": "264cc5c5b8338394",
@@ -506,6 +443,66 @@
         "wires": [
             [
                 "717c3c52253eb20e"
+            ]
+        ]
+    },
+    {
+        "id": "trello-collector",
+        "type": "trello-collector",
+        "z": "264cc5c5b8338394",
+        "boardId": "",
+        "key": "",
+        "token": "",
+        "x": 440,
+        "y": 200,
+        "wires": [
+            [
+                "a36c8664107b1913"
+            ]
+        ]
+    },
+    {
+        "id": "github-collector",
+        "type": "github-collector",
+        "z": "264cc5c5b8338394",
+        "username": "",
+        "repoName": "",
+        "path": "",
+        "token": "",
+        "x": 420,
+        "y": 280,
+        "wires": [
+            [
+                "df4e41427e9921e8"
+            ]
+        ]
+    },
+    {
+        "id": "filterByDate",
+        "type": "filter-by-date",
+        "z": "264cc5c5b8338394",
+        "name": "",
+        "attribute": "",
+        "startDate": "",
+        "endDate": "",
+        "x": 590,
+        "y": 480,
+        "wires": [
+            [
+                "b4e437facd83875b"
+            ]
+        ]
+    },
+    {
+        "id": "a37b3eaedab804d2",
+        "type": "exists-pipe",
+        "z": "264cc5c5b8338394",
+        "count": 0,
+        "x": 490,
+        "y": 620,
+        "wires": [
+            [
+                "61d47bbbdbdd9f28"
             ]
         ]
     }
