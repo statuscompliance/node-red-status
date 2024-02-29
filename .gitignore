@@ -45,3 +45,6 @@ flows_cred*
 
 # Npm package
 *.tgz
+
+# Prettier
+.prettierrc
