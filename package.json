@@ -30,7 +30,7 @@
     ],
     "node-red": {
         "nodes": {
-            "github-collector": "nodes/subflows/github/github-collector.js",
+            "github-collector": "nodes/github/github-collector.js",
             "trello-collector": "nodes/subflows/trello/trello-collector.js",
             "url-to-doc": "nodes/procede/url-to-doc.js",
             "exists-pipe": "nodes/procede/exists-pipe.js",
