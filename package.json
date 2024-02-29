@@ -35,7 +35,7 @@
             "url-to-doc": "nodes/procede/url-to-doc.js",
             "exists-pipe": "nodes/procede/exists-pipe.js",
             "exists-url": "nodes/procede/exists-url.js",
-            "filter-by-date": "nodes/subflows/procede/filter-by-date.js",
+            "filter-by-date": "nodes/procede/filter-by-date.js",
             "filter-by": "nodes/procede/filter-by.js",
             "project-to-url": "nodes/procede/project-to-url.js",
             "exists-section-in-doc": "nodes/procede/exists-section-in-doc.js"
