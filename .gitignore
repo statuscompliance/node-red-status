@@ -49,6 +49,3 @@ flows_cred*
 # Prettier
 .prettierrc
 .prettierignore
-
-## Dockerfile publisher
-Dockerfile
