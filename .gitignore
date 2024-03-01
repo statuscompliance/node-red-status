@@ -48,3 +48,6 @@ flows_cred*
 
 # Prettier
 .prettierrc
+
+## Dockerfile publisher
+Dockerfile
