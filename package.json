@@ -1,6 +1,6 @@
 {
     "name": "@alvarobc2412/status",
-    "version": "1.0.3",
+    "version": "1.1.0",
     "description": "Collection of STATUS project components.",
     "license": "Apache-2.0",
     "keywords": [
@@ -38,7 +38,8 @@
             "filter-by-date": "nodes/procede/filter-by-date.js",
             "filter-by": "nodes/procede/filter-by.js",
             "project-to-url": "nodes/procede/project-to-url.js",
-            "exists-section-in-doc": "nodes/procede/exists-section-in-doc.js"
+            "exists-section-in-doc": "nodes/procede/exists-section-in-doc.js",
+            "bluejay-request": "nodes/bluejay/bluejay-request.js"
         }
     },
     "dependencies": {
