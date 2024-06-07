@@ -3,12 +3,13 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
-        // Parse input parameters from config
-        var attribute = msg.req.body.attribute || config.attribute;
-        var startDate = new Date(msg.req.body.startDate || config.startDate);
-        var endDate = new Date(msg.req.body.endDate || config.endDate);
-
         node.on("input", function (msg) {
+            // Parse input parameters from config
+            var attribute = msg.req.body.attribute || config.attribute;
+            var startDate = new Date(
+                msg.req.body.startDate || config.startDate
+            );
+            var endDate = new Date(msg.req.body.endDate || config.endDate);
             try {
                 if (Array.isArray(msg.payload)) {
                     msg.payload.forEach(function (obj) {

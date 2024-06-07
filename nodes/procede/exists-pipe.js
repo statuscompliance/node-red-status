@@ -5,15 +5,15 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
         // Configura el nodo para que reciba el parámetro "count"
-        this.count = msg.req.body.count || config.count;
         // Cuando llegue un mensaje al nodo
         this.on("input", function (msg) {
+            count = msg.req.body.count || config.count;
             // Obtiene los datos del flujo
             var flowData = msg.payload;
             // Comprueba si el número de documentos coincide con el valor esperado
-            msg.payload = Object.keys(flowData).length == this.count;
+            msg.payload = Object.keys(flowData).length == count;
             node.warn("flowData: " + JSON.stringify(flowData));
-            node.warn("count: " + this.count);
+            node.warn("count: " + count);
             // Envía el mensaje modificado
             node.send(msg);
         });
