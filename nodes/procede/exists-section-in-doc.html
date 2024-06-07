@@ -4,7 +4,14 @@
         color: '#DDAA99',
         defaults: {
             name: { value: '' },
-            section: { value: ''}
+            section: { value: ''},
+            valueType: { value: "GithubUrl" },
+            user: { value: "" },
+            repo: { value: "" },
+            path: { value: "" },
+            docName: { value: "" },
+            url: { value: "" },
+            githubToken: { value: "" }
         },
         inputs: 1,
         outputs: 1,
@@ -27,7 +34,38 @@
 <!-- Contenido del editor del nodo -->
 <script type="text/x-red" data-template-name="exists-section-in-doc">
     <div class="form-row">
-        <label for="node-input-section"><i class="fa fa-tag"></i>Section</label>
+        <label for="node-input-section"><i class="fa fa-align-justify"></i>Section</label>
         <input type="text" id="node-input-section" placeholder="Section">
+    </div>
+    <div class="form-row">
+        <label for="node-input-valueType"><i class="fa fa-list"></i>Value Type</label>
+        <select id="node-input-valueType">
+            <option value="GithubUrl">GithubUrl</option>
+            <option value="URL">URL</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-user"><i class="fa fa-github"></i>User</label>
+        <input type="text" id="node-input-user" placeholder="User/Org">
+    </div>
+    <div class="form-row">
+        <label for="node-input-repo"><i class="fa fa-tag"></i>Repo</label>
+        <input type="text" id="node-input-repo" placeholder="Repo">
+    </div>
+    <div class="form-row">
+        <label for="node-input-path"><i class="fa fa-folder"></i>Path</label>
+        <input type="text" id="node-input-path" placeholder="example/path">
+    </div>
+    <div class="form-row">
+        <label for="node-input-docName"><i class="fa fa-tag"></i>DocName</label>
+        <input type="text" id="node-input-docName" placeholder="docName">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-link"></i>Url</label>
+        <input type="text" id="node-input-docName" placeholder="https://example/doc.pdf">
+    </div>
+    <div class="form-row">
+        <label for="node-input-githubToken"><i class="fa fa-key"></i>GitHub Token</label>
+        <input type="text" id="node-input-githubToken" placeholder="Token">
     </div>
 </script>
