@@ -1,30 +1,30 @@
-module.exports = function(RED) {
+module.exports = function (RED) {
     function FilterByNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
-        node.on('input', function(msg) {
-            var attribute = config.attribute;
-            var value = config.value;
+        node.on("input", function (msg) {
+            var attribute = msg.req.body.attribute || config.attribute;
+            var value = msg.req.body.value || config.value;
 
             // Filtrar mensajes basados en el tipo seleccionado
-            switch (config.valueType) {
-                case 'Clasification':
+            switch (msg.req.body.valueType || config.valueType) {
+                case "Clasification":
                     if (msg.payload[attribute] === value) {
                         node.send(msg);
                     }
                     break;
-                case 'Importance':
+                case "Importance":
                     if (msg.payload[attribute] === value) {
                         node.send(msg);
                     }
                     break;
-                case 'ContentType':
+                case "ContentType":
                     if (msg.payload[attribute] === value) {
                         node.send(msg);
                     }
                     break;
-                case 'DateFromToday':
+                case "DateFromToday":
                     var months = parseInt(value);
                     var documentDate = new Date(msg.payload[attribute]);
                     var limitDate = new Date();
@@ -33,22 +33,22 @@ module.exports = function(RED) {
                         node.send(msg);
                     }
                     break;
-                case 'State':
+                case "State":
                     if (msg.payload[attribute] === value) {
                         node.send(msg);
                     }
                     break;
-                case 'ActivityPipe':
+                case "ActivityPipe":
                     if (msg.payload[attribute] === value) {
                         node.send(msg);
                     }
                     break;
-                case 'AssetPipe':
+                case "AssetPipe":
                     if (msg.payload[attribute] === value) {
                         node.send(msg);
                     }
                     break;
-                case 'ActorPipe':
+                case "ActorPipe":
                     if (msg.payload[attribute] === value) {
                         node.send(msg);
                     }
@@ -60,4 +60,4 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("filter-by", FilterByNode);
-}
+};

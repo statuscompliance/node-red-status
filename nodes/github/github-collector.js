@@ -1,20 +1,18 @@
-const axios = require('axios');
+const axios = require("axios");
 
-module.exports = function(RED) {
-
+module.exports = function (RED) {
     function GitHubCollectorNode(config) {
         RED.nodes.createNode(this, config);
 
-        this.username = config.username;
-        this.repoName = config.repoName;
-        this.path = config.path;
-        this.token = config.token;
-
         var node = this;
 
-        this.on('input', function(msg) {
-            var apiUrl = '';
-            if (node.path === '') {
+        this.on("input", function (msg) {
+            username = msg.req.body.username || config.username;
+            repoName = msg.req.body.repoName || config.repoName;
+            path = msg.req.body.path || config.path;
+            token = msg.req.body.token || config.token; // GitHub token
+            var apiUrl = "";
+            if (node.path === "") {
                 apiUrl = `https://api.github.com/repos/${node.username}/${node.repoName}/contents`;
             } else {
                 apiUrl = `https://api.github.com/repos/${node.username}/${node.repoName}/contents/${node.path}`;
@@ -22,12 +20,13 @@ module.exports = function(RED) {
 
             const config = {
                 headers: {
-                    'Authorization': `token ${node.token}`
-                }
+                    Authorization: `token ${node.token}`,
+                },
             };
 
-            axios.get(apiUrl, config)
-                .then(response => {
+            axios
+                .get(apiUrl, config)
+                .then((response) => {
                     if (response.status !== 200) {
                         msg.payload = false;
                     } else {
@@ -35,11 +34,11 @@ module.exports = function(RED) {
                     }
                     node.send(msg);
                 })
-                .catch(error => {
+                .catch((error) => {
                     node.error(error, msg);
                 });
         });
     }
 
     RED.nodes.registerType("github-collector", GitHubCollectorNode);
-}
+};

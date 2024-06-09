@@ -4,6 +4,9 @@
         color: '#DDAA99',
         defaults: {
             name: { value: '' },
+            cardId: { value: '' },
+            apiKey: { value: '' },
+            trelloToken: { value: '' },
         },
         inputs: 1,
         outputs: 1,
@@ -27,5 +30,16 @@
 </script>
 
 <script type="text/x-red" data-template-name="project-to-url">
-    <!-- Contenido del editor del nodo -->  
+    <div class="form-row">
+        <label for="node-input-cardId"><i class="fa fa-credit-card"></i>CardID</label>
+        <input type="text" id="node-input-cardId" placeholder="CardID">
+    </div>
+    <div class="form-row">
+        <label for="node-input-apiKey"><i class="fa fa-key"></i>Trello API key</label>
+        <input type="text" id="node-input-apiKey" placeholder="APIKey">
+    </div>
+    <div class="form-row">
+        <label for="node-input-trelloToken"><i class="fa fa-trello"></i>Trello Token</label>
+        <input type="text" id="node-input-githubToken" placeholder="Trello Token">
+    </div>
 </script>
