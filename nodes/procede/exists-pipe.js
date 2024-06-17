@@ -7,7 +7,7 @@ module.exports = function (RED) {
         // Configura el nodo para que reciba el parámetro "count"
         // Cuando llegue un mensaje al nodo
         this.on("input", function (msg) {
-            count = msg.req.body.count || config.count;
+            var count = msg.req.body.count || config.count;
             // Obtiene los datos del flujo
             var flowData = msg.payload;
             // Comprueba si el número de documentos coincide con el valor esperado

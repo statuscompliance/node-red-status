@@ -7,20 +7,20 @@ module.exports = function (RED) {
         var node = this;
 
         this.on("input", function (msg) {
-            username = msg.req.body.username || config.username;
-            repoName = msg.req.body.repoName || config.repoName;
-            path = msg.req.body.path || config.path;
-            token = msg.req.body.token || config.token; // GitHub token
+            var username = msg.req.body.username || config.username;
+            var repoName = msg.req.body.repoName || config.repoName;
+            var path = msg.req.body.path || config.path;
+            var token = msg.req.body.token || config.token; // GitHub token
             var apiUrl = "";
-            if (node.path === "") {
-                apiUrl = `https://api.github.com/repos/${node.username}/${node.repoName}/contents`;
+            if (path === "") {
+                apiUrl = `https://api.github.com/repos/${username}/${repoName}/contents`;
             } else {
-                apiUrl = `https://api.github.com/repos/${node.username}/${node.repoName}/contents/${node.path}`;
+                apiUrl = `https://api.github.com/repos/${username}/${repoName}/contents/${path}`;
             }
 
             const config = {
                 headers: {
-                    Authorization: `token ${node.token}`,
+                    Authorization: `token ${token}`,
                 },
             };
 
