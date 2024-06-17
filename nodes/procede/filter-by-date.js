@@ -34,7 +34,7 @@ module.exports = function (RED) {
                         documentDate,
                         startDate,
                         endDate,
-                        obj
+                        msg.payload
                     );
                 }
             } catch (err) {
