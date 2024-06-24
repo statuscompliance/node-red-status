@@ -1,0 +1,39 @@
+<script type="text/javascript">
+    RED.nodes.registerType('log-getter', {
+        category: 'bpm',
+        color: '#DDAA99',
+        defaults: {
+            url: { value: "" },
+            params: {
+                value: {
+                    url: 'string',
+                }
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'white-globe.svg', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'log-getter';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="log-getter">
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-link"></i>Url</label>
+        <input type="text" id="node-input-docName" placeholder="https://example/doc.pdf">
+    </div>
+</script>
