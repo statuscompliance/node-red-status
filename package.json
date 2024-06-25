@@ -39,7 +39,9 @@
             "filter-by": "nodes/procede/filter-by.js",
             "project-to-url": "nodes/procede/project-to-url.js",
             "exists-section-in-doc": "nodes/procede/exists-section-in-doc.js",
-            "log-getter": "nodes/bpm/log-getter.js"
+            "log-getter": "nodes/bpm/log-getter.js",
+            "log-trace": "nodes/bpm/log-trace.js",
+            "last-timestamp": "nodes/bpm/last-timestamp.js"
         }
     },
     "dependencies": {
