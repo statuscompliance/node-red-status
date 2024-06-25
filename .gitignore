@@ -51,4 +51,4 @@ flows_cred*
 .prettierignore
 
 # Lock file
-package-lock.json
+*lock.json

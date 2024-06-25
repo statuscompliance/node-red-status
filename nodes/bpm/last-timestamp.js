@@ -21,7 +21,7 @@ module.exports = function (RED) {
                         });
                     });
                     if (latestTimestamp) {
-                        node.send({ payload: latestTimestamp.toISOString() });
+                        node.send({ payload: latestTimestamp.getTime() });
                     } else {
                         node.error("No timestamp found in the trace events.");
                     }

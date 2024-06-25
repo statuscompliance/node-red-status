@@ -41,7 +41,9 @@
             "exists-section-in-doc": "nodes/procede/exists-section-in-doc.js",
             "log-getter": "nodes/bpm/log-getter.js",
             "log-trace": "nodes/bpm/log-trace.js",
-            "last-timestamp": "nodes/bpm/last-timestamp.js"
+            "last-timestamp": "nodes/bpm/last-timestamp.js",
+            "and": "nodes/bpm/and.js",
+            "lesser-than": "nodes/bpm/lesser-than.js"
         }
     },
     "dependencies": {
