@@ -14,8 +14,12 @@ module.exports = function (RED) {
             if (payloads.length === 2) {
                 let A = payloads[0];
                 let B = payloads[1];
-                let result = !A || B;
-                send({ payload: result, req: msg.req, res: msg.res });
+                let implies = !A || B;
+                send({
+                    payload: { result: implies },
+                    req: msg.req,
+                    res: msg.res,
+                });
 
                 // Reinicia el array de payloads
                 payloads = [];
