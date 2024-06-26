@@ -1,5 +1,5 @@
 module.exports = function (RED) {
-    function BooleanAndNode(config) {
+    function BooleanImplicationNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -10,9 +10,12 @@ module.exports = function (RED) {
             // Añade el nuevo payload al array
             payloads.push(msg.payload);
 
-            // Si hay dos payloads, realiza la operación AND
+            // Si hay dos payloads, realiza la operación de implicación
+
             if (payloads.length === 2) {
-                let result = payloads[0] && payloads[1];
+                let A = payloads[0];
+                let B = payloads[1];
+                let result = !A || B;
                 send({ payload: result, req: msg.req, res: msg.res });
 
                 // Reinicia el array de payloads
@@ -22,5 +25,5 @@ module.exports = function (RED) {
             done();
         });
     }
-    RED.nodes.registerType("and", BooleanAndNode);
+    RED.nodes.registerType("implies", BooleanImplicationNode);
 };

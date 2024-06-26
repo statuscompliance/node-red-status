@@ -13,7 +13,7 @@ module.exports = function (RED) {
             // Si hay dos payloads, realiza la operación AND
             if (payloads.length === 2) {
                 let result = payloads[0] < payloads[1];
-                send({ payload: result });
+                send({ payload: result, req: msg.req, res: msg.res });
 
                 // Reinicia el array de payloads
                 payloads = [];

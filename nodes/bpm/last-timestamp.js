@@ -21,7 +21,11 @@ module.exports = function (RED) {
                         });
                     });
                     if (latestTimestamp) {
-                        node.send({ payload: latestTimestamp.getTime() });
+                        node.send({
+                            payload: latestTimestamp.getTime(),
+                            req: msg.req,
+                            res: msg.res,
+                        });
                     } else {
                         node.error("No timestamp found in the trace events.");
                     }

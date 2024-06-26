@@ -12,7 +12,11 @@ module.exports = function (RED) {
                     logData.log.trace.length > 0
                 ) {
                     logData.log.trace.forEach((trace) => {
-                        let newMsg = { payload: trace };
+                        let newMsg = {
+                            payload: trace,
+                            req: msg.req,
+                            res: msg.res,
+                        };
                         node.send(newMsg);
                     });
                 } else {

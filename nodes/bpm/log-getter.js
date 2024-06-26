@@ -8,11 +8,16 @@ module.exports = function (RED) {
         const node = this;
 
         node.on("input", async function (msg, send, done) {
+            const globalContext = node.context().global;
             const url = msg.req.body.url || config.url;
+            const conceptName = msg.req.body.conceptName || config.conceptName;
 
             if (typeof url !== "string") {
                 node.error("Payload must be a URL string");
                 return;
+            }
+            if (typeof conceptName === "string") {
+                globalContext.set("conceptName", conceptName);
             }
 
             try {
