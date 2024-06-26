@@ -5,7 +5,7 @@ module.exports = function (RED) {
 
         node.on("input", async function (msg, send, done) {
             const globalContext = node.context().global;
-            conceptName = globalContext.get("conceptName");
+            const conceptName = globalContext.get("conceptName");
             let trace = msg.payload;
             let found = false;
             if (trace && trace.event && Array.isArray(trace.event)) {

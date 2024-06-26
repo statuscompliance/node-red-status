@@ -1,7 +1,6 @@
 module.exports = function (RED) {
     function LesserNode(config) {
         RED.nodes.createNode(this, config);
-        var node = this;
 
         // Almacena los últimos dos payloads
         let payloads = [];
