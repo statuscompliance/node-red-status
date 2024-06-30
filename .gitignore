@@ -49,6 +49,3 @@ flows_cred*
 # Prettier
 .prettierrc
 .prettierignore
-
-# Lock file
-*lock.json
