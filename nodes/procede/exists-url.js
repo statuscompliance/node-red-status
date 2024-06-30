@@ -53,9 +53,9 @@ module.exports = function (RED) {
                         ) // Pasar las opciones en un objeto
                         .then((response) => {
                             if (response.status === 200) {
-                                msg.payload = [true];
+                                msg.payload = { result: true };
                             } else {
-                                msg.payload = [false];
+                                msg.payload = { result: false };
                             }
                             node.send(msg);
                         })

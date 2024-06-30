@@ -1,6 +1,6 @@
 {
     "name": "@alvarobc2412/status",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Collection of STATUS project components.",
     "license": "Apache-2.0",
     "keywords": [
@@ -45,7 +45,9 @@
             "and": "nodes/bpm/and.js",
             "lesser-than": "nodes/bpm/lesser-than.js",
             "has-activity": "nodes/bpm/has-activity.js",
-            "implies": "nodes/bpm/implies.js"
+            "implies": "nodes/bpm/implies.js",
+            "csv-chunk-reader": "nodes/bpm/csv-chunk-reader.js",
+            "check-property": "nodes/bpm/check-property.js"
         }
     },
     "dependencies": {

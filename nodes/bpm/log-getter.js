@@ -9,7 +9,7 @@ module.exports = function (RED) {
 
         node.on("input", async function (msg, send, done) {
             const globalContext = node.context().global;
-            const url = msg.req.body.url || config.url;
+            const url = msg.req.body.logUrl || config.logUrl;
             const conceptName = msg.req.body.conceptName || config.conceptName;
 
             if (typeof url !== "string") {

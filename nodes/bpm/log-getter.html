@@ -3,10 +3,10 @@
         category: 'bpm',
         color: '#DDAA99',
         defaults: {
-            url: { value: "" },
+            logUrl: { value: "" },
             params: {
                 value: {
-                    url: 'string',
+                    logUrl: 'string',
                 }
             },
         },
@@ -33,7 +33,7 @@
 
 <script type="text/x-red" data-template-name="log-getter">
     <div class="form-row">
-        <label for="node-input-url"><i class="fa fa-link"></i>Url</label>
-        <input type="text" id="node-input-docName" placeholder="https://example/doc.pdf">
+        <label for="node-input-logUrl"><i class="fa fa-link"></i>Url</label>
+        <input type="text" id="node-input-logUrl" placeholder="https://example/doc.pdf">
     </div>
 </script>
