@@ -1,0 +1,39 @@
+<script type="text/javascript">
+    RED.nodes.registerType('get-property-value', {
+        category: 'bpm',
+        color: '#DDAA99',
+        defaults: {
+            propertyToGet: { value: "" },
+            params: { 
+                value: {
+                    propertyToGet: 'string',
+                },
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-search', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'get-property-value';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cucheck-propertyo se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cucheck-propertyo se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cucheck-propertyo se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="get-property-value">
+    <div class="form-row">
+        <label for="node-input-propertyToGet"><i class="fa fa-font"></i> Property></label>
+        <input type="text" id="node-input-propertyToGet" placeholder="Property">
+    </div>
+</script>

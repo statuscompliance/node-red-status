@@ -1,0 +1,45 @@
+<script type="text/javascript">
+    RED.nodes.registerType('find-object', {
+        category: 'bpm',
+        color: '#DDAA99',
+        defaults: {
+            key: { value: "" },
+            keyValue: { value: "" },
+            params: { 
+                value: {
+                    key: 'string',
+                    keyValue: 'string',
+                },
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-search', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'find-object';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cucheck-propertyo se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cucheck-propertyo se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cucheck-propertyo se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="find-object">
+    <div class="form-row">
+        <label for="node-input-key"><i class="fa fa-key"></i> Key</label>
+        <input type="text" id="node-input-key" placeholder="Key">
+    </div>
+    <div class="form-row">
+        <label for="node-input-keyValue"><i class="fa fa-font"></i> Value</label>
+        <input type="text" id="node-input-keyValue" placeholder="Value">
+    </div>
+</script>

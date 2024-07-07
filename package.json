@@ -47,7 +47,10 @@
             "has-activity": "nodes/bpm/has-activity.js",
             "implies": "nodes/bpm/implies.js",
             "csv-chunk-reader": "nodes/bpm/csv-chunk-reader.js",
-            "check-property": "nodes/bpm/check-property.js"
+            "check-property": "nodes/bpm/check-property.js",
+            "group-by": "nodes/bpm/group-by.js",
+            "find-object": "nodes/bpm/find-object.js",
+            "get-property-value": "nodes/bpm/get-property-value.js"
         }
     },
     "dependencies": {
