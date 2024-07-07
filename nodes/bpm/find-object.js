@@ -32,10 +32,8 @@ module.exports = function (RED) {
             var foundObject = array.find((obj) => obj[key] === keyValue);
 
             // Asignar el objeto encontrado al payload del mensaje
-            msg.payload = {
-                items: array,
-                value: foundObject || null,
-            };
+            msg.payload = foundObject || null;
+            msg.array = array;
 
             // Enviar el mensaje al siguiente nodo
             node.send(msg);

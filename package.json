@@ -50,7 +50,9 @@
             "check-property": "nodes/bpm/check-property.js",
             "group-by": "nodes/bpm/group-by.js",
             "find-object": "nodes/bpm/find-object.js",
-            "get-property-value": "nodes/bpm/get-property-value.js"
+            "get-property-value": "nodes/bpm/get-property-value.js",
+            "or": "nodes/bpm/or.js",
+            "if-else": "nodes/bpm/if-else.js"
         }
     },
     "dependencies": {

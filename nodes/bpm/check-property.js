@@ -4,13 +4,14 @@ module.exports = function (RED) {
 
         var node = this;
 
+        node.warn("Expecected value: " + msg.expectedValue);
+
         node.on("input", function (msg) {
             // Obtiene la propiedad y el valor desde la configuración del nodo
             var propertyToCheck =
                 config.propertyToCheck || msg.req.body.propertyToCheck;
             var expectedValue =
                 config.expectedValue || msg.req.body.expectedValue;
-
             // Verifica si la propiedad existe en el mensaje recibido
             if (
                 msg.payload &&
@@ -27,6 +28,15 @@ module.exports = function (RED) {
                 msg.payload = isMatching;
 
                 // Envía el mensaje de salida
+                node.send(msg);
+            } else if (msg.expectedValue && msg.parts && msg.array) {
+                var index = msg.parts.index;
+                var obj = msg.array[index];
+                var propertyValue = obj[msg.propertyToCheck];
+                node.warn("Obj: " + obj);
+                node.warn("Property value: " + propertyValue);
+                var isMatching = propertyValue === msg.expectedValue;
+                msg.payload = isMatching;
                 node.send(msg);
             } else {
                 // Si la propiedad no existe, envía false

@@ -6,7 +6,7 @@ module.exports = function (RED) {
         // Evento al recibir un mensaje
         node.on("input", function (msg) {
             // Obtener el objeto del mensaje
-            var obj = msg.payload.value || null;
+            var obj = msg.payload || null;
 
             // Obtener la key del config o del mensaje
             let propertyToGet =
@@ -16,9 +16,10 @@ module.exports = function (RED) {
                     ? msg.req.body.propertyToGet
                     : config.propertyToGet;
 
+            msg.payload = msg.array;
             // Verificar si obj es un objeto y key está definido
             if (typeof obj !== "object" || obj === null) {
-                msg.payload["value"] = null;
+                msg.value = null;
                 node.send(msg);
             } else {
                 if (!propertyToGet) {
@@ -30,7 +31,7 @@ module.exports = function (RED) {
                 var value = obj[propertyToGet];
 
                 // Asignar el valor al payload del mensaje
-                msg.payload["value"] = value !== undefined ? value : null;
+                msg.value = value !== undefined ? value : null;
 
                 // Enviar el mensaje al siguiente nodo
                 node.send(msg);
