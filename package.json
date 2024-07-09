@@ -46,7 +46,7 @@
             "lesser-than": "nodes/bpm/lesser-than.js",
             "has-activity": "nodes/bpm/has-activity.js",
             "implies": "nodes/bpm/implies.js",
-            "csv-chunk-reader": "nodes/bpm/csv-chunk-reader.js",
+            "csv-reader": "nodes/bpm/csv-reader.js",
             "check-property": "nodes/bpm/check-property.js",
             "group-by": "nodes/bpm/group-by.js",
             "find-object": "nodes/bpm/find-object.js",

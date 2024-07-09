@@ -4,8 +4,6 @@ module.exports = function (RED) {
 
         var node = this;
 
-        node.warn("Expecected value: " + msg.expectedValue);
-
         node.on("input", function (msg) {
             // Obtiene la propiedad y el valor desde la configuración del nodo
             var propertyToCheck =
@@ -33,8 +31,6 @@ module.exports = function (RED) {
                 var index = msg.parts.index;
                 var obj = msg.array[index];
                 var propertyValue = obj[msg.propertyToCheck];
-                node.warn("Obj: " + obj);
-                node.warn("Property value: " + propertyValue);
                 var isMatching = propertyValue === msg.expectedValue;
                 msg.payload = isMatching;
                 node.send(msg);
