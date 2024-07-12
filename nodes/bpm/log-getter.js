@@ -7,10 +7,18 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         const node = this;
 
-        node.on("input", async function (msg, send, done) {
+        node.on("input", async function (msg, done) {
             const globalContext = node.context().global;
-            const url = msg.req.body.logUrl || config.logUrl;
-            const conceptName = msg.req.body.conceptName || config.conceptName;
+            let url =
+                msg.req && msg.req.body && msg.req.body.logUrl !== undefined
+                    ? msg.req.body.logUrl
+                    : config.logUrl;
+            let conceptName =
+                msg.req &&
+                msg.req.body &&
+                msg.req.body.conceptName !== undefined
+                    ? msg.req.body.conceptName
+                    : config.conceptName;
 
             if (typeof url !== "string") {
                 node.error("Payload must be a URL string");
@@ -45,7 +53,7 @@ module.exports = function (RED) {
                             return;
                         }
                         msg.payload = result;
-                        send(msg);
+                        node.send(msg);
                         if (done) done();
                     });
                 });

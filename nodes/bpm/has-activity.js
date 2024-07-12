@@ -3,33 +3,30 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
-        node.on("input", async function (msg, send, done) {
-            const globalContext = node.context().global;
-            const conceptName =
-                globalContext.get("conceptName") ||
-                msg.req.body.conceptName ||
-                config.conceptName;
+        node.on("input", async function (msg) {
+            let conceptName =
+                msg.req &&
+                msg.req.body &&
+                msg.req.body.conceptName !== undefined
+                    ? msg.req.body.conceptName
+                    : config.conceptName;
             let trace = msg.payload;
-            let found = false;
             if (trace && trace.event && Array.isArray(trace.event)) {
                 trace.event.forEach((element) => {
                     if (element.string && Array.isArray(element.string)) {
-                        element.string.forEach((eventElement) => {
-                            if (
+                        found = element.string.some((eventElement) => {
+                            return (
                                 eventElement.$ &&
                                 eventElement.$.key === "concept:name" &&
                                 eventElement.$.value === conceptName
-                            ) {
-                                found = true;
-                            }
+                            );
                         });
                     }
                 });
             }
 
             msg.payload = found;
-            send(msg);
-            done();
+            node.send(msg);
         });
     }
     RED.nodes.registerType("has-activity", CheckConceptNameNode);

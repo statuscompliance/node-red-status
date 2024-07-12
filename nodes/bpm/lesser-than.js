@@ -1,24 +1,24 @@
 module.exports = function (RED) {
     function LesserNode(config) {
         RED.nodes.createNode(this, config);
+        var node = this;
+        let payloads = {};
 
-        // Almacena los últimos dos payloads
-        let payloads = [];
-
-        this.on("input", function (msg, send, done) {
-            // Añade el nuevo payload al array
-            payloads.push(msg.payload);
-
-            // Si hay dos payloads, realiza la operación AND
-            if (payloads.length === 2) {
+        node.on("input", function (msg) {
+            payloads[Number(msg.position) - 1] = msg.payload;
+            if (Object.keys(payloads).length === 2) {
+                if (
+                    typeof payloads[0] !== "number" ||
+                    typeof payloads[1] !== "number"
+                ) {
+                    msg.payload = false;
+                    node.send(msg);
+                }
                 let result = payloads[0] < payloads[1];
-                send({ payload: result, req: msg.req, res: msg.res });
-
-                // Reinicia el array de payloads
-                payloads = [];
+                msg.payload = result;
+                node.send(msg);
+                payloads = {};
             }
-
-            done();
         });
     }
     RED.nodes.registerType("lesser-than", LesserNode);

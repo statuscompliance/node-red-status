@@ -6,7 +6,7 @@ module.exports = function (RED) {
         var node = this;
         // Configura el nodo para que reciba el parámetro "count"
         // Cuando llegue un mensaje al nodo
-        this.on("input", function (msg) {
+        node.on("input", function (msg) {
             var count = msg.req.body.count || config.count;
             // Obtiene los datos del flujo
             var flowData = msg.payload;

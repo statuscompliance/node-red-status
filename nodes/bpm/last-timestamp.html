@@ -4,6 +4,14 @@
         color: '#DDAA99',
         defaults: {
             name: { value: "" },
+            activity: { value: "" },
+            position: { value: "" },
+            params: { value:
+                {
+                    activity: "string",
+                    position: "number"
+                }
+            }
         },
         inputs: 1,
         outputs: 1,
@@ -31,4 +39,13 @@
         <label for="node-input-name">Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+    <div class="form-row">
+        <label for="node-input-activity">Activity</label>
+        <input type="text" id="node-input-activity" placeholder="Activity">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position">Position</label>
+        <input type="number" id="node-input-position" placeholder="1">
+    </div>
 </script>
+

@@ -3,34 +3,45 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
         node.on("input", function (msg) {
+            let activity =
+                msg.req && msg.req.body && msg.req.body.activity !== undefined
+                    ? msg.req.body.activity
+                    : config.activity;
+            let position =
+                msg.req && msg.req.body && msg.req.body.position !== undefined
+                    ? msg.req.body.position
+                    : config.position;
             try {
                 let trace = msg.payload;
+                msg.position = position;
+
                 if (trace && trace.event) {
                     let latestTimestamp = null;
                     trace.event.forEach((event) => {
-                        event.date.forEach((date) => {
-                            if (date.$.key === "time:timestamp") {
-                                let timestamp = new Date(date.$.value);
-                                if (
-                                    !latestTimestamp ||
-                                    timestamp > latestTimestamp
-                                ) {
-                                    latestTimestamp = timestamp;
+                        let eventactivity = event.string.find(
+                            (s) => s.$.key === "concept:name"
+                        )?.$.value;
+                        if (eventactivity === activity) {
+                            event.date.forEach((date) => {
+                                if (date.$.key === "time:timestamp") {
+                                    let timestamp = new Date(date.$.value);
+                                    if (
+                                        !latestTimestamp ||
+                                        timestamp > latestTimestamp
+                                    ) {
+                                        latestTimestamp = timestamp;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     });
                     if (latestTimestamp) {
-                        node.send({
-                            payload: latestTimestamp.getTime(),
-                            req: msg.req,
-                            res: msg.res,
-                        });
+                        msg.payload = latestTimestamp.getTime();
+                        node.send(msg);
                     } else {
-                        node.error("No timestamp found in the trace events.");
+                        msg.payload = null;
+                        node.send(msg);
                     }
-                } else {
-                    node.error("No events found in the trace.");
                 }
             } catch (err) {
                 node.error("Error processing trace data: " + err.message);

@@ -1,31 +1,27 @@
 module.exports = function (RED) {
     function BooleanImplicationNode(config) {
         RED.nodes.createNode(this, config);
+        var node = this;
 
-        // Almacena los últimos dos payloads
         let payloads = [];
 
-        this.on("input", function (msg, send, done) {
-            // Añade el nuevo payload al array
+        node.on("input", function (msg) {
             payloads.push(msg.payload);
-
-            // Si hay dos payloads, realiza la operación de implicación
 
             if (payloads.length === 2) {
                 let A = payloads[0];
                 let B = payloads[1];
-                let implies = !A || B;
-                send({
-                    payload: { result: implies },
-                    req: msg.req,
-                    res: msg.res,
-                });
-
-                // Reinicia el array de payloads
-                payloads = [];
+                if (
+                    A._msgid === B._msgid &&
+                    typeof A === "boolean" &&
+                    typeof B === "boolean"
+                ) {
+                    let implies = !A || B;
+                    msg.payload = { result: implies };
+                    payloads = [];
+                    node.send(msg);
+                }
             }
-
-            done();
         });
     }
     RED.nodes.registerType("implies", BooleanImplicationNode);

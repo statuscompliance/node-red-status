@@ -12,12 +12,9 @@ module.exports = function (RED) {
                     logData.log.trace.length > 0
                 ) {
                     logData.log.trace.forEach((trace) => {
-                        let newMsg = {
-                            payload: trace,
-                            req: msg.req,
-                            res: msg.res,
-                        };
-                        node.send(newMsg);
+                        msg.payload = trace;
+                        msg.logSize = logData.log.trace.length;
+                        node.send(msg);
                     });
                 } else {
                     node.error("No trace data found in the log.");
