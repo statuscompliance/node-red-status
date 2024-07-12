@@ -6,21 +6,16 @@ module.exports = function (RED) {
         let payloads = [];
 
         node.on("input", function (msg) {
-            payloads.push(msg.payload);
-
+            if (typeof msg.payload === "boolean") {
+                payloads.push(msg.payload);
+            }
             if (payloads.length === 2) {
                 let A = payloads[0];
                 let B = payloads[1];
-                if (
-                    A._msgid === B._msgid &&
-                    typeof A === "boolean" &&
-                    typeof B === "boolean"
-                ) {
-                    let implies = !A || B;
-                    msg.payload = { result: implies };
-                    payloads = [];
-                    node.send(msg);
-                }
+                let implies = !A || B;
+                msg.payload = { result: implies };
+                payloads = [];
+                node.send(msg);
             }
         });
     }
