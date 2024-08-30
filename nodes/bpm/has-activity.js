@@ -10,7 +10,7 @@ module.exports = function (RED) {
                 msg.req.body.conceptName !== undefined
                     ? msg.req.body.conceptName
                     : config.conceptName;
-            let trace = msg.payload;
+            let trace = msg.payload.trace;
             if (trace && trace.event && Array.isArray(trace.event)) {
                 trace.event.forEach((element) => {
                     if (element.string && Array.isArray(element.string)) {
@@ -25,7 +25,7 @@ module.exports = function (RED) {
                 });
             }
 
-            msg.payload = found;
+            msg.payload.result = found;
             node.send(msg);
         });
     }

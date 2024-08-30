@@ -1,6 +1,6 @@
 {
     "name": "@alvarobc2412/status",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "description": "Collection of STATUS project components.",
     "license": "Apache-2.0",
     "keywords": [
@@ -52,7 +52,14 @@
             "find-object": "nodes/bpm/find-object.js",
             "get-property-value": "nodes/bpm/get-property-value.js",
             "or": "nodes/bpm/or.js",
-            "if-else": "nodes/bpm/if-else.js"
+            "if-else": "nodes/bpm/if-else.js",
+            "response": "nodes/control-flow/response.js",
+            "coexistence": "nodes/control-flow/coexistence.js",
+            "responded-existence": "nodes/control-flow/responded-existence.js",
+            "chain-response": "nodes/control-flow/chain-response.js",
+            "get-kv-property": "nodes/bpm/get-kv-property.js",
+            "is-valid-url": "nodes/procede/is-valid-url.js",
+            "status-parser": "nodes/status/status-parser.js"
         }
     },
     "dependencies": {

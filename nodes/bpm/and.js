@@ -6,18 +6,23 @@ module.exports = function (RED) {
         // Almacena los últimos dos payloads
         let payloads = [];
 
-        node.on("input", function (msg, send, done) {
-            // Añade el nuevo payload al array
-            payloads.push(msg.payload);
-
-            // Si hay dos payloads, realiza la operación AND
+        node.on("input", function (msg) {
+            let newMsg = { ...msg };
+            if (typeof newMsg.payload.result === "boolean") {
+                payloads.push(newMsg.payload.result);
+            }
             if (payloads.length === 2) {
-                let result = payloads[0] && payloads[1];
-                msg.payload = result;
-                node.send(msg);
-
-                // Reinicia el array de payloads
+                let A = payloads[0];
+                let B = payloads[1];
+                let and = A && B;
+                newIndex = msg.payload.index;
+                delete newMsg.payload;
+                newMsg.payload = {
+                    result: and,
+                    index: newIndex,
+                };
                 payloads = [];
+                node.send(newMsg);
             }
         });
     }

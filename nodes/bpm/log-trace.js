@@ -4,17 +4,22 @@ module.exports = function (RED) {
         var node = this;
         node.on("input", function (msg) {
             try {
-                let logData = msg.payload;
+                let logData = msg.log;
                 if (
                     logData &&
                     logData.log &&
                     logData.log.trace &&
                     logData.log.trace.length > 0
                 ) {
-                    logData.log.trace.forEach((trace) => {
-                        msg.payload = trace;
-                        msg.logSize = logData.log.trace.length;
-                        node.send(msg);
+                    logData.log.trace.forEach((trace, i) => {
+                        let newMsg = { ...msg };
+                        newMsg.payload = {
+                            trace: trace,
+                            index: parseInt(i),
+                        };
+                        newMsg.logSize = logData.log.trace.length;
+                        newMsg.log = null;
+                        node.send(newMsg);
                     });
                 } else {
                     node.error("No trace data found in the log.");

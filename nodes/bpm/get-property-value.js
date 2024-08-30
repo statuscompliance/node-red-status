@@ -28,7 +28,7 @@ module.exports = function (RED) {
                 }
 
                 // Obtener el valor de la propiedad especificada
-                var value = obj[propertyToGet];
+                var value = obj[propertyToGet] || obj.propertyToGet;
 
                 // Asignar el valor al payload del mensaje
                 msg.value = value !== undefined ? value : null;

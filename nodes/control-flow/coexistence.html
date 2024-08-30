@@ -1,0 +1,112 @@
+<script type="text/javascript">
+    RED.nodes.registerType('coexistence', {
+        category: 'control-flow',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            eventAName: { value: ""},
+            eventBName: { value: ""},
+            negate: { value: false},
+            params: { value: {
+                eventAName: "string",
+                eventBName: "string",
+                negate: "boolean"
+                }
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-arrows-h', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'coexistence';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="coexistence">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-eventAName">Event A</label>
+        <input type="text" id="node-input-eventAName" placeholder="Event Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-eventBName">Event B</label>
+        <input type="text" id="node-input-eventBName" placeholder="Event Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-negate">Negate</label>
+        <input type="checkbox" id="node-input-negate">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="coexistence">
+    <p>Checks whether both events A and B have occurred.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>Event A
+            <span class="property-type">string</span>
+        </dt>
+        <dd> The name of the first event to check for existence. </dd>
+        <dt>Event B
+            <span class="property-type">string</span>
+        </dt>
+        <dd> The name of the second event to check for existence. </dd>
+        <dt>Negate <span class="property-type">boolean</span></dt>
+        <dd> Checkbox to invert the result of the coexistence check. </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Standard output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">boolean</span></dt>
+                <dd>Outputs "true" if both events A and B have occurred; otherwise, outputs "false".</dd>
+            </dl>
+        </li>
+        <li>Negated output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">boolean</span></dt>
+                <dd>Outputs "true" if both events A and B have <strong>not</strong> occurred; otherwise, outputs "false".</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "coexistence" node is designed to monitor the simultaneous occurrence of two events, Event A and Event B. It checks if both events have occurred at any point in time, providing a boolean output based on this check.
+    </p>
+    <p>
+        If both events occur, the output will be "true"; otherwise, it will be "false". The "Negate" option allows you to invert this logic, meaning that the output will be "true" if both events do <strong>not</strong> occur simultaneously.
+    </p>
+    <p>
+        This node is useful in scenarios where it is important to verify that two events are happening together or to prevent actions unless both events have occurred. For example, in a security environment, you might use this node to ensure that both a user login (Event A) and a multifactor authentication completion (Event B) occur together before granting access.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> Event A: "UserLogin", Event B: "MFACompleted", Negate: false</li>
+        <li><strong>Output:</strong> The node will output "true" if both "UserLogin" and "MFACompleted" occur; otherwise, it will output "false".</li>
+    </ul>
+    <ul>
+        <li><strong>Input:</strong> Event A: "ProcessStarted", Event B: "ConfirmationReceived", Negate: true</li>
+        <li><strong>Output:</strong> The node will output "true" if both "ProcessStarted" and "ConfirmationReceived" do <strong>not</strong> occur; otherwise, it will output "false".</li>
+    </ul>
+    <p>
+        These examples help ensure that critical actions only proceed when both conditions are met or trigger alternative actions when they are not.
+    </p>         
+</script>

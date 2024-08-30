@@ -6,22 +6,27 @@ module.exports = function (RED) {
         let payloads = [];
 
         node.on("input", function (msg) {
-            var expectedStatus = msg.req.query.Status;
-            if (typeof msg.payload === "boolean") {
-                payloads.push(msg.payload);
+            var expectedStatus = msg.req.query.status;
+            let newMsg = { ...msg };
+            if (typeof newMsg.payload.result === "boolean") {
+                payloads.push(newMsg.payload.result);
             }
             if (payloads.length === 2) {
                 let A = payloads[0];
                 let B = payloads[1];
                 let implies = !A || B;
                 if (implies === true && expectedStatus === "true") {
-                    msg.payload = { result: implies };
+                    newMsg.payload.result = implies;
                     payloads = [];
-                    node.send(msg);
+                    node.send(newMsg);
                 } else if (expectedStatus === "false") {
-                    msg.payload = { result: implies };
+                    newMsg.payload.result = implies;
                     payloads = [];
-                    node.send(msg);
+                    node.send(newMsg);
+                } else if (expectedStatus === undefined) {
+                    newMsg.payload.result = implies;
+                    payloads = [];
+                    node.send(newMsg);
                 } else {
                     payloads = [];
                 }
