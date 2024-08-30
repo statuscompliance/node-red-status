@@ -18,8 +18,7 @@ module.exports = function (RED) {
             } else {
                 newMsg.payload = newMsg.payload;
             }
-
-            return newMsg;
+            node.send(newMsg);
         });
     }
     RED.nodes.registerType("status-parser", StatusParser);
