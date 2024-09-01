@@ -6,24 +6,71 @@ module.exports = function (RED) {
         var node = this;
 
         node.on("input", function (msg) {
-            var cardId = msg.req.body.cardId || config.cardId;
-            var apiKey = msg.req.body.apiKey || config.apiKey;
-            var trelloToken = msg.req.body.trelloToken || config.trelloToken;
-            var githubToken = msg.req.body.githubToken || config.githubToken;
-            axios
-                .get(
-                    `https://api.trello.com/1/cards/${cardId}/attachments?key=${apiKey}&token=${trelloToken}`
-                )
-                .then((response) => {
-                    const attachments = response.data;
-                    existsData(attachments, githubToken, msg); // Pasar msg como argumento
-                })
-                .catch((error) => {
-                    node.error("Error fetching Trello attachments:", error);
-                    msg.payload = ("Error fetching Trello attachments:", error);
-                    node.send(msg);
-                });
+            var urlType =
+                msg.req && msg.req.body && msg.req.body.urlType !== undefined
+                    ? msg.req.body.urlType
+                    : config.urlType;
+            var cardId =
+                msg.req && msg.req.body && msg.req.body.cardId !== undefined
+                    ? msg.req.body.cardId
+                    : config.cardId;
+            var apiKey =
+                msg.req && msg.req.body && msg.req.body.apiKey !== undefined
+                    ? msg.req.body.apiKey
+                    : config.apiKey;
+            var trelloToken =
+                msg.req &&
+                msg.req.body &&
+                msg.req.body.trelloToken !== undefined
+                    ? msg.req.body.trelloToken
+                    : config.trelloToken;
+            var githubToken =
+                msg.req && msg.req.body && msg.req.body.eventAName !== undefined
+                    ? msg.req.body.eventAName
+                    : config.eventAName;
+            if (urlType === "body" || urlType === "config") {
+                axios
+                    .get(
+                        `https://api.trello.com/1/cards/${cardId}/attachments?key=${apiKey}&token=${trelloToken}`
+                    )
+                    .then((response) => {
+                        const attachments = response.data;
+                        existsData(attachments, githubToken, msg); // Pasar msg como argumento
+                    })
+                    .catch((error) => {
+                        node.error("Error fetching Trello attachments:", error);
+                        msg.payload =
+                            ("Error fetching Trello attachments:", error);
+                        node.send(msg);
+                    });
+            } else if (urlType === "payload" && isUrl(msg.payload)) {
+                axios
+                    .get(msg.payload)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            msg.payload = { result: true };
+                        } else {
+                            msg.payload = { result: false };
+                        }
+                        node.send(msg);
+                    })
+                    .catch((error) => {
+                        node.error("Error fetching  payload url:", error);
+                    });
+            } else {
+                msg.payload = { result: false };
+                node.send(msg);
+            }
         });
+
+        function isUrl(url) {
+            try {
+                new URL(url);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
 
         function existsData(attachments, githubToken, msg) {
             // Pasar msg como parámetro
@@ -53,9 +100,9 @@ module.exports = function (RED) {
                         ) // Pasar las opciones en un objeto
                         .then((response) => {
                             if (response.status === 200) {
-                                msg.payload = [true];
+                                msg.payload = { result: true };
                             } else {
-                                msg.payload = [false];
+                                msg.payload = { result: false };
                             }
                             node.send(msg);
                         })

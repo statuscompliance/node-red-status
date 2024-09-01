@@ -107,7 +107,7 @@ module.exports = function (RED) {
         function existSection(msg) {
             var data = msg.payload;
             var section = msg.req.body.section || config.section;
-            msg.payload = data.includes(section).toString();
+            msg.payload = { result: data.includes(section).toString() };
             node.send(msg);
         }
 

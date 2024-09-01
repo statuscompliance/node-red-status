@@ -1,14 +1,37 @@
 [
     {
-        "id": "264cc5c5b8338394",
+        "id": "9b89af2bcc070569",
         "type": "tab",
-        "label": "Examples of component usage",
-        "disabled": false,
-        "info": "",
-        "env": []
+        "label": "Check URL",
+        "info": "**Description**\nThe flow checks whether a specific section exists in a document by sending a GET request to the /test1 endpoint. The flow requires the following parameters in the message body: the GitHub organisation name, the repository name, the file path, the file name, the section it has to contain, and the GitHub token.\n\n**Details**\n1. Http in: node to define the /test1 endpoint for testing the flow.\n2. Exists-section-in-doc node: checks if a specific section exists in a document. It requires parameters like the GitHub organisation name, repository name, file path, file name, section to check, and GitHub token.\n3. Http response: node to send HTTP responses back to incoming requests."
     },
     {
-        "id": "93e6cf2049ba8ebd",
+        "id": "ce8fc522a364e5e3",
+        "type": "tab",
+        "label": "Check section prueba",
+        "info": "**Description**\nThis flow is designed to check if a specific section exists in a document. It listens for a GET request on the `/check` endpoint. The flow includes a custom node called `exists-section-in-doc` that will verify the presence of the specified section in the document.\n\n**Details**\n1. HTTP In: This node sets up the `/check` endpoint to trigger the flow.\n2. Exists-section-in-doc: Custom node that checks if the given section exists in the document.\n3. HTTP Response: This node sends an HTTP response based on the result of the section check."
+    },
+    {
+        "id": "bad76f2298009175",
+        "type": "tab",
+        "label": "Check priority section",
+        "info": "**Description:**\nThe flow is designed to check for the existence of a specific section within a document based on the priority attribute value. It exposes a GET endpoint \"/check\" where the flow can be triggered.\n\n**Details:**\n1. **Http in:** This node defines the \"/check\" endpoint for triggering the flow via a GET request.\n2. **Filter-by:** Filters objects based on the \"priority\" attribute with the filter value \"High\". It passes the filtered objects to the next node.\n3. **Exists-section-in-doc:** Checks if the document contains the specified section. It receives objects from the previous node and determines if the section exists.\n4. **Http response:** Sends an HTTP response once the check is complete. \n\nEach node in the flow performs a specific task sequentially to accomplish the goal of checking the priority section within the document."
+    },
+    {
+        "id": "06d0899c3d2b4d31",
+        "type": "tab",
+        "label": "Check section in document",
+        "info": "**Description**\nThis flow checks for the existence of a specific section (\"sección de prueba\") in a document. It can be triggered via a GET request on the /checkSectionInProject endpoint.\n\n**Details**\n1. _**Http in**_: This node defines the /checkSectionInProject endpoint to trigger the flow.\n2. _**Exists-section-in-doc**_: This node checks if the document contains the specified section (\"sección de prueba\").\n3. _**Http response**_: This node sends an HTTP response after processing the request. \n\nDo you need any further assistance with this flow?"
+    },
+    {
+        "id": "eabec9fac31e5201",
+        "type": "tab",
+        "label": "ExistsDocument",
+        "disabled": false,
+        "info": "Check if a section exists within the GitHub repository documents associated with cards on a trello board."
+    },
+    {
+        "id": "90075ea031ad30f3",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -16,494 +39,338 @@
         "env": []
     },
     {
-        "id": "a36c8664107b1913",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 590,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "1786c3e5a22144a7",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "x": 250,
-        "y": 280,
-        "wires": [
-            [
-                "github-collector"
-            ]
-        ]
-    },
-    {
-        "id": "df4e41427e9921e8",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 590,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "bb43ac25c5c5f51a",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "x": 250,
-        "y": 200,
-        "wires": [
-            [
-                "trello-collector"
-            ]
-        ]
-    },
-    {
-        "id": "2d178a0362158736",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"documents\":[{\"date\":\"2023-11-21\",\"name\":\"Invoice123\",\"state\":\"Processed\",\"priority\":\"High\"},{\"date\":\"2023-10-15\",\"name\":\"Contract789\",\"state\":\"Approved\",\"priority\":\"High\"},{\"date\":\"2023-09-05\",\"name\":\"Report456\",\"state\":\"Processed\",\"priority\":\"Low\"}]}",
-        "payloadType": "json",
-        "x": 230,
-        "y": 540,
-        "wires": [
-            [
-                "d74b5d414d4d9055"
-            ]
-        ]
-    },
-    {
-        "id": "52c08b56d2932a2e",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 770,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "d74b5d414d4d9055",
-        "type": "function",
-        "z": "264cc5c5b8338394",
-        "name": "JSONSequence",
-        "func": "// Obtenemos el objeto JSON\nvar input = msg.payload;\n\n// Verificamos si el objeto tiene la estructura esperada\nif (input && input.documents && Array.isArray(input.documents)) {\n    // Accedemos a la matriz de documentos\n    var documents = input.documents;\n\n    // Iteramos sobre cada documento\n    documents.forEach(function (document, index) {\n        // Creamos un nuevo mensaje para cada documento\n        var newMsg = {};\n        newMsg.payload = document;\n\n        // Enviamos cada documento a un nodo de salida (por ejemplo, un nodo \"debug\")\n        node.send(newMsg);\n    });\n} else {\n    // Si la estructura del objeto no es la esperada, enviamos un mensaje de error\n    node.error(\"El objeto JSON no tiene la estructura esperada\", msg);\n}\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 400,
-        "y": 540,
-        "wires": [
-            [
-                "filterBy"
-            ]
-        ]
-    },
-    {
-        "id": "2c0b4ff258abdc91",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"documents\":[{\"date\":\"2023-11-21\",\"name\":\"Invoice123\",\"state\":\"Processed\",\"priority\":\"High\"},{\"date\":\"2023-10-15\",\"name\":\"Contract789\",\"state\":\"Approved\",\"priority\":\"High\"},{\"date\":\"2023-09-05\",\"name\":\"Report456\",\"state\":\"Processed\",\"priority\":\"Low\"}]}",
-        "payloadType": "json",
-        "x": 230,
-        "y": 480,
-        "wires": [
-            [
-                "8e8caeee65061505"
-            ]
-        ]
-    },
-    {
-        "id": "b4e437facd83875b",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 770,
-        "y": 480,
-        "wires": []
-    },
-    {
-        "id": "8e8caeee65061505",
-        "type": "function",
-        "z": "264cc5c5b8338394",
-        "name": "JSONSequence",
-        "func": "// Obtenemos el objeto JSON\nvar input = msg.payload;\n\n// Verificamos si el objeto tiene la estructura esperada\nif (input && input.documents && Array.isArray(input.documents)) {\n    // Accedemos a la matriz de documentos\n    var documents = input.documents;\n\n    // Iteramos sobre cada documento\n    documents.forEach(function (document, index) {\n        // Creamos un nuevo mensaje para cada documento\n        var newMsg = {};\n        newMsg.payload = document;\n\n        // Enviamos cada documento a un nodo de salida (por ejemplo, un nodo \"debug\")\n        node.send(newMsg);\n    });\n} else {\n    // Si la estructura del objeto no es la esperada, enviamos un mensaje de error\n    node.error(\"El objeto JSON no tiene la estructura esperada\", msg);\n}\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 400,
-        "y": 480,
-        "wires": [
-            [
-                "filterByDate"
-            ]
-        ]
-    },
-    {
-        "id": "filterBy",
-        "type": "filter-by",
-        "z": "264cc5c5b8338394",
+        "id": "756cd61b1d6d494a",
+        "type": "http in",
+        "z": "9b89af2bcc070569",
         "name": "",
-        "valueType": "State",
-        "attribute": "state",
-        "value": "Processed",
-        "x": 600,
-        "y": 540,
+        "url": "/test1",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 180,
         "wires": [
             [
-                "52c08b56d2932a2e"
+                "83bb073e9317828c"
             ]
         ]
     },
     {
-        "id": "39a09838d9ae028a",
-        "type": "inject",
-        "z": "264cc5c5b8338394",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{    \"documents\":[       {          \"date\":\"2023-11-21\",          \"documentName\":\"Invoice123\",          \"state\":\"Processed\"       },       {          \"date\":\"2023-10-15\",          \"documentName\":\"Contract789\",          \"state\":\"Approved\"       },       {          \"date\":\"2023-09-05\",          \"documentName\":\"Report456\",          \"state\":\"Processed\"       }    ],    \"otherThings\":[       {          \"name\":\"I don't know\",          \"state\":\"Very good\"       }    ] }",
-        "payloadType": "json",
-        "x": 310,
-        "y": 620,
-        "wires": [
-            [
-                "a37b3eaedab804d2"
-            ]
-        ]
-    },
-    {
-        "id": "61d47bbbdbdd9f28",
-        "type": "debug",
-        "z": "264cc5c5b8338394",
-        "name": "Result",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 650,
-        "y": 620,
+        "id": "72ec2a0a16690c2e",
+        "type": "http response",
+        "z": "9b89af2bcc070569",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 180,
         "wires": []
     },
     {
-        "id": "95784f6d4016fb4b",
+        "id": "83bb073e9317828c",
         "type": "exists-section-in-doc",
-        "z": "264cc5c5b8338394",
+        "z": "9b89af2bcc070569",
         "name": "",
-        "section": "Álvaro",
-        "x": 520,
-        "y": 680,
-        "wires": [
-            [
-                "73b0d73b8b2799bf"
-            ]
-        ]
-    },
-    {
-        "id": "01830a18ba2e2491",
-        "type": "http in",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "url": "/existsSection",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 290,
-        "y": 680,
-        "wires": [
-            [
-                "95784f6d4016fb4b"
-            ]
-        ]
-    },
-    {
-        "id": "73b0d73b8b2799bf",
-        "type": "http response",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 710,
-        "y": 680,
-        "wires": []
-    },
-    {
-        "id": "9b545e850df2f908",
-        "type": "http in",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "url": "/urlToDoc",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 280,
-        "y": 740,
-        "wires": [
-            [
-                "8e63d9da573b96f1"
-            ]
-        ]
-    },
-    {
-        "id": "13c3047b49d8595b",
-        "type": "http response",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 710,
-        "y": 740,
-        "wires": []
-    },
-    {
-        "id": "8e63d9da573b96f1",
-        "type": "url-to-doc",
-        "z": "264cc5c5b8338394",
-        "name": "",
+        "section": "",
         "x": 500,
-        "y": 740,
+        "y": 180,
         "wires": [
             [
-                "13c3047b49d8595b"
+                "72ec2a0a16690c2e"
             ]
         ]
     },
     {
-        "id": "41bd0483274cd3ec",
+        "id": "ae3e68b55384dc68",
+        "type": "http in",
+        "z": "ce8fc522a364e5e3",
+        "name": "",
+        "url": "/check",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 180,
+        "wires": [
+            [
+                "2c6bde120a767185"
+            ]
+        ]
+    },
+    {
+        "id": "dee8e1439d606ff6",
+        "type": "http response",
+        "z": "ce8fc522a364e5e3",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 570,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "2c6bde120a767185",
+        "type": "exists-section-in-doc",
+        "z": "ce8fc522a364e5e3",
+        "name": "",
+        "section": "",
+        "x": 340,
+        "y": 180,
+        "wires": [
+            [
+                "dee8e1439d606ff6"
+            ]
+        ]
+    },
+    {
+        "id": "7b8ea985b0902dfa",
+        "type": "http in",
+        "z": "bad76f2298009175",
+        "name": "",
+        "url": "/check",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                ""
+            ]
+        ]
+    },
+    {
+        "id": "a1fd56b856576245",
+        "type": "http response",
+        "z": "bad76f2298009175",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 870,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ab67c712124ab092",
+        "type": "exists-section-in-doc",
+        "z": "bad76f2298009175",
+        "name": "",
+        "section": "",
+        "x": 640,
+        "y": 180,
+        "wires": [
+            [
+                "a1fd56b856576245"
+            ]
+        ]
+    },
+    {
+        "id": "",
+        "type": "filter-by",
+        "z": "bad76f2298009175",
+        "name": "",
+        "valueType": "Importance",
+        "attribute": "priority",
+        "value": "High",
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "ab67c712124ab092"
+            ]
+        ]
+    },
+    {
+        "id": "dbc76a0ae0e876fb",
+        "type": "http in",
+        "z": "06d0899c3d2b4d31",
+        "name": "",
+        "url": "/checkSectionInProject",
+        "method": "get",
+        "upload": false,
+        "x": 240,
+        "y": 160,
+        "wires": [
+            [
+                "e621a920c9dae732"
+            ]
+        ]
+    },
+    {
+        "id": "0a959020b9bbf7c0",
+        "type": "http response",
+        "z": "06d0899c3d2b4d31",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 690,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "e621a920c9dae732",
+        "type": "exists-section-in-doc",
+        "z": "06d0899c3d2b4d31",
+        "name": "",
+        "section": "sección de prueba",
+        "x": 500,
+        "y": 160,
+        "wires": [
+            [
+                "0a959020b9bbf7c0"
+            ]
+        ]
+    },
+    {
+        "id": "303a84db645ec710",
+        "type": "http response",
+        "z": "eabec9fac31e5201",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 750,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "bf71fe40b7f70b3d",
+        "type": "http in",
+        "z": "eabec9fac31e5201",
+        "name": "",
+        "url": "/existsDocument",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 380,
+        "y": 140,
+        "wires": [
+            [
+                "442435728c76ed17"
+            ]
+        ]
+    },
+    {
+        "id": "442435728c76ed17",
         "type": "exists-url",
-        "z": "264cc5c5b8338394",
+        "z": "eabec9fac31e5201",
         "name": "",
-        "x": 440,
-        "y": 360,
+        "x": 580,
+        "y": 140,
         "wires": [
             [
-                "5fa2ce756fbb4e30"
+                "303a84db645ec710"
             ]
         ]
     },
     {
-        "id": "5fa2ce756fbb4e30",
-        "type": "http response",
-        "z": "264cc5c5b8338394",
+        "id": "ae697e6ac9c20124",
+        "type": "url-to-doc",
+        "z": "90075ea031ad30f3",
         "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 630,
-        "y": 360,
-        "wires": []
-    },
-    {
-        "id": "074a543b69090a8e",
-        "type": "http in",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "url": "/existsUrl",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 250,
-        "y": 360,
-        "wires": [
-            [
-                "41bd0483274cd3ec"
-            ]
-        ]
-    },
-    {
-        "id": "03db9e26af802098",
-        "type": "http in",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "url": "/projectToUrl",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 250,
-        "y": 420,
-        "wires": [
-            [
-                "3b7b3f09882b9b7b"
-            ]
-        ]
-    },
-    {
-        "id": "717c3c52253eb20e",
-        "type": "http response",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 610,
-        "y": 420,
-        "wires": []
-    },
-    {
-        "id": "3b7b3f09882b9b7b",
-        "type": "project-to-url",
-        "z": "264cc5c5b8338394",
-        "name": "",
-        "x": 450,
-        "y": 420,
-        "wires": [
-            [
-                "717c3c52253eb20e"
-            ]
-        ]
-    },
-    {
-        "id": "trello-collector",
-        "type": "trello-collector",
-        "z": "264cc5c5b8338394",
-        "boardId": "",
-        "key": "",
-        "token": "",
-        "x": 440,
+        "x": 180,
         "y": 200,
         "wires": [
-            [
-                "a36c8664107b1913"
-            ]
+            []
         ]
     },
     {
-        "id": "github-collector",
-        "type": "github-collector",
-        "z": "264cc5c5b8338394",
-        "username": "",
-        "repoName": "",
-        "path": "",
-        "token": "",
-        "x": 420,
-        "y": 280,
+        "id": "423cfb9c97fdbddf",
+        "type": "exists-pipe",
+        "z": "90075ea031ad30f3",
+        "count": 0,
+        "x": 370,
+        "y": 260,
         "wires": [
-            [
-                "df4e41427e9921e8"
-            ]
+            []
+        ]
+    },
+    {
+        "id": "c67bea0799e2c339",
+        "type": "exists-url",
+        "z": "90075ea031ad30f3",
+        "name": "",
+        "x": 400,
+        "y": 300,
+        "wires": [
+            []
         ]
     },
     {
         "id": "filterByDate",
         "type": "filter-by-date",
-        "z": "264cc5c5b8338394",
+        "z": "90075ea031ad30f3",
         "name": "",
         "attribute": "",
         "startDate": "",
         "endDate": "",
-        "x": 590,
-        "y": 480,
+        "x": 430,
+        "y": 340,
         "wires": [
-            [
-                "b4e437facd83875b"
-            ]
+            []
         ]
     },
     {
-        "id": "a37b3eaedab804d2",
-        "type": "exists-pipe",
-        "z": "264cc5c5b8338394",
-        "count": 0,
-        "x": 490,
-        "y": 620,
+        "id": "",
+        "type": "filter-by",
+        "z": "90075ea031ad30f3",
+        "name": "",
+        "valueType": "Clasification",
+        "attribute": "",
+        "value": "",
+        "x": 440,
+        "y": 400,
         "wires": [
-            [
-                "61d47bbbdbdd9f28"
-            ]
+            []
+        ]
+    },
+    {
+        "id": "08a485a042d4130f",
+        "type": "project-to-url",
+        "z": "90075ea031ad30f3",
+        "name": "",
+        "x": 330,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c89e80b0f663049a",
+        "type": "exists-section-in-doc",
+        "z": "90075ea031ad30f3",
+        "name": "",
+        "section": "",
+        "x": 280,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "trello-collector",
+        "type": "trello-collector",
+        "z": "90075ea031ad30f3",
+        "boardId": "",
+        "key": "",
+        "token": "",
+        "x": 200,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "github-collector",
+        "type": "github-collector",
+        "z": "90075ea031ad30f3",
+        "username": "",
+        "repoName": "",
+        "path": "",
+        "token": "",
+        "x": 640,
+        "y": 200,
+        "wires": [
+            []
         ]
     }
 ]

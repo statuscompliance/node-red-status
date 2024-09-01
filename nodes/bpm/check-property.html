@@ -1,0 +1,50 @@
+<script type="text/javascript">
+    RED.nodes.registerType('check-property', {
+        category: 'bpm',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            propertyToCheck: { value: "" },
+            expectedValue: { value: "" },
+            params: { 
+                value: {
+                    propertyToCheck: 'string',
+                    expectedValue: 'string',
+                },
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-search', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'check-property';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cucheck-propertyo se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cucheck-propertyo se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cucheck-propertyo se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="check-property">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-propertyToCheck"><i class="fa fa-info"></i> Property</label>
+        <input type="text" id="node-input-propertyToCheck" placeholder="Property">
+    </div>
+    <div class="form-row">
+        <label for="node-input-expectedValue"><i class="fa fa-key"></i> Value</label>
+        <input type="text" id="node-input-expectedValue" placeholder="Value">
+    </div>
+</script>

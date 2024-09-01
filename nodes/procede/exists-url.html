@@ -4,12 +4,14 @@
         color: '#DDAA99',
         defaults: {
             name: { value: ''},
+            urlType: { value: 'Payload'},
             cardId: { value: ''},
             apiKey: { value: ''},
             trelloToken: { value: ''},
             githubToken: { value: ''},
             params: {
                 value: {
+                    urlType: 'string',
                     cardId: 'string',
                     apiKey: 'string',
                     trelloToken: 'string',
@@ -43,6 +45,14 @@
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class= "form-row">
+        <label for="node-input-urlType"><i class="fa fa-list"></i> URL Type</label>
+        <select id="node-input-urlType">
+            <option value="payload">Payload</option>
+            <option value="body">Body</option>
+            <option value="config">Node-RED Configuration</option>
+        </select>
     </div>
     <div class="form-row">
         <label for="node-input-cardId"><i class="fa fa-credit-card"></i>CardID</label>

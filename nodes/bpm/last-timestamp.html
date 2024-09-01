@@ -1,0 +1,51 @@
+<script type="text/javascript">
+    RED.nodes.registerType('last-timestamp', {
+        category: 'bpm',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            activity: { value: "" },
+            position: { value: "" },
+            params: { value:
+                {
+                    activity: "string",
+                    position: "number"
+                }
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-clock-o', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'last-timestamp';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="last-timestamp">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-activity">Activity</label>
+        <input type="text" id="node-input-activity" placeholder="Activity">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position">Position</label>
+        <input type="number" id="node-input-position" placeholder="1">
+    </div>
+</script>
+

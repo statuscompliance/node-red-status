@@ -6,7 +6,7 @@ module.exports = function (RED) {
 
         var node = this;
 
-        this.on("input", function (msg) {
+        node.on("input", function (msg) {
             var username = msg.req.body.username || config.username;
             var repoName = msg.req.body.repoName || config.repoName;
             var path = msg.req.body.path || config.path;

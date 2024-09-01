@@ -6,15 +6,15 @@ module.exports = function (RED) {
         var node = this;
         // Configura el nodo para que reciba el parámetro "count"
         // Cuando llegue un mensaje al nodo
-        this.on("input", function (msg) {
+        node.on("input", function (msg) {
             var count = msg.req.body.count || config.count;
             // Obtiene los datos del flujo
             var flowData = msg.payload;
             // Comprueba si el número de documentos coincide con el valor esperado
-            msg.payload = Object.keys(flowData).length == count;
-            node.warn("flowData: " + JSON.stringify(flowData));
-            node.warn("count: " + count);
-            // Envía el mensaje modificado
+            msg.payload = {
+                result: Object.keys(flowData).length == count,
+            };
+
             node.send(msg);
         });
     }

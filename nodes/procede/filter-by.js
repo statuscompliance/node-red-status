@@ -6,7 +6,6 @@ module.exports = function (RED) {
         node.on("input", function (msg) {
             var attribute = msg.req.body.attribute || config.attribute;
             var value = msg.req.body.value || config.value;
-
             // Filtrar mensajes basados en el tipo seleccionado
             switch (msg.req.body.valueType || config.valueType) {
                 case "Clasification":
@@ -21,6 +20,7 @@ module.exports = function (RED) {
                     break;
                 case "ContentType":
                     if (msg.payload[attribute] === value) {
+                        node.warn(msg.payload);
                         node.send(msg);
                     }
                     break;

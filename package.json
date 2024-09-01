@@ -1,6 +1,6 @@
 {
     "name": "@alvarobc2412/status",
-    "version": "1.1.4",
+    "version": "1.2.2",
     "description": "Collection of STATUS project components.",
     "license": "Apache-2.0",
     "keywords": [
@@ -39,11 +39,33 @@
             "filter-by": "nodes/procede/filter-by.js",
             "project-to-url": "nodes/procede/project-to-url.js",
             "exists-section-in-doc": "nodes/procede/exists-section-in-doc.js",
-            "bluejay-request": "nodes/bluejay/bluejay-request.js"
+            "log-getter": "nodes/bpm/log-getter.js",
+            "log-trace": "nodes/bpm/log-trace.js",
+            "last-timestamp": "nodes/bpm/last-timestamp.js",
+            "and": "nodes/bpm/and.js",
+            "lesser-than": "nodes/bpm/lesser-than.js",
+            "has-activity": "nodes/bpm/has-activity.js",
+            "implies": "nodes/bpm/implies.js",
+            "csv-reader": "nodes/bpm/csv-reader.js",
+            "check-property": "nodes/bpm/check-property.js",
+            "group-by": "nodes/bpm/group-by.js",
+            "find-object": "nodes/bpm/find-object.js",
+            "get-property-value": "nodes/bpm/get-property-value.js",
+            "or": "nodes/bpm/or.js",
+            "if-else": "nodes/bpm/if-else.js",
+            "response": "nodes/control-flow/response.js",
+            "coexistence": "nodes/control-flow/coexistence.js",
+            "responded-existence": "nodes/control-flow/responded-existence.js",
+            "chain-response": "nodes/control-flow/chain-response.js",
+            "get-kv-property": "nodes/bpm/get-kv-property.js",
+            "is-valid-url": "nodes/procede/is-valid-url.js",
+            "status-parser": "nodes/status/status-parser.js"
         }
     },
     "dependencies": {
         "axios": "^1.6.7",
-        "pdf-parse": "^1.1.1"
+        "pdf-parse": "^1.1.1",
+        "xml2js": "^0.6.2",
+        "zlib": "^1.0.5"
     }
 }
