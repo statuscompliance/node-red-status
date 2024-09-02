@@ -1,0 +1,101 @@
+<script type="text/javascript">
+    RED.nodes.registerType('status-parser', {
+        category: 'status',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-cogs', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'status-parser';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="status-parser">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="status-parser">
+    <p>
+        The "Status Parser" node filters an array of objects based on a specified status value. It uses the `status` query parameter from the incoming request to determine which objects in the array to keep in the output message.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">array of objects</span>
+        </dt>
+        <dd>
+            An array of objects where each object should have a <code>result</code> property with a boolean value.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">array of objects</span>
+        </dt>
+        <dd>
+            The filtered array of objects based on the specified status. Only objects with the `result` property matching the status query parameter will be included.
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Status Parser" node works as follows:
+        <ul>
+            <li>The node reads the <code>status</code> query parameter from the incoming request.</li>
+            <li>It filters the array of objects in the `payload` based on the value of this parameter:</li>
+            <ul>
+                <li>If <code>status</code> is <code>"true"</code>, only objects with <code>result</code> set to <code>true</code> are kept.</li>
+                <li>If <code>status</code> is <code>"false"</code>, only objects with <code>result</code> set to <code>false</code> are kept.</li>
+                <li>If <code>status</code> is not specified or has any other value, the payload remains unchanged.</li>
+            </ul>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li>Input payload: <code>[ { "result": true }, { "result": false }, { "result": true } ]</code></li>
+                <li>Request query: <code>status=true</code></li>
+                <li>Output payload: <code>[ { "result": true }, { "result": true } ]</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li>Input payload: <code>[ { "result": true }, { "result": false }, { "result": true } ]</code></li>
+                <li>Request query: <code>status=false</code></li>
+                <li>Output payload: <code>[ { "result": false } ]</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong>
+            <ul>
+                <li>Input payload: <code>[ { "result": true }, { "result": false } ]</code></li>
+                <li>Request query: <code>status=unknown</code></li>
+                <li>Output payload: <code>[ { "result": true }, { "result": false } ]</code></li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful when you need to filter data based on a boolean status in an array of objects.
+    </p>
+</script>

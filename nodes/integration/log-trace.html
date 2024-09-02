@@ -1,0 +1,95 @@
+<script type="text/javascript">
+    RED.nodes.registerType('log-trace', {
+        category: 'integration',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'debug.svg', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'log-trace';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="log-trace">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div
+</script>
+<script type="text/x-red" data-help-name="log-trace">
+    <p>Splits log trace data into individual messages. Each message contains a single trace from the log.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>log
+            <span class="property-type">object</span>
+        </dt>
+        <dd>The log object containing the trace data. It is expected to have the structure with a `trace` array under `log`. The node processes each trace individually.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Trace Data
+            <dl class="message-properties">
+                <dt>payload
+                    <span class="property-type">object</span>
+                </dt>
+                <dd>
+                    Contains the trace object and an index. Each trace is processed into its own message, with `trace` being the individual trace data and `index` being its position in the original array.
+                </dd>
+                <dt>logSize
+                    <span class="property-type">number</span>
+                </dt>
+                <dd>Indicates the total number of traces in the log.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "log-trace" node takes a log object from its input and processes each trace found in the `trace` array. It creates a separate message for each trace, including:
+    </p>
+    <ul>
+        <li><strong>payload.trace:</strong> The individual trace data.</li>
+        <li><strong>payload.index:</strong> The index of the trace in the original array.</li>
+        <li><strong>logSize:</strong> The total number of traces in the log.</li>
+    </ul>
+    <p>
+        If no trace data is found, the node will log an error message. If an error occurs during processing, it will also log an error message.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong> Process a log with multiple traces
+            <ul>
+                <li><code>msg.log = { log: { trace: [{ ... }, { ... }] } }</code></li>
+                <li>Each trace object will be sent as a separate message with its index and the total number of traces.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong> Log without traces
+            <ul>
+                <li><code>msg.log = { log: {} }</code></li>
+                <li>The node will log an error indicating that no trace data was found.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for breaking down complex log data into manageable pieces for further processing or analysis.
+    </p>
+</script>

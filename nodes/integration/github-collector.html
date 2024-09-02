@@ -1,0 +1,129 @@
+<script type="text/javascript">
+    RED.nodes.registerType('github-collector', {
+        category: 'integration',
+        color: '#DDAA99',
+        defaults: {
+            username: { value: '' },
+            repoName: { value: '' },
+            path: { value: '' },
+            token: { value: '' },
+            params: { value: {
+                username: 'string',
+                repoName: 'string',
+                path: 'string',
+                token: 'string',
+            } },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'github-logo.svg',
+        label: function () {
+            return this.name || 'github-collector';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="github-collector">
+    <div class="form-row">
+        <label for="node-input-username"><i class="fa fa-user"></i> Username</label>
+        <input type="text" id="node-input-username" placeholder="Username">
+    </div>
+    <div class="form-row">
+        <label for="node-input-repoName"><i class="fa fa-book"></i> Repo Name</label>
+        <input type="text" id="node-input-repoName" placeholder="Repo Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-path"><i class="fa fa-folder"></i> Path</label>
+        <input type="text" id="node-input-path" placeholder="Path">
+    </div>
+    <div class="form-row">
+        <label for="node-input-token"><i class="fa fa-key"></i> Token</label>
+        <input type="text" id="node-input-token" placeholder="Token">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="github-collector">
+    <p>Fetches file or directory information from a GitHub repository using the GitHub API.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>username
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The GitHub username of the repository owner. This can be specified in the node configuration or in the incoming message.</dd>
+        <dt>repoName
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The name of the GitHub repository. This can be specified in the node configuration or in the incoming message.</dd>
+        <dt>path
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The path to the file or directory within the repository. If left empty, the node will fetch the contents of the root directory.</dd>
+        <dt>token
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The GitHub personal access token required for authentication. This can be specified in the node configuration or in the incoming message.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Repository content
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">object</span></dt>
+                <dd>Outputs the content of the file or directory from the GitHub repository. For directories, this will be a list of files and folders. For files, this will include file content and metadata.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "github-collector" node uses the GitHub API to fetch information about files or directories from a specified repository. It requires the GitHub username, repository name, and optionally a path to the specific file or directory within the repository. Authentication is handled using a personal access token.
+    </p>
+    <p>
+        If the path is empty, the node fetches the contents of the root directory of the repository. If a path is provided, the node fetches information about the specified file or directory.
+    </p>
+    <p>
+        The GitHub personal access token must have sufficient permissions to access the repository's content. Ensure that the token is kept secure and not exposed in publicly accessible code.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> 
+            <ul>
+                <li><code>username: "octocat"</code></li>
+                <li><code>repoName: "Hello-World"</code></li>
+                <li><code>path: ""</code> (to fetch the contents of the root directory)</li>
+                <li><code>token: "your_github_token"</code></li>
+            </ul>
+        </li>
+        <li><strong>Output:</strong> 
+            <ul>
+                <li>For a directory: <code>[{ "name": "README.md", "type": "file", "path": "README.md", "sha": "abc123" }, { "name": "docs", "type": "dir", "path": "docs", "sha": "def456" }] </code></li>
+                <li>For a file: <code>{ "name": "README.md", "type": "file", "path": "README.md", "content": "File content here", "sha": "abc123" }</code></li>
+            </ul>
+        </li>
+        <li><strong>Input:</strong> 
+            <ul>
+                <li><code>username: "octocat"</code></li>
+                <li><code>repoName: "Hello-World"</code></li>
+                <li><code>path: "docs/guide.md"</code> (to fetch a specific file)</li>
+                <li><code>token: "your_github_token"</code></li>
+            </ul>
+        </li>
+        <li><strong>Output:</strong> <code>{ "name": "guide.md", "type": "file", "path": "docs/guide.md", "content": "File content here", "sha": "ghi789" }</code></li>
+    </ul>
+    <p>
+        These examples show how to use the "github-collector" node to fetch information about files and directories in a GitHub repository. It is useful for integrating GitHub repository content into your Node-RED flows.
+    </p>
+</script>

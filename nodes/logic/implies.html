@@ -1,0 +1,116 @@
+<script type="text/javascript">
+    RED.nodes.registerType('implies', {
+        category: 'logic',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-long-arrow-right', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'implies';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="implies">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="implies">
+    <p>
+        The "Boolean Implication" node evaluates a logical implication based on boolean inputs. Given two boolean inputs, A and B, the node checks if <code>A implies B</code> (i.e., <code>!A || B</code>). The result is sent out based on the expected status provided in the query parameters.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload.result
+            <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            The boolean values used for implication. The node expects exactly two boolean values to perform the implication operation.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload.result
+            <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            The result of the boolean implication operation. Sent only if the condition based on the expected status is met.
+        </dd>
+    </dl>
+
+    <h3>Query Parameters</h3>
+    <dl class="message-properties">
+        <dt>status
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The expected status to determine if the result should be sent. It can be either "true" or "false". If `status` is "true", the result is sent if the implication is true. If `status` is "false", the result is sent if the implication is false. If `status` is not provided, the result is sent regardless of the implication outcome.
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Boolean Implication" node operates as follows:
+        <ul>
+            <li>The node collects two boolean values.</li>
+            <li>It computes the logical implication <code>A implies B</code> using the formula <code>!A || B</code>.</li>
+            <li>The result is sent based on the expected status:
+                <ul>
+                    <li>If `status` is "true", the result is sent if the implication evaluates to true.</li>
+                    <li>If `status` is "false", the result is sent if the implication evaluates to false.</li>
+                    <li>If `status` is not provided, the result is sent regardless of its value.</li>
+                </ul>
+            </li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong> Implication with `status` "true"
+            <ul>
+                <li>Input 1: <code>msg.payload.result = true</code></li>
+                <li>Input 2: <code>msg.payload.result = false</code></li>
+                <li>Query parameter: <code>status=true</code></li>
+                <li>Output: Message is sent with <code>payload.result = false</code>, since <code>true implies false</code> is false.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong> Implication with `status` "false"
+            <ul>
+                <li>Input 1: <code>msg.payload.result = false</code></li>
+                <li>Input 2: <code>msg.payload.result = true</code></li>
+                <li>Query parameter: <code>status=false</code></li>
+                <li>Output: Message is sent with <code>payload.result = true</code>, since <code>false implies true</code> is true.</li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong> Implication without `status`
+            <ul>
+                <li>Input 1: <code>msg.payload.result = false</code></li>
+                <li>Input 2: <code>msg.payload.result = false</code></li>
+                <li>No query parameter provided</li>
+                <li>Output: Message is sent with <code>payload.result = true</code>, since <code>false implies false</code> is true.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for scenarios where you need to perform logical implication and conditionally route messages based on the outcome.
+    </p>
+</script>

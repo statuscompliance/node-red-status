@@ -1,0 +1,112 @@
+<script type="text/javascript">
+    RED.nodes.registerType('response', {
+        category: 'controlFlow',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            eventAName: { value: ""},
+            eventBName: { value: ""},
+            negate: { value: false },
+            params: { value: {
+                eventAName: "string",
+                eventBName: "string",
+                negate: "boolean"
+                }
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-step-forward', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'response';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="response">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-eventAName">Event A</label>
+        <input type="text" id="node-input-eventAName" placeholder="Event Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-eventBName">Event B</label>
+        <input type="text" id="node-input-eventBName" placeholder="Event Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-negate">Negate</label>
+        <input type="checkbox" id="node-input-negate">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="response">
+    <p>Checks whether Event B occurs immediately after Event A.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>Event A
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The name of the first event that should occur.</dd>
+        <dt>Event B
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The name of the second event that should occur immediately after Event A.</dd>
+        <dt>Negate <span class="property-type">boolean</span></dt>
+        <dd>Checkbox to invert the result of the immediate response check.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Standard output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">boolean</span></dt>
+                <dd>Outputs "true" if Event B occurs immediately after Event A; otherwise, outputs "false".</dd>
+            </dl>
+        </li>
+        <li>Negated output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">boolean</span></dt>
+                <dd>Outputs "true" if Event B does <strong>not</strong> occur immediately after Event A; otherwise, outputs "false".</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "response" node is designed to check whether two events, Event A and Event B, occur in a strict sequential order with no intervening events. It verifies that Event B happens immediately after Event A, without any delay or other events in between.
+    </p>
+    <p>
+        If Event B occurs immediately after Event A, the output will be "true"; otherwise, it will be "false". The "Negate" option allows you to invert this logic, meaning that the output will be "true" if Event B does <strong>not</strong> occur immediately after Event A.
+    </p>
+    <p>
+        This node is useful in scenarios where it is critical to ensure that one event follows another without delay. For example, in a financial transaction system, you might use this node to ensure that a confirmation message (Event B) is sent immediately after a transaction is processed (Event A).
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> Event A: "TransactionProcessed", Event B: "ConfirmationSent", Negate: false</li>
+        <li><strong>Output:</strong> The node will output "true" if "ConfirmationSent" occurs immediately after "TransactionProcessed"; otherwise, it will output "false".</li>
+    </ul>
+    <ul>
+        <li><strong>Input:</strong> Event A: "DoorOpened", Event B: "AlarmTriggered", Negate: true</li>
+        <li><strong>Output:</strong> The node will output "true" if "AlarmTriggered" does <strong>not</strong> occur immediately after "DoorOpened"; otherwise, it will output "false".</li>
+    </ul>
+    <p>
+        These examples help ensure that actions are triggered without delay or that corrective measures are taken when the expected immediate response does not occur.
+    </p>         
+</script>

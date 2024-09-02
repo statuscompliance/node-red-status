@@ -1,0 +1,215 @@
+<script type="text/javascript">
+    RED.nodes.registerType('exists-section-in-doc', {
+        category: 'validation',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: '' },
+            section: { value: ''},
+            valueType: { value: "GithubUrl" },
+            user: { value: "" },
+            repo: { value: "" },
+            path: { value: "" },
+            docName: { value: "" },
+            url: { value: "" },
+            githubToken: { value: "" },
+            params: {
+                value: {
+                    section: 'string',
+                    valueType: 'ENUM("GithubUrl", "URL")',
+                    user: 'string',
+                    repo: 'string',
+                    path: 'string',
+                    docName: 'string',
+                    url: 'string',
+                    githubToken: 'string',
+                }
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'exists-logo.svg', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'exists-section-in-doc';
+        },
+        oneditprepare: function () {
+            // Lógica específica cuando se abre el editor del nodo
+        },
+        oneditsave: function () {
+            // Lógica específica cuando se guarda la configuración del nodo
+        },
+        oneditcancel: function () {
+            // Lógica específica cuando se cancela la edición del nodo
+        },
+    });
+</script>
+
+<!-- Contenido del editor del nodo -->
+<script type="text/x-red" data-template-name="exists-section-in-doc">
+    <div class="form-row">
+        <label for="node-input-section"><i class="fa fa-align-justify"></i>Section</label>
+        <input type="text" id="node-input-section" placeholder="Section">
+    </div>
+    <div class="form-row">
+        <label for="node-input-valueType"><i class="fa fa-list"></i>Value Type</label>
+        <select id="node-input-valueType">
+            <option value="GithubUrl">GithubUrl</option>
+            <option value="URL">URL</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-user"><i class="fa fa-github"></i>User</label>
+        <input type="text" id="node-input-user" placeholder="User/Org">
+    </div>
+    <div class="form-row">
+        <label for="node-input-repo"><i class="fa fa-tag"></i>Repo</label>
+        <input type="text" id="node-input-repo" placeholder="Repo">
+    </div>
+    <div class="form-row">
+        <label for="node-input-path"><i class="fa fa-folder"></i>Path</label>
+        <input type="text" id="node-input-path" placeholder="example/path">
+    </div>
+    <div class="form-row">
+        <label for="node-input-docName"><i class="fa fa-tag"></i>DocName</label>
+        <input type="text" id="node-input-docName" placeholder="docName">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-link"></i>Url</label>
+        <input type="text" id="node-input-docName" placeholder="https://example/doc.pdf">
+    </div>
+    <div class="form-row">
+        <label for="node-input-githubToken"><i class="fa fa-key"></i>GitHub Token</label>
+        <input type="text" id="node-input-githubToken" placeholder="Token">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="exists-section-in-doc">
+    <p>
+        The "Exists Section in Document" node is designed to check if a specific section or text is present within a document. This document can be retrieved from either a GitHub repository or a direct URL. Supported document types include PDF and TXT files.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The input payload should contain the document data or be empty if the document is retrieved via URL. The node will process the document based on the specified `valueType`.
+        </dd>
+        <dt>valueType
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The type of document source. Options include:
+            <ul>
+                <li><code>GithubUrl</code>: Retrieve the document from a GitHub repository.</li>
+                <li><code>URL</code>: Retrieve the document from a direct URL.</li>
+            </ul>
+        </dd>
+        <dt>user
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            GitHub username (required if <code>valueType</code> is <code>GithubUrl</code>).
+        </dd>
+        <dt>repo
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            GitHub repository name (required if <code>valueType</code> is <code>GithubUrl</code>).
+        </dd>
+        <dt>path
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Path to the document within the repository (required if <code>valueType</code> is <code>GithubUrl</code>).
+        </dd>
+        <dt>docName
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Name of the document file, excluding the extension (required if <code>valueType</code> is <code>GithubUrl</code>).
+        </dd>
+        <dt>githubToken
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            GitHub personal access token (required if <code>valueType</code> is <code>GithubUrl</code>).
+        </dd>
+        <dt>url
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Direct URL to the document (required if <code>valueType</code> is <code>URL</code>).
+        </dd>
+        <dt>section
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The text or section to search for within the document. The node will check if this section is present in the document.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            The output payload will be an object containing a <code>result</code> property. This <code>result</code> will be <code>"true"</code> if the specified section or text is found in the document, and <code>"false"</code> otherwise.
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Exists Section in Document" node operates as follows:
+        <ul>
+            <li>If <code>valueType</code> is <code>GithubUrl</code>:
+                <ul>
+                    <li>The node retrieves the document from a specified GitHub repository.</li>
+                    <li>The document is fetched as a PDF, and its content is processed to check for the specified section.</li>
+                </ul>
+            </li>
+            <li>If <code>valueType</code> is <code>URL</code>:
+                <ul>
+                    <li>The node fetches the document from the provided URL.</li>
+                    <li>Supports both PDF and TXT formats.</li>
+                    <li>The node will search for the specified section in the document.</li>
+                </ul>
+            </li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li><code>valueType: GithubUrl</code></li>
+                <li><code>user: "your-github-username"</code></li>
+                <li><code>repo: "your-repo-name"</code></li>
+                <li><code>path: "path/to/document"</code></li>
+                <li><code>docName: "example-document"</code></li>
+                <li><code>githubToken: "your-github-token"</code></li>
+                <li><code>section: "important-section"</code></li>
+                <li>Output payload: <code>{ "result": "true" }</code> if the section is found in the PDF.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li><code>valueType: URL</code></li>
+                <li><code>url: "https://example.com/document.pdf"</code></li>
+                <li><code>section: "important-text"</code></li>
+                <li>Output payload: <code>{ "result": "false" }</code> if the section is not found in the PDF.</li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong>
+            <ul>
+                <li><code>valueType: URL</code></li>
+                <li><code>url: "https://example.com/document.txt"</code></li>
+                <li><code>section: "important-text"</code></li>
+                <li>Output payload: <code>{ "result": "true" }</code> if the section is found in the TXT file.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for processing documents to check for the presence of specific text or sections, particularly in automation workflows involving document retrieval from various sources.
+    </p>
+</script>
