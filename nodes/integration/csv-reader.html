@@ -1,0 +1,29 @@
+<script type="text/javascript">
+    RED.nodes.registerType('csv-reader', {
+        category: 'integration',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            path: { value: "" },
+            params: { value: {
+                path: "string",
+            } },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-folder-open',
+        label: function() {
+            return this.name || 'csv-reader';
+        }
+    });
+</script>
+<script type="text/x-red" data-template-name="csv-reader">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-path">File Path</label>
+        <input type="text" id="node-input-path" placeholder="Path to CSV file">
+    </div>
+</script>

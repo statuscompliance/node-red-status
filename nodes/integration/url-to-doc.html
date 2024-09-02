@@ -1,0 +1,79 @@
+<script type="text/javascript">
+    RED.nodes.registerType('url-to-doc', {
+        category: 'integration',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: '' },
+            valueType: { value: "GithubUrl" },
+            user: { value: "" },
+            repo: { value: "" },
+            path: { value: "" },
+            docName: { value: "" },
+            url: { value: "" },
+            githubToken: { value: "" },
+            params: {
+                value: {
+                    valueType: 'ENUM("GithubUrl", "URL")',
+                    user: 'string',
+                    repo: 'string',
+                    path: 'string',
+                    docName: 'string',
+                    url: 'string',
+                    githubToken: 'string',
+                }
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'doc-url-logo.svg', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'url-to-doc';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="url-to-doc">
+    <div class="form-row">
+        <label for="node-input-valueType"><i class="fa fa-list"></i>Value Type</label>
+        <select id="node-input-valueType">
+            <option value="GithubUrl">GithubUrl</option>
+            <option value="URL">URL</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-user"><i class="fa fa-github"></i>User</label>
+        <input type="text" id="node-input-user" placeholder="User/Org">
+    </div>
+    <div class="form-row">
+        <label for="node-input-repo"><i class="fa fa-tag"></i>Repo</label>
+        <input type="text" id="node-input-repo" placeholder="Repo">
+    </div>
+    <div class="form-row">
+        <label for="node-input-path"><i class="fa fa-folder"></i>Path</label>
+        <input type="text" id="node-input-path" placeholder="example/path">
+    </div>
+    <div class="form-row">
+        <label for="node-input-docName"><i class="fa fa-tag"></i>DocName</label>
+        <input type="text" id="node-input-docName" placeholder="docName">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-link"></i>Url</label>
+        <input type="text" id="node-input-docName" placeholder="https://example/doc.pdf">
+    </div>
+    <div class="form-row">
+        <label for="node-input-githubToken"><i class="fa fa-key"></i>GitHub Token</label>
+        <input type="text" id="node-input-githubToken" placeholder="Token">
+    </div>
+</script>

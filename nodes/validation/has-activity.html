@@ -1,0 +1,44 @@
+<script type="text/javascript">
+    RED.nodes.registerType('has-activity', {
+        category: 'validation',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            conceptName: { value: "" },
+            params: { 
+                value: {
+                    conceptName: 'string',
+                },
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-check-square-o', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'has-activity';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuhas-activityo se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuhas-activityo se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuhas-activityo se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="has-activity">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-conceptName"><i class="fa fa-align-justify"></i> Concept Name</label>
+        <input type="text" id="node-input-conceptName" placeholder="Concept Name">
+    </div>
+</script>

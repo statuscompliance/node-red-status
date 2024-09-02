@@ -1,0 +1,67 @@
+<script type="text/javascript">
+    RED.nodes.registerType('filter-by', {
+        category: 'filtering',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: '' },
+            valueType: { value: 'Clasification' },
+            attribute: { value: '' },
+            value: { value: '' },
+            params: {
+                value: {
+                    name: 'string',
+                    valueType: 'ENUM("Clasification", "Importance", "ContentType", "DateFromToday", "State", "ActivityPipe", "AssetPipe", "ActorPipe")',
+                    attribute: 'string',
+                    value: 'string',
+                }
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'filter-logo.svg',
+        label: function () {
+            return this.name || 'filter-by';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<!-- Contenido del editor del nodo -->
+<script type="text/x-red" data-template-name="filter-by">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-valueType"><i class="fa fa-list"></i> Value Type</label>
+        <select id="node-input-valueType">
+            <option value="Clasification">Clasification</option>
+            <option value="Importance">Importance</option>
+            <option value="ContentType">ContentType</option>
+            <option value="DateFromToday">DateFromToday</option>
+            <option value="State">State</option>
+            <option value="ActivityPipe">ActivityPipe</option>
+            <option value="AssetPipe">AssetPipe</option>
+            <option value="ActorPipe">ActorPipe</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-attribute"><i class="fa fa-info-circle"></i> Attribute</label>
+        <input type="text" id="node-input-attribute" placeholder="Attribute">
+    </div>
+    <div class="form-row">
+        <label for="node-input-value"><i class="fa fa-info-circle"></i> Value</label>
+        <input type="text" id="node-input-value" placeholder="Value">
+    </div>
+</script>
