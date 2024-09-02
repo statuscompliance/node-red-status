@@ -1,0 +1,102 @@
+<script type="text/javascript">
+    RED.nodes.registerType('last-timestamp', {
+        category: 'extraction',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            activity: { value: "" },
+            position: { value: "" },
+            params: { value:
+                {
+                    activity: "string",
+                    position: "number"
+                }
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-clock-o', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'last-timestamp';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="last-timestamp">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-activity">Activity</label>
+        <input type="text" id="node-input-activity" placeholder="Activity">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position">Position</label>
+        <input type="number" id="node-input-position" placeholder="1">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="last-timestamp">
+    <p>Finds the latest timestamp for a specified activity within a trace event.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>activity
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The name of the activity to search for within the trace events.</dd>
+        <dt>position
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The position property indicating where to place the result in the output message.</dd>
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>The input payload containing the trace data with events to be searched for the specified activity and timestamps.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Standard output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">number|null</span></dt>
+                <dd>Outputs the latest timestamp in milliseconds for the specified activity if found; otherwise, outputs <code>null</code>.</dd>
+                <dt>position <span class="property-type">string</span></dt>
+                <dd>Indicates the position information passed through from the input.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "last-timestamp" node scans through a series of events within the input payload to find the most recent occurrence of a specified activity. It retrieves the latest timestamp associated with the specified activity, converts it to milliseconds, and outputs this value.
+    </p>
+    <p>
+        If the specified activity is found in one or more events, the node outputs the timestamp of the most recent occurrence. If the activity is not found or if there are no valid timestamps, the output is <code>null</code>.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>{ event: [ { string: [{ $: { key: "concept:name", value: "Task1" }}], date: [{ $: { key: "time:timestamp", value: "2024-09-01T12:00:00Z" }}] }, { string: [{ $: { key: "concept:name", value: "Task2" }}], date: [{ $: { key: "time:timestamp", value: "2024-09-01T15:00:00Z" }}] }] }</code>, activity: "Task1"</li>
+        <li><strong>Output:</strong> The node will output <code>1693579200000</code> (the timestamp in milliseconds corresponding to "2024-09-01T12:00:00Z") if "Task1" is found.</li>
+    </ul>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>{ event: [ { string: [{ $: { key: "concept:name", value: "TaskA" }}], date: [{ $: { key: "time:timestamp", value: "2024-08-25T09:30:00Z" }}] }, { string: [{ $: { key: "concept:name", value: "TaskA" }}], date: [{ $: { key: "time:timestamp", value: "2024-08-25T11:45:00Z" }}] }] }</code>, activity: "TaskA"</li>
+        <li><strong>Output:</strong> The node will output <code>1692954300000</code> (the timestamp in milliseconds corresponding to "2024-08-25T11:45:00Z") as it is the latest occurrence of "TaskA".</li>
+    </ul>
+    <p>
+        These examples demonstrate how the node can be used to analyze event sequences and extract the latest occurrence of an activity for further processing or decision-making in Node-RED flows.
+    </p>
+</script>

@@ -1,0 +1,102 @@
+<script type="text/javascript">
+    RED.nodes.registerType('find-object', {
+        category: 'extraction',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            key: { value: "" },
+            keyValue: { value: "" },
+            params: { 
+                value: {
+                    key: 'string',
+                    keyValue: 'string',
+                },
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-search', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'find-object';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cucheck-propertyo se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cucheck-propertyo se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cucheck-propertyo se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="find-object">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-key"><i class="fa fa-key"></i> Key</label>
+        <input type="text" id="node-input-key" placeholder="Key">
+    </div>
+    <div class="form-row">
+        <label for="node-input-keyValue"><i class="fa fa-font"></i> Value</label>
+        <input type="text" id="node-input-keyValue" placeholder="Value">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="find-object">
+    <p>Finds an object within an array that matches a specific key-value pair.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>key
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The key to search for within the objects of the array.</dd>
+        <dt>keyValue
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The value that the key should match within the objects of the array.</dd>
+        <dt>payload
+            <span class="property-type">array</span>
+        </dt>
+        <dd>The array of objects in which to search for the matching key-value pair.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Standard output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">object|null</span></dt>
+                <dd>Outputs the first object that matches the specified key-value pair. If no match is found, outputs <code>null</code>.</dd>
+                <dt>array <span class="property-type">array</span></dt>
+                <dd>The original array of objects passed in the input payload.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "find-object" node searches through an array of objects for the first object that contains a specific key-value pair. The search key and value can be configured in the node settings or passed dynamically through the input message.
+    </p>
+    <p>
+        If the specified key-value pair is found within one of the objects in the array, the node outputs that object; otherwise, it outputs <code>null</code>. The original array is also included in the output as a separate message property.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>[{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]</code>, key: "name", keyValue: "Bob"</li>
+        <li><strong>Output:</strong> The node will output the object <code>{ id: 2, name: "Bob" }</code> if "name" matches "Bob".</li>
+    </ul>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>[{ id: 1, status: "active" }, { id: 2, status: "inactive" }]</code>, key: "status", keyValue: "active"</li>
+        <li><strong>Output:</strong> The node will output the object <code>{ id: 1, status: "active" }</code> if "status" matches "active".</li>
+    </ul>
+    <p>
+        These examples demonstrate how to use the node to find objects within an array that match a specific condition, which can be useful in various scenarios, such as filtering data or looking up specific information.
+    </p>
+</script>

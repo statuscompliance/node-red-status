@@ -1,0 +1,103 @@
+<script type="text/javascript">
+    RED.nodes.registerType('if-else', {
+        category: 'logic',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+        },
+        inputs: 1,
+        outputs: 2,
+        icon: "switch.svg",
+        label: function() {
+            return this.name || "if-else";
+        },
+        oneditprepare: function() {
+            // Configuración adicional si es necesario
+        }
+    });
+</script>
+
+
+<script type="text/x-red" data-template-name="if-else">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="if-else">
+    <p>
+        The "If Else" node routes messages based on the boolean value of <code>msg.payload</code>. If <code>msg.payload</code> is <code>true</code>, the message is sent out of the first output. If <code>msg.payload</code> is <code>false</code>, the message is sent out of the second output. If <code>msg.payload</code> is neither <code>true</code> nor <code>false</code>, an error is logged.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            The boolean value used for routing. The node expects <code>true</code> or <code>false</code> to determine which output to use.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Output 1
+            <dl class="message-properties">
+                <dt>msg.payload
+                    <span class="property-type">boolean</span>
+                </dt>
+                <dd>
+                    Sent if <code>msg.payload</code> is <code>true</code>. The node forwards the input message without modification.
+                </dd>
+            </dl>
+        </li>
+        <li>Output 2
+            <dl class="message-properties">
+                <dt>msg.payload
+                    <span class="property-type">boolean</span>
+                </dt>
+                <dd>
+                    Sent if <code>msg.payload</code> is <code>false</code>. The node forwards the input message without modification.
+                </dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "If Else" node functions as a conditional switch:
+        <ul>
+            <li>If <code>msg.payload</code> is <code>true</code>, the message is routed to the first output.</li>
+            <li>If <code>msg.payload</code> is <code>false</code>, the message is routed to the second output.</li>
+            <li>If <code>msg.payload</code> is not a boolean value, the node logs an error.</li>
+        </ul>
+        <p>
+            The node helps in decision-making within Node-RED flows by routing messages based on simple boolean conditions.
+        </p>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong> Routing based on boolean value
+            <ul>
+                <li>Input message: <code>msg.payload = true;</code></li>
+                <li>Output: Message is sent to the first output.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong> Handling false value
+            <ul>
+                <li>Input message: <code>msg.payload = false;</code></li>
+                <li>Output: Message is sent to the second output.</li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong> Error handling
+            <ul>
+                <li>Input message: <code>msg.payload = "string";</code></li>
+                <li>Output: Error is logged, and the message is not sent to either output.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is ideal for creating conditional logic in your Node-RED flows based on boolean values.
+    </p>
+</script>

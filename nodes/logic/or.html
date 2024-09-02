@@ -1,0 +1,97 @@
+<script type="text/javascript">
+    RED.nodes.registerType('or', {
+        category: 'logic',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'or.svg', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'or';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="or">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="or">
+    <p>
+        The "Boolean OR" node performs a logical OR operation on two boolean values. It stores the latest two boolean values received, performs the OR operation, and sends the result.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            The boolean value to be included in the OR operation. The node expects two boolean values to perform the OR operation.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            The result of the OR operation. The output will be <code>true</code> if at least one of the inputs is <code>true</code>, otherwise <code>false</code>.
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Boolean OR" node operates as follows:
+        <ul>
+            <li>The node collects two boolean values from incoming messages.</li>
+            <li>Once both values are received, the node performs a logical OR operation.</li>
+            <li>The result of the OR operation is sent as the `payload` of the output message.</li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li>Input 1: <code>msg.payload = true</code></li>
+                <li>Input 2: <code>msg.payload = false</code></li>
+                <li>Output: Message is sent with <code>payload = true</code>, since at least one value is <code>true</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li>Input 1: <code>msg.payload = false</code></li>
+                <li>Input 2: <code>msg.payload = false</code></li>
+                <li>Output: Message is sent with <code>payload = false</code>, since both values are <code>false</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong>
+            <ul>
+                <li>Input 1: <code>msg.payload = true</code></li>
+                <li>Input 2: <code>msg.payload = true</code></li>
+                <li>Output: Message is sent with <code>payload = true</code>, since at least one value is <code>true</code>.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful in scenarios where you need to determine if at least one of two boolean values is true.
+    </p>
+</script>

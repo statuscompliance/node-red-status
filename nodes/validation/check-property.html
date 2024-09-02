@@ -1,0 +1,141 @@
+<script type="text/javascript">
+    RED.nodes.registerType('check-property', {
+        category: 'validation',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            propertyToCheck: { value: "" },
+            expectedValue: { value: "" },
+            params: { 
+                value: {
+                    propertyToCheck: 'string',
+                    expectedValue: 'string',
+                },
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-search', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'check-property';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cucheck-propertyo se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cucheck-propertyo se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cucheck-propertyo se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="check-property">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-propertyToCheck"><i class="fa fa-info"></i> Property</label>
+        <input type="text" id="node-input-propertyToCheck" placeholder="Property">
+    </div>
+    <div class="form-row">
+        <label for="node-input-expectedValue"><i class="fa fa-key"></i> Value</label>
+        <input type="text" id="node-input-expectedValue" placeholder="Value">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="check-property">
+    <p>
+        The "Check Property" node evaluates whether a specific property within the payload object matches an expected value. This node can be configured to check for a property in the main payload or within an indexed item of an array in the payload.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object or array</span>
+        </dt>
+        <dd>
+            <p>
+                The input payload should either be:
+                <ul>
+                    <li>An object where the property to be checked resides.</li>
+                    <li>An array of objects where you specify which item to check using the `msg.parts.index` property.</li>
+                </ul>
+            </p>
+        </dd>
+        <dt>propertyToCheck
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The name of the property to be checked within the payload object.
+        </dd>
+        <dt>expectedValue
+            <span class="property-type">any</span>
+        </dt>
+        <dd>
+            The value that the property should match. This can be of any data type (string, number, boolean, etc.).
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            A boolean indicating whether the property value matches the expected value. If the property does not exist or the payload is not structured as expected, the output will be `false`.
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Check Property" node operates as follows:
+        <ul>
+            <li>The node first attempts to find the property specified in `propertyToCheck` within the main payload object. If it finds the property, it compares its value with `expectedValue`.</li>
+            <li>If the property is found and its value matches `expectedValue`, the output payload will be `true`.</li>
+            <li>If the property value does not match or if the property is not found, the output payload will be `false`.</li>
+            <li>If the input is an array, the node will check the specified index from `msg.parts.index` to find the property within the array element.</li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li>Input payload: <code>{ "status": "active" }</code></li>
+                <li>Configuration: <code>propertyToCheck=status</code>, <code>expectedValue=active</code></li>
+                <li>Output payload: <code>true</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li>Input payload: <code>{ "status": "inactive" }</code></li>
+                <li>Configuration: <code>propertyToCheck=status</code>, <code>expectedValue=active</code></li>
+                <li>Output payload: <code>false</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong>
+            <ul>
+                <li>Input payload: <code>[ { "name": "Alice" }, { "name": "Bob" } ]</code></li>
+                <li>Additional input: <code>msg.parts.index=1</code></li>
+                <li>Configuration: <code>propertyToCheck=name</code>, <code>expectedValue=Bob</code></li>
+                <li>Output payload: <code>true</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 4:</strong>
+            <ul>
+                <li>Input payload: <code>[ { "name": "Alice" }, { "name": "Charlie" } ]</code></li>
+                <li>Additional input: <code>msg.parts.index=1</code></li>
+                <li>Configuration: <code>propertyToCheck=name</code>, <code>expectedValue=Bob</code></li>
+                <li>Output payload: <code>false</code></li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful when you need to verify the presence and value of specific properties within the payload data.
+    </p>
+</script>

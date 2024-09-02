@@ -1,0 +1,169 @@
+<script type="text/javascript">
+    RED.nodes.registerType('url-to-doc', {
+        category: 'integration',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: '' },
+            valueType: { value: "GithubUrl" },
+            user: { value: "" },
+            repo: { value: "" },
+            path: { value: "" },
+            docName: { value: "" },
+            url: { value: "" },
+            githubToken: { value: "" },
+            params: {
+                value: {
+                    valueType: 'ENUM("GithubUrl", "URL")',
+                    user: 'string',
+                    repo: 'string',
+                    path: 'string',
+                    docName: 'string',
+                    url: 'string',
+                    githubToken: 'string',
+                }
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'doc-url-logo.svg', // Puedes cambiar esto según tus preferencias
+        label: function () {
+            return this.name || 'url-to-doc';
+        },
+        oneditprepare: function () {
+            // Manejar la lógica cuando se abre el editor del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditsave: function () {
+            // Manejar la lógica cuando se guarda la configuración del nodo
+            // Puedes agregar lógica específica aquí
+        },
+        oneditcancel: function () {
+            // Manejar la lógica cuando se cancela la edición del nodo
+            // Puedes agregar lógica específica aquí
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="url-to-doc">
+    <div class="form-row">
+        <label for="node-input-valueType"><i class="fa fa-list"></i>Value Type</label>
+        <select id="node-input-valueType">
+            <option value="GithubUrl">GithubUrl</option>
+            <option value="URL">URL</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-user"><i class="fa fa-github"></i>User</label>
+        <input type="text" id="node-input-user" placeholder="User/Org">
+    </div>
+    <div class="form-row">
+        <label for="node-input-repo"><i class="fa fa-tag"></i>Repo</label>
+        <input type="text" id="node-input-repo" placeholder="Repo">
+    </div>
+    <div class="form-row">
+        <label for="node-input-path"><i class="fa fa-folder"></i>Path</label>
+        <input type="text" id="node-input-path" placeholder="example/path">
+    </div>
+    <div class="form-row">
+        <label for="node-input-docName"><i class="fa fa-tag"></i>DocName</label>
+        <input type="text" id="node-input-docName" placeholder="docName">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-link"></i>Url</label>
+        <input type="text" id="node-input-docName" placeholder="https://example/doc.pdf">
+    </div>
+    <div class="form-row">
+        <label for="node-input-githubToken"><i class="fa fa-key"></i>GitHub Token</label>
+        <input type="text" id="node-input-githubToken" placeholder="Token">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="url-to-doc">
+    <p>This node extracts text from documents (PDF or TXT) located via GitHub or a direct URL. It supports retrieving documents from a GitHub repository or directly from a URL.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>valueType
+            <span class="property-type">string</span>
+        </dt>
+        <dd>Specifies the type of URL to be processed. Possible values are "GithubUrl" or "URL".</dd>
+
+        <dt>user
+            <span class="property-type">string</span>
+        </dt>
+        <dd>GitHub username (required if <code>valueType</code> is "GithubUrl").</dd>
+
+        <dt>repo
+            <span class="property-type">string</span>
+        </dt>
+        <dd>GitHub repository name (required if <code>valueType</code> is "GithubUrl").</dd>
+
+        <dt>path
+            <span class="property-type">string</span>
+        </dt>
+        <dd>Path to the directory in the GitHub repository where the document is located (required if <code>valueType</code> is "GithubUrl").</dd>
+
+        <dt>docName
+            <span class="property-type">string</span>
+        </dt>
+        <dd>Name of the document (excluding file extension) to be fetched from GitHub (required if <code>valueType</code> is "GithubUrl").</dd>
+
+        <dt>githubToken
+            <span class="property-type">string</span>
+        </dt>
+        <dd>GitHub personal access token for authentication (required if <code>valueType</code> is "GithubUrl").</dd>
+
+        <dt>url
+            <span class="property-type">string</span>
+        </dt>
+        <dd>Direct URL to the document. This should be either a PDF or TXT file (required if <code>valueType</code> is "URL").</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Document Text
+            <dl class="message-properties">
+                <dt>payload
+                    <span class="property-type">string</span>
+                </dt>
+                <dd>
+                    The text extracted from the document. If an error occurs or the file type is unsupported, an error message will be provided.
+                </dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "url-to-doc" node processes documents based on the <code>valueType</code> specified:
+        <ul>
+            <li>If <code>valueType</code> is "GithubUrl", it fetches the document from a GitHub repository using the provided GitHub details.</li>
+            <li>If <code>valueType</code> is "URL", it fetches the document from a direct URL, supporting both PDF and TXT file types.</li>
+        </ul>
+        For PDF files, it extracts text content using the <code>pdf-parse</code> library. For TXT files, it simply retrieves the text content.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong> Extracting text from a PDF hosted on GitHub
+            <ul>
+                <li><code>msg.req.body = { valueType: 'GithubUrl', user: 'yourGitHubUser', repo: 'yourRepo', path: 'path/to/docs', docName: 'yourDocumentName', githubToken: 'yourToken' }</code></li>
+                <li>The node will fetch the PDF document from the specified GitHub repository and extract its text content.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong> Extracting text from a direct PDF URL
+            <ul>
+                <li><code>msg.req.body = { valueType: 'URL', url: 'https://example.com/yourDocument.pdf' }</code></li>
+                <li>The node will fetch the PDF document from the direct URL and extract its text content.</li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong> Handling TXT files
+            <ul>
+                <li><code>msg.req.body = { valueType: 'URL', url: 'https://example.com/yourDocument.txt' }</code></li>
+                <li>The node will fetch the TXT document from the direct URL and return its content directly.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for integrating document content extraction into your Node-RED flows, allowing you to process and utilize text from documents stored on GitHub or accessed via direct URLs.
+    </p>
+</script>

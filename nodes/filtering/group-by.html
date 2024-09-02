@@ -1,0 +1,80 @@
+<script type="text/javascript">
+    RED.nodes.registerType('group-by', {
+        category: 'filtering',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: '' },
+            property: { value: '' },
+            params: { value: {
+                property: 'string',
+            } }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-object-group',
+        label: function() {
+            return this.name || 'group-by';
+        },
+        oneditprepare: function () {
+        },
+        oneditsave: function () {
+        },
+        oneditcancel: function () {
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="group-by">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-property"><i class="fa fa-tag"></i> Property</label>
+        <input type="text" id="node-input-property" placeholder="Property to group by">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="group-by">
+    <p>Groups incoming messages by a specified property and outputs the grouped results.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>property
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The name of the property in the payload by which the messages will be grouped.</dd>
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>The input payload containing the attribute to be used for grouping.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Grouped output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">object</span></dt>
+                <dd>Outputs an object where each key represents a unique value of the specified property, and the corresponding value is an array of messages that have that property value.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "group-by" node groups incoming messages based on the value of a specified property. All messages with the same value for the property will be grouped together in an array under that property value in the output payload.
+    </p>
+    <p>
+        For example, if the specified property is "category" and the incoming messages have different categories, the output will be an object where each key is a category and each value is an array of messages with that category.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> payload: { category: "A", data: "value1" }, property: "category"</li>
+        <li><strong>Input:</strong> payload: { category: "B", data: "value2" }, property: "category"</li>
+        <li><strong>Input:</strong> payload: { category: "A", data: "value3" }, property: "category"</li>
+        <li><strong>Output:</strong> The node will output <code>{ "A": [{ category: "A", data: "value1" }, { category: "A", data: "value3" }], "B": [{ category: "B", data: "value2" }] }</code></li>
+    </ul>
+    <p>
+        In this example, the messages are grouped by their "category" property, resulting in an object where each key ("A" and "B") contains an array of messages corresponding to that category.
+    </p>
+</script>
