@@ -49,3 +49,63 @@
         <input type="text" id="node-input-token" placeholder="Token">
     </div>
 </script>
+<script type="text/x-red" data-help-name="trello-collector">
+    <p>This node fetches actions from a Trello board using the Trello API and extracts attachment URLs from the actions.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>boardId
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The ID of the Trello board from which to fetch actions. This can be provided in the message payload or as a configuration parameter.</dd>
+
+        <dt>key
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The API key for accessing the Trello API. This can be provided in the message payload or as a configuration parameter.</dd>
+
+        <dt>token
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The Trello token for authentication. This can be provided in the message payload or as a configuration parameter.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>URL
+            <dl class="message-properties">
+                <dt>payload
+                    <span class="property-type">string</span>
+                </dt>
+                <dd>
+                    The URLs of GitHub repositories extracted from Trello attachments. If no URLs are found, an empty payload will be sent.
+                </dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "trello-collector" node interacts with the Trello API to fetch actions from a specified board. It filters the actions to find attachment URLs and extracts those URLs. The URLs are then sent out as separate messages.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong> Fetching GitHub URLs from Trello board
+            <ul>
+                <li><code>msg.req.body = { boardId: 'yourBoardId', key: 'yourApiKey', token: 'yourTrelloToken' }</code></li>
+                <li>The node will fetch actions from the specified Trello board and send out each GitHub URL found in the attachments as individual messages.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong> Handling empty results
+            <ul>
+                <li><code>msg.req.body = { boardId: 'anotherBoardId', key: 'yourApiKey', token: 'yourTrelloToken' }</code></li>
+                <li>If no GitHub URLs are found in the attachments, the node will send an empty payload and log an error message indicating no URLs were found.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for integrating Trello with GitHub by extracting relevant GitHub URLs from Trello board actions.
+    </p>
+</script>
+

@@ -55,3 +55,57 @@
         <input type="date" id="node-input-endDate">
     </div>
 </script>
+<script type="text/x-red" data-help-name="filter-by-date">
+    <p>Filters objects by a specified date range based on a date attribute.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>attribute
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The name of the date attribute in the objects to be filtered.</dd>
+        <dt>startDate
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The start date for the filtering range. Objects with a date before this will be excluded.</dd>
+        <dt>endDate
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The end date for the filtering range. Objects with a date after this will be excluded.</dd>
+        <dt>payload
+            <span class="property-type">array|object</span>
+        </dt>
+        <dd>An array of objects or a single object containing the attribute to be filtered by the specified date range.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Filtered output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">object</span></dt>
+                <dd>Outputs objects that have the specified date attribute within the given date range. If no objects match, nothing is sent.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "filter-by-date" node filters objects in the input payload based on a date range specified by the <code>startDate</code> and <code>endDate</code>. The node checks the attribute specified in the <code>attribute</code> field of each object. If the date value of that attribute falls within the specified range, the object is output; otherwise, it is excluded.
+    </p>
+    <p>
+        This node is useful for scenarios where you need to filter data records based on a specific date field, such as filtering transactions, events, or logs that occurred within a particular timeframe.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>[ { date: "2024-09-01T10:00:00Z", name: "Event1" }, { date: "2024-09-02T10:00:00Z", name: "Event2" } ], attribute: "date", startDate: "2024-09-01T00:00:00Z", endDate: "2024-09-01T23:59:59Z"</code></li>
+        <li><strong>Output:</strong> The node will output the object <code>{ date: "2024-09-01T10:00:00Z", name: "Event1" }</code> as it falls within the specified date range.</li>
+    </ul>
+    <ul>
+        <li><strong>Input:</strong> payload: { date: "2024-08-25T09:30:00Z", name: "TaskA" }, attribute: "date", startDate: "2024-08-20T00:00:00Z", endDate: "2024-08-30T23:59:59Z"</li>
+        <li><strong>Output:</strong> The node will output the object <code>{ date: "2024-08-25T09:30:00Z", name: "TaskA" }</code> since the date is within the specified range.</li>
+    </ul>
+    <p>
+        These examples illustrate how the node can be used to filter objects by their date attributes, ensuring only relevant data is passed to subsequent nodes in your Node-RED flow.
+    </p>
+</script>

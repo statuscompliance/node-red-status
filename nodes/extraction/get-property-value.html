@@ -42,3 +42,49 @@
         <input type="text" id="node-input-propertyToGet" placeholder="Property">
     </div>
 </script>
+<script type="text/x-red" data-help-name="get-property-value">
+    <p>Extracts a specific property's value from an object in the payload.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>propertyToGet
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The name of the property whose value needs to be extracted from the object.</dd>
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>The input payload containing the object from which the property value will be retrieved.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Standard output
+            <dl class="message-properties">
+                <dt>value <span class="property-type">any</span></dt>
+                <dd>Outputs the value of the specified property from the input object. If the property is not found, outputs <code>null</code>.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "get-property-value" node retrieves the value of a specified property from an object provided in the input payload. This node can dynamically extract values based on a property name specified either in the node's configuration or dynamically in the incoming message.
+    </p>
+    <p>
+        If the specified property is found within the input object, the node outputs its value. If the property is not found or the input is not valid, the output will be <code>null</code>.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>{ id: 1, name: "Alice", age: 30 }</code>, propertyToGet: "name"</li>
+        <li><strong>Output:</strong> The node will output the value <code>"Alice"</code> if "name" is found as a property in the input object.</li>
+    </ul>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>{ product: "Laptop", price: 1200 }</code>, propertyToGet: "price"</li>
+        <li><strong>Output:</strong> The node will output the value <code>1200</code> if "price" is found as a property in the input object.</li>
+    </ul>
+    <p>
+        These examples demonstrate how the node can be used to retrieve specific properties from various objects, which can be useful for data processing, filtering, and conditional logic in Node-RED flows.
+    </p>
+</script>

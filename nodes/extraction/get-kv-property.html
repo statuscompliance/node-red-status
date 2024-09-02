@@ -54,3 +54,57 @@
         <label for="node-input-response"><i class="fa fa-key"></i> Response</label>
         <input type="text" id="node-input-response" placeholder="example">
 </script>
+<script type="text/x-red" data-help-name="get-kv-property">
+    <p>Retrieves a specific key-value property from a nested object within the payload.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>keyToSearch
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The key to search for within the nested object structure.</dd>
+        <dt>payloadProperty
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The property of the input payload that contains the object to be searched.</dd>
+        <dt>response
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The property name in the output payload where the found value will be stored.</dd>
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>The input payload containing the nested object to be searched.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Standard output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">object</span></dt>
+                <dd>Outputs the original payload with an added property that contains the value found for the specified key.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "get-kv-property" node searches for a specified key-value pair within a nested object structure contained in the input payload. It searches recursively through all nested objects and arrays until it finds a match for the specified key.
+    </p>
+    <p>
+        If the key is found, its corresponding value is stored in a new property within the output payload, as specified by the <code>response</code> configuration. If the key is not found or the input is not valid, an error message is returned.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>{ data: { event: { $: { key: "concept:name", value: "TaskA" } } } }</code>, keyToSearch: "concept:name", payloadProperty: "data", response: "result"</li>
+        <li><strong>Output:</strong> The node will output the object with the added property <code>result: "TaskA"</code> if "concept:name" is found.</li>
+    </ul>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>{ data: [{ $: { key: "type", value: "Error" } }, { $: { key: "level", value: "High" } }] }</code>, keyToSearch: "level", payloadProperty: "data", response: "foundLevel"</li>
+        <li><strong>Output:</strong> The node will output the object with the added property <code>foundLevel: "High"</code> if "level" is found.</li>
+    </ul>
+    <p>
+        These examples illustrate how the node can be used to dynamically retrieve specific information from deeply nested data structures, which is useful for data parsing, logging, and conditional processing.
+    </p>
+</script>

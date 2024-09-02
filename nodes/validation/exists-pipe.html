@@ -43,3 +43,80 @@
         <input type="number" id="node-input-count" placeholder="Count">
     </div>
 </script>
+<script type="text/x-red" data-help-name="exists-pipe">
+    <p>
+        The "Exists Pipe" node checks if the number of keys in the payload object matches a specified count. This is useful for verifying that a certain number of items or properties are present in the payload.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            The input payload should be an object. The node will check the number of keys in this object.
+        </dd>
+        <dt>count
+            <span class="property-type">number</span>
+        </dt>
+        <dd>
+            The expected number of keys in the payload object. This can be provided either through the node's configuration or as part of the incoming message's body.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            The output payload will be an object with a `result` property. This `result` will be `true` if the number of keys in the input object matches the specified count, and `false` otherwise.
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Exists Pipe" node operates as follows:
+        <ul>
+            <li>The node retrieves the `count` value from the incoming message's body or from its configuration.</li>
+            <li>The node then checks the number of keys in the input payload object.</li>
+            <li>It compares this number to the expected count.</li>
+            <li>The output payload will contain a `result` property that is `true` if the number of keys matches the count, and `false` if it does not.</li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li>Input payload: <code>{ "a": 1, "b": 2, "c": 3 }</code></li>
+                <li>Configuration: <code>count=3</code></li>
+                <li>Output payload: <code>{ "result": true }</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li>Input payload: <code>{ "x": 10, "y": 20 }</code></li>
+                <li>Configuration: <code>count=3</code></li>
+                <li>Output payload: <code>{ "result": false }</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong>
+            <ul>
+                <li>Input payload: <code>{ "name": "Alice", "age": 30 }</code></li>
+                <li>Additional input: <code>msg.req.body.count=2</code></li>
+                <li>Output payload: <code>{ "result": true }</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 4:</strong>
+            <ul>
+                <li>Input payload: <code>{ "name": "Bob" }</code></li>
+                <li>Additional input: <code>msg.req.body.count=1</code></li>
+                <li>Output payload: <code>{ "result": true }</code></li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is particularly useful for ensuring that your payload contains a specific number of properties before further processing.
+    </p>
+</script>

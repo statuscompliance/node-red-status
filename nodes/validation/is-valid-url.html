@@ -43,3 +43,80 @@
         <input type="text" id="node-input-property" placeholder="Property">
     </div>
 </script>
+<script type="text/x-red" data-help-name="is-valid-url">
+    <p>
+        The "Is Valid URL" node checks if a given property in the input message payload is a valid URL. It uses a regular expression to validate the URL format.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            The payload should contain the property that needs to be checked. The property name can be specified via the node configuration or in the incoming message's body under <code>req.body.property</code>.
+        </dd>
+        <dt>property
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The name of the property in the payload to be checked. This can be set via the node's configuration or provided in the incoming message's body.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            The output payload will contain a <code>result</code> property:
+            <ul>
+                <li><code>{ "result": true }</code> if the specified property contains a valid URL.</li>
+                <li><code>{ "result": false }</code> if the specified property does not contain a valid URL.</li>
+            </ul>
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The node uses a regular expression to validate if the value of the specified property in the payload is a properly formatted URL. The regular expression checks for:
+        <ul>
+            <li>Optional <code>http://</code> or <code>https://</code> scheme.</li>
+            <li>Valid domain names or IP addresses.</li>
+            <li>Optional port number.</li>
+            <li>Optional path, query string, and fragment.</li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li><code>property: "website"</code></li>
+                <li>Given the following payload:</li>
+                <pre><code>
+{
+    "website": "https://www.example.com"
+}
+                </code></pre>
+                <li>And <code>property</code> set to <code>"website"</code>, the node will output <code>{ "result": true }</code> as the URL is valid.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li><code>property: "url"</code></li>
+                <li>Given the following payload:</li>
+                <pre><code>
+{
+    "url": "htp://invalid-url"
+}
+                </code></pre>
+                <li>And <code>property</code> set to <code>"url"</code>, the node will output <code>{ "result": false }</code> as the URL is not valid.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for validating URLs in your messages and ensuring that only properly formatted URLs are processed.
+    </p>
+</script>

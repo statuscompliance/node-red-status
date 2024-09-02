@@ -32,3 +32,73 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
 </script>
+<script type="text/x-red" data-help-name="lesser-than">
+    <p>
+        The "Lesser Than" node compares two numeric values to determine if the first value is less than the second value. The node collects values from incoming messages based on their positions and performs the comparison once both values are received.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">number</span>
+        </dt>
+        <dd>
+            The numeric value to be compared. The node expects two numeric values to perform the comparison.
+        </dd>
+        <dt>position
+            <span class="property-type">number</span>
+        </dt>
+        <dd>
+            The position of the value in the comparison. This determines the order of the values for comparison. The first value should have `position` set to 1, and the second value should have `position` set to 2.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            The result of the comparison. The output will be <code>true</code> if the first value is less than the second value, otherwise <code>false</code>.
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Lesser Than" node operates as follows:
+        <ul>
+            <li>The node collects two numeric values from incoming messages, using the `position` property to determine which value comes first.</li>
+            <li>Once both values are received, the node compares them to check if the first value is less than the second value.</li>
+            <li>If both values are not numeric, the result will be <code>false</code>.</li>
+            <li>The result of the comparison is sent as the `payload` of the output message.</li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li>Input 1: <code>msg.payload = 5</code> with <code>msg.position = 1</code></li>
+                <li>Input 2: <code>msg.payload = 10</code> with <code>msg.position = 2</code></li>
+                <li>Output: Message is sent with <code>payload = true</code>, since <code>5 &lt; 10</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li>Input 1: <code>msg.payload = 20</code> with <code>msg.position = 1</code></li>
+                <li>Input 2: <code>msg.payload = 15</code> with <code>msg.position = 2</code></li>
+                <li>Output: Message is sent with <code>payload = false</code>, since <code>20 &lt; 15</code> is false.</li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong>
+            <ul>
+                <li>Input 1: <code>msg.payload = "string"</code> with <code>msg.position = 1</code></li>
+                <li>Input 2: <code>msg.payload = 5</code> with <code>msg.position = 2</code></li>
+                <li>Output: Message is sent with <code>payload = false</code>, since the first value is not a number.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for scenarios where you need to compare two numeric values and determine if one is less than the other, based on their order of arrival.
+    </p>
+</script>

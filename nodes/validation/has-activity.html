@@ -42,3 +42,103 @@
         <input type="text" id="node-input-conceptName" placeholder="Concept Name">
     </div>
 </script>
+<script type="text/x-red" data-help-name="has-activity">
+    <p>
+        The "Check Concept Name" node checks if a specific concept name exists within an event trace. It searches through the trace's event strings to find if any string matches the given concept name.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            The payload should include a <code>trace</code> object with the following structure:
+            <pre><code>
+{
+    "trace": {
+        "event": [
+            {
+                "string": [
+                    {
+                        "$": {
+                            "key": "concept:name",
+                            "value": "desired-concept-name"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
+            </code></pre>
+        </dd>
+        <dt>conceptName
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The concept name to search for within the trace's event strings. This can be set via the node's configuration or provided in the incoming message's body under <code>req.body.conceptName</code>.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            The output payload will contain a <code>result</code> property:
+            <ul>
+                <li><code>{ "result": true }</code> if the specified concept name is found in the trace.</li>
+                <li><code>{ "result": false }</code> if the specified concept name is not found in the trace.</li>
+            </ul>
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The node checks the <code>trace</code> object within the payload to find events with a string that has the key <code>"concept:name"</code> matching the provided <code>conceptName</code>. It performs the following steps:
+        <ul>
+            <li>Retrieves the <code>conceptName</code> from the node's configuration or the message body.</li>
+            <li>Iterates through the <code>trace.event</code> array to check each event's string elements.</li>
+            <li>Checks if any string element contains a key-value pair where the key is <code>"concept:name"</code> and the value matches the <code>conceptName</code>.</li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li><code>conceptName: "StartEvent"</code></li>
+                <li>The node will check if there is an event in the trace with a string element having <code>concept:name</code> equal to <code>"StartEvent"</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li>Given the following payload:</li>
+                <pre><code>
+{
+    "trace": {
+        "event": [
+            {
+                "string": [
+                    {
+                        "$": {
+                            "key": "concept:name",
+                            "value": "EndEvent"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
+                </code></pre>
+                <li>And <code>conceptName</code> set to <code>"EndEvent"</code>, the node will output <code>{ "result": true }</code> as the concept name is found in the trace.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for filtering or validating traces based on the presence of specific concept names in event logs.
+    </p>
+</script>

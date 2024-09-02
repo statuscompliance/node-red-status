@@ -42,3 +42,66 @@
         <input type="text" id="node-input-logUrl" placeholder="https://example/doc.pdf">
     </div>
 </script>
+<script type="text/x-red" data-help-name="log-getter">
+    <p>Fetches and parses log data from a specified URL. Supports JSON, XML, and GZIP compressed formats.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>logUrl
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The URL from which to fetch the log data. Can be specified in the node configuration or in the incoming message.</dd>
+        <dt>conceptName
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The concept name to be set in the global context. Can be specified in the node configuration or in the incoming message.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Log Data
+            <dl class="message-properties">
+                <dt>log <span class="property-type">object</span></dt>
+                <dd>The parsed log data from the URL. It can be JSON or XML, depending on the file type.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "log-getter" node fetches log data from a given URL. It supports various formats including JSON, XML, and GZIP compressed files. The node will try to detect and parse the format automatically:
+    </p>
+    <ul>
+        <li><strong>JSON:</strong> If the file extension is `.json`, the node will parse the content as JSON.</li>
+        <li><strong>GZIP:</strong> If the file is GZIP compressed, the node will decompress it and then parse the content.</li>
+        <li><strong>XML:</strong> If the file is in XML format, the node will parse it as XML.</li>
+    </ul>
+    <p>
+        The node sets the `conceptName` in the global context, which can be used by other nodes in the flow.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong> Fetch JSON log data
+            <ul>
+                <li><code>logUrl: "https://example.com/logs/logfile.json"</code></li>
+                <li><code>conceptName: "exampleConcept"</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong> Fetch XML log data
+            <ul>
+                <li><code>logUrl: "https://example.com/logs/logfile.xml"</code></li>
+                <li><code>conceptName: "exampleConcept"</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 3:</strong> Fetch and decompress GZIP log data
+            <ul>
+                <li><code>logUrl: "https://example.com/logs/logfile.gz"</code></li>
+                <li><code>conceptName: "exampleConcept"</code></li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        These examples demonstrate how to configure the node to handle different log formats. Ensure that the URL is accessible and returns the expected data format.
+    </p>
+</script>

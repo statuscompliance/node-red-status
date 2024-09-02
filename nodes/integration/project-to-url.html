@@ -50,3 +50,62 @@
         <input type="text" id="node-input-githubToken" placeholder="Trello Token">
     </div>
 </script>
+<script type="text/x-red" data-help-name="project-to-url">
+    <p>This node fetches Trello card attachments using the Trello API and extracts the URL of a GitHub repository if present.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>cardId
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The ID of the Trello card from which to fetch attachments. This can be provided in the message payload or as a configuration parameter.</dd>
+
+        <dt>apiKey
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The API key for accessing the Trello API. This can be provided in the message payload or as a configuration parameter.</dd>
+
+        <dt>trelloToken
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The Trello token for authentication. This can be provided in the message payload or as a configuration parameter.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>URL
+            <dl class="message-properties">
+                <dt>payload
+                    <span class="property-type">string</span>
+                </dt>
+                <dd>
+                    The URL of a GitHub repository if an attachment URL contains "github". If no such URL is found, an error message is sent instead.
+                </dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "project-to-url" node interacts with the Trello API to fetch attachments from a specified card. It checks the attachments for URLs containing "github" and extracts the first matching URL. If no GitHub URL is found, an error message is returned.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong> Fetching GitHub URL from Trello card
+            <ul>
+                <li><code>msg.req.body = { cardId: '12345', apiKey: 'yourApiKey', trelloToken: 'yourTrelloToken' }</code></li>
+                <li>The node will fetch attachments from the specified Trello card and return the GitHub URL if available.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong> Handling missing GitHub URL
+            <ul>
+                <li><code>msg.req.body = { cardId: '67890', apiKey: 'yourApiKey', trelloToken: 'yourTrelloToken' }</code></li>
+                <li>If no GitHub URL is found in the attachments, the node will return an error message indicating the absence of a GitHub URL.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for integrating Trello and GitHub by extracting relevant URLs from Trello card attachments.
+    </p>
+</script>

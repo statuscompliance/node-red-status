@@ -71,3 +71,109 @@
         <input type="text" id="node-input-githubToken" placeholder="Github Token">
     </div>
 </script>
+<script type="text/x-red" data-help-name="exists-url">
+    <p>
+        The "Exists URL" node checks the existence of a specific URL within Trello card attachments or directly verifies a URL provided in the payload. This node supports checking for GitHub repository URLs and validates their existence using the GitHub API.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The URL to be checked if <code>urlType</code> is set to <code>payload</code>. This should be a valid URL.
+        </dd>
+        <dt>urlType
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Determines the source of the URL to check. Options include:
+            <ul>
+                <li><code>body</code> or <code>config</code>: The node will check for URLs in Trello card attachments.</li>
+                <li><code>payload</code>: The node will directly check the validity of the URL provided in the payload.</li>
+            </ul>
+        </dd>
+        <dt>cardId
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Trello card ID. Required if <code>urlType</code> is <code>body</code> or <code>config</code>.
+        </dd>
+        <dt>apiKey
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Trello API key. Required if <code>urlType</code> is <code>body</code> or <code>config</code>.
+        </dd>
+        <dt>trelloToken
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Trello API token. Required if <code>urlType</code> is <code>body</code> or <code>config</code>.
+        </dd>
+        <dt>githubToken
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            GitHub personal access token. Required if <code>urlType</code> is <code>body</code> or <code>config</code> and a GitHub repository URL is found in Trello attachments.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            The output payload will contain a <code>result</code> property:
+            <ul>
+                <li><code>{ "result": true }</code> if the URL or GitHub repository exists.</li>
+                <li><code>{ "result": false }</code> if the URL or GitHub repository does not exist.</li>
+            </ul>
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Exists URL" node operates based on the <code>urlType</code> specified:
+        <ul>
+            <li><code>body</code> or <code>config</code>:
+                <ul>
+                    <li>The node retrieves attachments from the specified Trello card using the Trello API.</li>
+                    <li>It checks if any attachment URL points to a GitHub repository.</li>
+                    <li>If a GitHub URL is found, it validates the existence of the repository using the GitHub API.</li>
+                </ul>
+            </li>
+            <li><code>payload</code>:
+                <ul>
+                    <li>The node checks if the provided URL is accessible and returns <code>true</code> or <code>false</code> based on the response status.</li>
+                </ul>
+            </li>
+        </ul>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li><code>urlType: body</code></li>
+                <li><code>cardId: "your-trello-card-id"</code></li>
+                <li><code>apiKey: "your-trello-api-key"</code></li>
+                <li><code>trelloToken: "your-trello-token"</code></li>
+                <li><code>githubToken: "your-github-token"</code></li>
+                <li>Checks Trello card attachments for GitHub URLs and validates the GitHub repository.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li><code>urlType: payload</code></li>
+                <li><code>payload: "https://example.com"</code></li>
+                <li>Directly checks if the URL <code>"https://example.com"</code> is accessible.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is useful for validating the presence and accessibility of URLs, especially for integrating with Trello and GitHub in automation workflows.
+    </p>
+</script>

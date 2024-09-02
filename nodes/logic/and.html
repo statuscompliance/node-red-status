@@ -32,3 +32,80 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
 </script>
+<script type="text/x-red" data-help-name="and">
+    <p>This node performs a logical AND operation on two boolean values. It waits for two separate boolean payloads and then computes the AND result, sending it as output.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload.result
+            <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            The boolean value to be processed. The node expects two boolean inputs in sequence to perform the AND operation.
+        </dd>
+        
+        <dt>payload.index
+            <span class="property-type">number</span>
+        </dt>
+        <dd>
+            An optional index value that will be preserved in the output. This is useful if you need to track the order of messages.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Result
+            <dl class="message-properties">
+                <dt>payload.result
+                    <span class="property-type">boolean</span>
+                </dt>
+                <dd>
+                    The result of the logical AND operation. It will be `true` if both inputs were `true`, and `false` otherwise.
+                </dd>
+                
+                <dt>payload.index
+                    <span class="property-type">number</span>
+                </dt>
+                <dd>
+                    The index value from the input message, if present, is passed along with the result.
+                </dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "Boolean AND" node operates as follows:
+        <ul>
+            <li>It collects boolean values from the `payload.result` field of two separate input messages.</li>
+            <li>Once it has received two boolean values, it computes the logical AND of these values.</li>
+            <li>The result (`true` or `false`) is then sent as the payload in a new message.</li>
+            <li>The node also forwards any `payload.index` value from the input message along with the result.</li>
+        </ul>
+        <p>
+            Note that if the node receives more than two inputs, it will only consider the last two for the AND operation.
+        </p>
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong> Basic AND operation
+            <ul>
+                <li>First input: <code>msg.payload.result = true;</code></li>
+                <li>Second input: <code>msg.payload.result = false;</code></li>
+                <li>Output: <code>msg.payload.result = false;</code></li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong> Preserving index
+            <ul>
+                <li>First input: <code>msg.payload.result = true; msg.payload.index = 1;</code></li>
+                <li>Second input: <code>msg.payload.result = true; msg.payload.index = 2;</code></li>
+                <li>Output: <code>msg.payload.result = true; msg.payload.index = 2;</code></li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        This node is particularly useful in scenarios where you need to make decisions based on multiple boolean conditions in a sequence.
+    </p>
+</script>
+

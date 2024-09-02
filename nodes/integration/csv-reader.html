@@ -27,3 +27,62 @@
         <input type="text" id="node-input-path" placeholder="Path to CSV file">
     </div>
 </script>
+<script type="text/x-red" data-help-name="csv-reader">
+    <p>Reads and parses a CSV file, and outputs each line as a message with the headers as keys.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>path
+            <span class="property-type">string</span>
+        </dt>
+        <dd>The file path of the CSV file to be read. This can be specified in the node configuration or in the incoming message.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Parsed line output
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">object</span></dt>
+                <dd>Outputs an object where each key is a CSV header and each value is the corresponding cell data from the CSV file.</dd>
+            </dl>
+        </li>
+        <li>Completion message
+            <dl class="message-properties">
+                <dt>complete <span class="property-type">boolean</span></dt>
+                <dd>Indicates that the CSV file has been completely read and processed.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "csv-reader" node reads a CSV file line by line and parses each line into an object where the keys are the CSV headers and the values are the corresponding cell data. The headers are determined from the first line of the CSV file.
+    </p>
+    <p>
+        As each line is read, it is processed and sent as an individual message. Once all lines have been processed, a completion message is sent to indicate that the CSV file has been fully read.
+    </p>
+    <p>
+        The CSV file path can be provided either through the node's configuration or dynamically via the incoming message. The node handles typical CSV formatting, including values enclosed in double quotes.
+    </p>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Input:</strong> path: "/path/to/file.csv"</li>
+        <li><strong>Output:</strong> The node will output messages with each line from the CSV file parsed into an object. For example, if the CSV file contains:</li>
+        <pre>
+            name,age,city
+            Alice,30,New York
+            Bob,25,Los Angeles
+        </pre>
+        <li><strong>Output Messages:</strong>
+            <ul>
+                <li><code>{ "name": "Alice", "age": "30", "city": "New York" }</code></li>
+                <li><code>{ "name": "Bob", "age": "25", "city": "Los Angeles" }</code></li>
+            </ul>
+        </li>
+        <li><strong>Completion:</strong> After all lines have been processed, a message with <code>msg.complete = true</code> will be sent to indicate that the CSV file has been fully read.</li>
+    </ul>
+    <p>
+        This node is useful for processing CSV files where each row represents a separate record and headers define the data fields.
+    </p>
+</script>
