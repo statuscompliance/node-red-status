@@ -6,9 +6,18 @@ module.exports = function (RED) {
         var node = this;
 
         node.on("input", function (msg) {
-            var boardId = msg.req.body.boardId || config.boardId;
-            var key = msg.req.body.key || config.key;
-            var token = msg.req.body.token || config.token;
+            var key =
+                msg.req && msg.req.body && msg.req.body.key !== undefined
+                    ? msg.req.body.key
+                    : config.key;
+            var token =
+                msg.req && msg.req.body && msg.req.body.token !== undefined
+                    ? msg.req.body.token
+                    : config.token;
+            var boardId =
+                msg.req && msg.req.body && msg.req.body.boardId !== undefined
+                    ? msg.req.body.boardId
+                    : config.boardId;
 
             axios
                 .get(
@@ -29,24 +38,43 @@ module.exports = function (RED) {
 
         function processData(trelloResponses, msg) {
             try {
-                var githubRepoUrls = trelloResponses
-                    .filter(
+                var trelloCards = trelloResponses
+                    .filter((response) => response && response.data.card) // Filtra los elementos válidos
+                    .map((response) => response.data.card) // Mapea a las tarjetas
+                    .reduce((uniqueCards, card) => {
+                        // Usa reduce para filtrar tarjetas únicas basadas en su ID
+                        if (!uniqueCards.some((c) => c.id === card.id)) {
+                            uniqueCards.push(card);
+                        }
+                        return uniqueCards;
+                    }, []);
+
+                var githubRepoUrls = trelloCards.map((card) => {
+                    // Encuentra el attachment con la URL de GitHub para cada tarjeta
+                    var matchingResponse = trelloResponses.find(
                         (response) =>
                             response &&
                             response.data &&
+                            response.data.card &&
+                            response.data.card.id === card.id &&
                             response.data.attachment &&
                             response.data.attachment.url
-                    )
-                    .map((response) => response.data.attachment.url);
+                    );
 
-                msg.payload = githubRepoUrls;
+                    // Si se encuentra una URL, devuélvela; de lo contrario, "UNKNOWN"
+                    return matchingResponse
+                        ? matchingResponse.data.attachment.url
+                        : "UNKNOWN";
+                });
+
+                msg.githubRepoUrls = githubRepoUrls;
+                sendGithubUrls(msg);
             } catch (error) {
                 msg.payload =
                     "Error processing Trello response: " + error.message;
+                node.error(msg.payload);
+                node.send(msg);
             }
-
-            msg.githubRepoUrls = msg.payload;
-            sendGithubUrls(msg);
         }
 
         function sendGithubUrls(msg) {
@@ -54,7 +82,7 @@ module.exports = function (RED) {
 
             if (Array.isArray(input) && input.length > 0) {
                 input.forEach(function (url, index) {
-                    var newMsg = {};
+                    var newMsg = { ...msg };
                     newMsg.payload = url;
                     node.send(newMsg);
                 });

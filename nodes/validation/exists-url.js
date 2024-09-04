@@ -28,7 +28,12 @@ module.exports = function (RED) {
                 msg.req && msg.req.body && msg.req.body.eventAName !== undefined
                     ? msg.req.body.eventAName
                     : config.eventAName;
-            if (urlType === "body" || urlType === "config") {
+            if (
+                (urlType === "body" ||
+                    urlType === "config" ||
+                    urlType === "payload") &&
+                isUrl(msg.payload)
+            ) {
                 axios
                     .get(
                         `https://api.trello.com/1/cards/${cardId}/attachments?key=${apiKey}&token=${trelloToken}`
@@ -42,20 +47,6 @@ module.exports = function (RED) {
                         msg.payload =
                             ("Error fetching Trello attachments:", error);
                         node.send(msg);
-                    });
-            } else if (urlType === "payload" && isUrl(msg.payload)) {
-                axios
-                    .get(msg.payload)
-                    .then((response) => {
-                        if (response.status === 200) {
-                            msg.payload = { result: true };
-                        } else {
-                            msg.payload = { result: false };
-                        }
-                        node.send(msg);
-                    })
-                    .catch((error) => {
-                        node.error("Error fetching  payload url:", error);
                     });
             } else {
                 msg.payload = { result: false };
@@ -92,7 +83,7 @@ module.exports = function (RED) {
                     var repoName = match[2];
 
                     var headers = {};
-                    headers["Authorization"] = "Bearer " + githubToken;
+                    headers["Authorization"] = githubToken;
                     axios
                         .get(
                             `https://api.github.com/repos/${username}/${repoName}`,

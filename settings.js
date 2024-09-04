@@ -21,18 +21,17 @@
  **/
 
 module.exports = {
-
-/*******************************************************************************
- * Flow File and User Directory Settings
- *  - flowFile
- *  - credentialSecret
- *  - flowFilePretty
- *  - userDir
- *  - nodesDir
- ******************************************************************************/
+    /*******************************************************************************
+     * Flow File and User Directory Settings
+     *  - flowFile
+     *  - credentialSecret
+     *  - flowFilePretty
+     *  - userDir
+     *  - nodesDir
+     ******************************************************************************/
 
     /** The file containing the flows. If not set, defaults to flows_<hostname>.json **/
-    flowFile: 'flows.json',
+    flowFile: "flows.json",
 
     /** By default, credentials are encrypted in storage using a generated key. To
      * specify your own secret, set the following property.
@@ -60,26 +59,29 @@ module.exports = {
      */
     //nodesDir: '/home/nol/.node-red/nodes',
 
-/*******************************************************************************
- * Security
- *  - adminAuth
- *  - https
- *  - httpsRefreshInterval
- *  - requireHttps
- *  - httpNodeAuth
- *  - httpStaticAuth
- ******************************************************************************/
+    /*******************************************************************************
+     * Security
+     *  - adminAuth
+     *  - https
+     *  - httpsRefreshInterval
+     *  - requireHttps
+     *  - httpNodeAuth
+     *  - httpStaticAuth
+     ******************************************************************************/
 
     /** To password protect the Node-RED editor and admin API, the following
      * property can be used. See http://nodered.org/docs/security.html for details.
      */
     adminAuth: {
-       type: "credentials",
-       users: [{
-           username: "alvber",
-           password: "$2b$10$DgrjJMeuGA.HcQBnBqVj6e4t2OckWV66ritpJUCwh6rr/0enyExAO",
-           permissions: "*"
-       }]
+        type: "credentials",
+        users: [
+            {
+                username: "exampleBPM",
+                password:
+                    "$2a$10$sh3gWzOlHJk3tNvQaknkWeo/5gvaWOREAHrGKHHTyF3OmXmKBMQHq",
+                permissions: "*",
+            },
+        ],
     },
 
     /** The following property can be used to enable HTTPS
@@ -122,23 +124,26 @@ module.exports = {
      * The `pass` field is a bcrypt hash of the password.
      * See http://nodered.org/docs/security.html#generating-the-password-hash
      */
-    httpNodeAuth: {user:"alvber",pass:"$2b$10$DgrjJMeuGA.HcQBnBqVj6e4t2OckWV66ritpJUCwh6rr/0enyExAO"},
+    httpNodeAuth: {
+        user: "exampleBPM",
+        pass: "$2a$10$sh3gWzOlHJk3tNvQaknkWeo/5gvaWOREAHrGKHHTyF3OmXmKBMQHq",
+    },
     //httpStaticAuth: {user:"user",pass:"$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN."},
 
-/*******************************************************************************
- * Server Settings
- *  - uiPort
- *  - uiHost
- *  - apiMaxLength
- *  - httpServerOptions
- *  - httpAdminRoot
- *  - httpAdminMiddleware
- *  - httpNodeRoot
- *  - httpNodeCors
- *  - httpNodeMiddleware
- *  - httpStatic
- *  - httpStaticRoot
- ******************************************************************************/
+    /*******************************************************************************
+     * Server Settings
+     *  - uiPort
+     *  - uiHost
+     *  - apiMaxLength
+     *  - httpServerOptions
+     *  - httpAdminRoot
+     *  - httpAdminMiddleware
+     *  - httpNodeRoot
+     *  - httpNodeCors
+     *  - httpNodeMiddleware
+     *  - httpStatic
+     *  - httpStaticRoot
+     ******************************************************************************/
 
     /** the tcp port that the Node-RED web server is listening on */
     uiPort: process.env.PORT || 1880,
@@ -177,7 +182,6 @@ module.exports = {
     //    //res.set('X-Frame-Options', 'sameorigin');
     //    next();
     // },
-
 
     /** Some nodes, such as HTTP In, can be used to listen for incoming http requests.
      * By default, these are served relative to '/'. The following property
@@ -219,17 +223,17 @@ module.exports = {
     /** When httpAdminRoot is used to move the UI to a different root path, the
      * following property can be used to identify a directory of static content
      * that should be served at http://localhost:1880/.
-     * When httpStaticRoot is set differently to httpAdminRoot, there is no need 
+     * When httpStaticRoot is set differently to httpAdminRoot, there is no need
      * to move httpAdminRoot
      */
     //httpStatic: '/home/nol/node-red-static/', //single static source
     /* OR multiple static sources can be created using an array of objects... */
     //httpStatic: [
-    //    {path: '/home/nol/pics/',    root: "/img/"}, 
-    //    {path: '/home/nol/reports/', root: "/doc/"}, 
+    //    {path: '/home/nol/pics/',    root: "/img/"},
+    //    {path: '/home/nol/reports/', root: "/doc/"},
     //],
 
-    /**  
+    /**
      * All static routes will be appended to httpStaticRoot
      * e.g. if httpStatic = "/home/nol/docs" and  httpStaticRoot = "/static/"
      *      then "/home/nol/docs" will be served at "/static/"
@@ -239,16 +243,16 @@ module.exports = {
      */
     //httpStaticRoot: '/static/',
 
-/*******************************************************************************
- * Runtime Settings
- *  - lang
- *  - runtimeState
- *  - diagnostics
- *  - logging
- *  - contextStorage
- *  - exportGlobalContextKeys
- *  - externalModules
- ******************************************************************************/
+    /*******************************************************************************
+     * Runtime Settings
+     *  - lang
+     *  - runtimeState
+     *  - diagnostics
+     *  - logging
+     *  - contextStorage
+     *  - exportGlobalContextKeys
+     *  - externalModules
+     ******************************************************************************/
 
     /** Uncomment the following to run node-red in your preferred language.
      * Available languages include: en-US (default), ja, de, zh-CN, zh-TW, ru, ko
@@ -256,22 +260,22 @@ module.exports = {
      */
     // lang: "de",
 
-    /** Configure diagnostics options 
+    /** Configure diagnostics options
      * - enabled:  When `enabled` is `true` (or unset), diagnostics data will
-     *   be available at http://localhost:1880/diagnostics  
-     * - ui: When `ui` is `true` (or unset), the action `show-system-info` will 
-     *   be available to logged in users of node-red editor  
-    */
+     *   be available at http://localhost:1880/diagnostics
+     * - ui: When `ui` is `true` (or unset), the action `show-system-info` will
+     *   be available to logged in users of node-red editor
+     */
     diagnostics: {
         /** enable or disable diagnostics endpoint. Must be set to `false` to disable */
         enabled: true,
         /** enable or disable diagnostics display in the node-red editor. Must be set to `false` to disable */
         ui: true,
     },
-    /** Configure runtimeState options 
-     * - enabled:  When `enabled` is `true` flows runtime can be Started/Stoped 
-     *   by POSTing to available at http://localhost:1880/flows/state  
-     * - ui: When `ui` is `true`, the action `core:start-flows` and 
+    /** Configure runtimeState options
+     * - enabled:  When `enabled` is `true` flows runtime can be Started/Stoped
+     *   by POSTing to available at http://localhost:1880/flows/state
+     * - ui: When `ui` is `true`, the action `core:start-flows` and
      *   `core:stop-flows` will be available to logged in users of node-red editor
      *   Also, the deploy menu (when set to default) will show a stop or start button
      */
@@ -298,8 +302,8 @@ module.exports = {
             /** Whether or not to include metric events in the log output */
             metrics: false,
             /** Whether or not to include audit events in the log output */
-            audit: false
-        }
+            audit: false,
+        },
     },
 
     /** Context Storage
@@ -350,12 +354,11 @@ module.exports = {
         // }
     },
 
-
-/*******************************************************************************
- * Editor Settings
- *  - disableEditor
- *  - editorTheme
- ******************************************************************************/
+    /*******************************************************************************
+     * Editor Settings
+     *  - disableEditor
+     *  - editorTheme
+     ******************************************************************************/
 
     /** The following property can be used to disable the editor. The admin API
      * is not affected by this option. To disable both the editor and the admin
@@ -398,8 +401,8 @@ module.exports = {
                  * This can be overridden per-user from the 'Git config'
                  * section of 'User Settings' within the editor
                  */
-                mode: "manual"
-            }
+                mode: "manual",
+            },
         },
 
         codeEditor: {
@@ -421,30 +424,30 @@ module.exports = {
                 //fontSize: 14,
                 //fontFamily: "Cascadia Code, Fira Code, Consolas, 'Courier New', monospace",
                 //fontLigatures: true,
-            }
-        }
+            },
+        },
     },
 
-/*******************************************************************************
- * Node Settings
- *  - fileWorkingDirectory
- *  - functionGlobalContext
- *  - functionExternalModules
- *  - nodeMessageBufferMaxLength
- *  - ui (for use with Node-RED Dashboard)
- *  - debugUseColors
- *  - debugMaxLength
- *  - execMaxBufferSize
- *  - httpRequestTimeout
- *  - mqttReconnectTime
- *  - serialReconnectTime
- *  - socketReconnectTime
- *  - socketTimeout
- *  - tcpMsgQueueSize
- *  - inboundWebSocketTimeout
- *  - tlsConfigDisableLocalFiles
- *  - webSocketNodeVerifyClient
- ******************************************************************************/
+    /*******************************************************************************
+     * Node Settings
+     *  - fileWorkingDirectory
+     *  - functionGlobalContext
+     *  - functionExternalModules
+     *  - nodeMessageBufferMaxLength
+     *  - ui (for use with Node-RED Dashboard)
+     *  - debugUseColors
+     *  - debugMaxLength
+     *  - execMaxBufferSize
+     *  - httpRequestTimeout
+     *  - mqttReconnectTime
+     *  - serialReconnectTime
+     *  - socketReconnectTime
+     *  - socketTimeout
+     *  - tcpMsgQueueSize
+     *  - inboundWebSocketTimeout
+     *  - tlsConfigDisableLocalFiles
+     *  - webSocketNodeVerifyClient
+     ******************************************************************************/
 
     /** The working directory to handle relative file paths from within the File nodes
      * defaults to the working directory of the Node-RED process.
@@ -539,4 +542,4 @@ module.exports = {
     //    *   - reason: if result is false, the HTTP reason string to return
     //    */
     //},
-}
+};
