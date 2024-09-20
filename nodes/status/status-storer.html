@@ -1,0 +1,140 @@
+<script type="text/javascript">
+    RED.nodes.registerType('status-storer', {
+        category: 'status',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            backendUrl: { value: "" },
+            accessToken: { value: "" },
+            bufferSize: { value: "" },
+            flushInterval: { value: "" },
+            params: { value: {
+                backendUrl: "string",
+                accessToken: "string",
+                bufferSize: "number",
+                flushInterval: "number",
+            }},
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: 'font-awesome/fa-database', 
+        label: function () {
+            return this.name || 'status-storer';
+        },
+        oneditprepare: function () {
+        },
+        oneditsave: function () {
+        },
+        oneditcancel: function () {
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="status-storer">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-backendUrl">Backend URL</label>
+        <input type="text" id="node-input-backendUrl" placeholder="Backend URL">
+    </div>
+    <div class="form-row">
+        <label for="node-input-accessToken">Access Token</label>
+        <input type="text" id="node-input-accessToken" placeholder="Access Token">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bufferSize">Buffer Size</label>
+        <input type="number" id="node-input-bufferSize" placeholder="Buffer Size">
+    </div>
+    <div class="form-row">
+        <label for="node-input-flushInterval">Flush Interval</label>
+        <input type="number" id="node-input-flushInterval" placeholder="Flush Interval">
+    </div>
+</script>
+<script type="text/x-red" data-help-name="status-storer">
+    <p>
+        The "Status Storer" node collects and stores incoming messages in a buffer, then sends them in bulk to a backend API at regular intervals. This node is useful when you want to group multiple messages into a single request to reduce the number of requests to your backend.
+    </p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            Each incoming message's <code>payload</code> will be added to an internal buffer. Once the buffer is full or a certain interval has passed, the messages are sent to the configured backend.
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>N/A</dt>
+        <dd>
+            This node does not produce any output. It sends data directly to a backend API.
+        </dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The "Status Storer" node works as follows:
+        <ul>
+            <li>Each incoming message's <code>payload</code> is stored in a buffer.</li>
+            <li>Once the buffer reaches a certain size (specified by the <code>bufferSize</code> parameter), or after a defined interval (specified by the <code>flushInterval</code> parameter), the contents of the buffer are sent in a single POST request to the backend API.</li>
+            <li>The backend URL, access token, buffer size, and flush interval can be configured in the node settings, or overridden by values in the incoming message's request body.</li>
+        </ul>
+    </p>
+
+    <h3>Node Configuration</h3>
+    <dl class="message-properties">
+        <dt>backendUrl
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The URL of the backend API where the messages will be sent. Default: <code>http://localhost:3001/api/computations</code>.
+        </dd>
+
+        <dt>accessToken
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The access token for authorization in the backend API. Default: <code>secret</code>.
+        </dd>
+
+        <dt>bufferSize
+            <span class="property-type">integer</span>
+        </dt>
+        <dd>
+            The number of messages to collect before sending them in a bulk request. Default: <code>10</code>.
+        </dd>
+
+        <dt>flushInterval
+            <span class="property-type">integer</span>
+        </dt>
+        <dd>
+            The time interval (in milliseconds) after which the buffered messages are automatically sent to the backend, even if the buffer is not full. Default: <code>5000</code> ms.
+        </dd>
+    </dl>
+
+    <h3>Examples of Use:</h3>
+    <ul>
+        <li><strong>Example 1:</strong>
+            <ul>
+                <li>Input payloads: <code>{ "result": true }</code>, <code>{ "result": false }</code>, etc.</li>
+                <li>Configuration: <code>bufferSize=2</code>, <code>flushInterval=5000</code>.</li>
+                <li>Behavior: After receiving two messages, they will be sent as a bulk request to the backend.</li>
+            </ul>
+        </li>
+        <li><strong>Example 2:</strong>
+            <ul>
+                <li>Input payloads: Multiple messages with arbitrary content.</li>
+                <li>Configuration: <code>bufferSize=10</code>, <code>flushInterval=30000</code>.</li>
+                <li>Behavior: Messages are sent in batches of 10, or after 30 seconds if fewer than 10 messages have been received.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <p>
+        This node is ideal when you want to optimize the number of requests sent to a backend by batching data. It can help reduce network overhead and improve performance in cases where frequent individual requests are not efficient.
+    </p>
+</script>

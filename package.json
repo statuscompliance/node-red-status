@@ -1,6 +1,6 @@
 {
     "name": "@alvarobc2412/status",
-    "version": "1.3.2",
+    "version": "1.4.0",
     "description": "Collection of STATUS project components.",
     "license": "Apache-2.0",
     "keywords": [
@@ -59,7 +59,9 @@
             "chain-response": "nodes/control-flow/chain-response.js",
             "get-kv-property": "nodes/extraction/get-kv-property.js",
             "is-valid-url": "nodes/validation/is-valid-url.js",
-            "status-parser": "nodes/status/status-parser.js"
+            "status-parser": "nodes/status/status-parser.js",
+            "aux": "nodes/other/aux.js",
+            "status-storer": "nodes/status/status-storer.js"
         }
     },
     "dependencies": {
