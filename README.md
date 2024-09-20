@@ -1,7 +1,7 @@
 # <picture>
 
 <div align=center>
-  <h2 style="display: inline-block; vertical-align: center;"><img src ="https://www.stackhero.io/assets/src/images/servicesLogos/openGraphVersions/node-red.png?481ffe83" width="80px" alt="Node-RED Logo"></img></picture> STATUS - Flows </h2>
+  <img src ="https://avatars.githubusercontent.com/u/151918147?s=200&v=4" width="200px"  heigth="200px" alt="Node-RED Logo"></img></picture>
 </div>
   <h4 align="center">A node-red version focused on STATUS project flows</h4>
 
