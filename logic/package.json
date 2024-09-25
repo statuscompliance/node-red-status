@@ -1,0 +1,37 @@
+{
+    "name": "@alvarobc2412/logic",
+    "version": "1.0.0",
+    "description": "Collection of components of the STATUS project containing logical operators and similar functions.",
+    "license": "Apache-2.0",
+    "keywords": ["node-red", "status", "compliance"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/statuscompliance/node-red-status"
+    },
+    "author": {
+        "name": "Álvaro Bernal",
+        "url": "https://github.com/alvarobernal2412"
+    },
+    "contributors": [
+        {
+            "name": "Francisco Montero",
+            "url": "https://github.com/FJMonteroInformatica"
+        }
+    ],
+    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "node-red": {
+        "nodes": {
+            "and": "nodes/logic/and.js",
+            "lesser-than": "nodes/logic/lesser-than.js",
+            "implies": "nodes/logic/implies.js",
+            "or": "nodes/logic/or.js",
+            "if-else": "nodes/logic/if-else.js"
+        }
+    },
+    "dependencies": {
+        "axios": "^1.6.7",
+        "pdf-parse": "^1.1.1",
+        "xml2js": "^0.6.2",
+        "zlib": "^1.0.5"
+    }
+}

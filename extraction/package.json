@@ -1,0 +1,36 @@
+{
+    "name": "@alvarobc2412/extraction",
+    "version": "1.0.0",
+    "description": "Collection of STATUS project components that are responsible for extracting information from event traces and JSON objects.",
+    "license": "Apache-2.0",
+    "keywords": ["node-red", "status", "compliance"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/statuscompliance/node-red-status"
+    },
+    "author": {
+        "name": "Álvaro Bernal",
+        "url": "https://github.com/alvarobernal2412"
+    },
+    "contributors": [
+        {
+            "name": "Francisco Montero",
+            "url": "https://github.com/FJMonteroInformatica"
+        }
+    ],
+    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "node-red": {
+        "nodes": {
+            "last-timestamp": "nodes/extraction/last-timestamp.js",
+            "find-object": "nodes/extraction/find-object.js",
+            "get-property-value": "nodes/extraction/get-property-value.js",
+            "get-kv-property": "nodes/extraction/get-kv-property.js"
+        }
+    },
+    "dependencies": {
+        "axios": "^1.6.7",
+        "pdf-parse": "^1.1.1",
+        "xml2js": "^0.6.2",
+        "zlib": "^1.0.5"
+    }
+}
