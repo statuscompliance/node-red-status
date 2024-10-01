@@ -7,7 +7,7 @@
 
 ## Description
 
-The `@alvarobc2412/control-flow` package is a collection of Node-RED components specifically designed for the STATUS project, focusing on performing control-flow checks within workflows. This set of nodes helps ensure the correct sequencing and coexistence of events, enabling more robust compliance and control flow management.
+The `@statuscompliance/control-flow` package is a collection of Node-RED components specifically designed for the STATUS project, focusing on performing control-flow checks within workflows. This set of nodes helps ensure the correct sequencing and coexistence of events, enabling more robust compliance and control flow management.
 
 ## Features
 
@@ -21,7 +21,7 @@ The `@alvarobc2412/control-flow` package is a collection of Node-RED components 
 You can install the package directly via npm:
 
 ```bash
-npm install @alvarobc2412/control-flow
+npm install @statuscompliance/control-flow
 ```
 
 Or add it to your `package.json` and run `npm install`:
@@ -29,7 +29,7 @@ Or add it to your `package.json` and run `npm install`:
 ```json
 {
     "dependencies": {
-        "@alvarobc2412/control-flow": "^1.0.0"
+        "@statuscompliance/control-flow": "^1.0.0"
     }
 }
 ```

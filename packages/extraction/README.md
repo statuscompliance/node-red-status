@@ -7,7 +7,7 @@
 
 ## Description
 
-The `@alvarobc2412/extraction` package is a collection of Node-RED components specifically designed for the STATUS project, focusing on extracting information from event traces and JSON objects. These nodes facilitate the retrieval of specific properties and values, enabling more efficient data handling within workflows.
+The `@statuscompliance/extraction` package is a collection of Node-RED components specifically designed for the STATUS project, focusing on extracting information from event traces and JSON objects. These nodes facilitate the retrieval of specific properties and values, enabling more efficient data handling within workflows.
 
 ## Features
 
@@ -20,7 +20,7 @@ The `@alvarobc2412/extraction` package is a collection of Node-RED components sp
 You can install the package directly via npm:
 
 ```bash
-npm install @alvarobc2412/extraction
+npm install @statuscompliance/extraction
 ```
 
 Or add it to your `package.json` and run `npm install`:
@@ -28,7 +28,7 @@ Or add it to your `package.json` and run `npm install`:
 ```json
 {
     "dependencies": {
-        "@alvarobc2412/extraction": "^1.0.0"
+        "@statuscompliance/extraction": "^1.0.0"
     }
 }
 ```

@@ -7,7 +7,7 @@
 
 ## Description
 
-The `@alvarobc2412/integration` package provides a set of Node-RED components tailored for the STATUS project. These nodes are responsible for collecting and integrating data from various sources such as GitHub, Trello, and others, making it easier to consolidate and process data from different platforms.
+The `@statuscompliance/integration` package provides a set of Node-RED components tailored for the STATUS project. These nodes are responsible for collecting and integrating data from various sources such as GitHub, Trello, and others, making it easier to consolidate and process data from different platforms.
 
 ## Features
 
@@ -20,7 +20,7 @@ The `@alvarobc2412/integration` package provides a set of Node-RED components ta
 You can install the package directly via npm:
 
 ```bash
-npm install @alvarobc2412/integration
+npm install @statuscompliance/integration
 ```
 
 Or add it to your `package.json` and run `npm install`:
@@ -28,7 +28,7 @@ Or add it to your `package.json` and run `npm install`:
 ```json
 {
     "dependencies": {
-        "@alvarobc2412/integration": "^1.0.0"
+        "@statuscompliance/integration": "^1.0.0"
     }
 }
 ```

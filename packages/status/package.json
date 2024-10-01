@@ -1,7 +1,7 @@
 {
-    "name": "@alvarobc2412/control-flow",
+    "name": "@statuscompliance/status",
     "version": "1.0.0",
-    "description": "Collection of STATUS project components that are responsible for performing control-flow checks.",
+    "description": "Collection of STATUS project components useful for integrating node-red with the system.",
     "license": "Apache-2.0",
     "keywords": [
         "node-red",
@@ -30,10 +30,8 @@
     ],
     "node-red": {
         "nodes": {
-            "response": "nodes/response.js",
-            "coexistence": "nodes/coexistence.js",
-            "responded-existence": "nodes/responded-existence.js",
-            "chain-response": "nodes/chain-response.js"
+            "status-parser": "nodes/status-parser.js",
+            "status-storer": "nodes/status-storer.js"
         }
     },
     "dependencies": {

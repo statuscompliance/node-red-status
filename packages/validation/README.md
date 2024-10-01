@@ -7,7 +7,7 @@
 
 ## Description
 
-The `@alvarobc2412/validation` package provides essential components for the STATUS project, aimed at validating and checking compliance within Node-RED. It includes nodes that enable users to verify data, perform document checks, and ensure compliance with project-specific requirements.
+The `@statuscompliance/validation` package provides essential components for the STATUS project, aimed at validating and checking compliance within Node-RED. It includes nodes that enable users to verify data, perform document checks, and ensure compliance with project-specific requirements.
 
 ## Features
 
@@ -20,7 +20,7 @@ The `@alvarobc2412/validation` package provides essential components for the STA
 Install via npm:
 
 ```bash
-npm install @alvarobc2412/validation
+npm install @statuscompliance/validation
 ```
 
 Or add the dependency to your `package.json`:
@@ -28,7 +28,7 @@ Or add the dependency to your `package.json`:
 ```json
 {
     "dependencies": {
-        "@alvarobc2412/validation": "^1.0.0"
+        "@statuscompliance/validation": "^1.0.0"
     }
 }
 ```

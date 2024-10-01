@@ -1,9 +1,13 @@
 {
-    "name": "@alvarobc2412/filtering",
+    "name": "@statuscompliance/logic",
     "version": "1.0.0",
-    "description": "Collection of STATUS project components that are responsible for filtering JSON object information.",
+    "description": "Collection of components of the STATUS project containing logical operators and similar functions.",
     "license": "Apache-2.0",
-    "keywords": ["node-red", "status", "compliance"],
+    "keywords": [
+        "node-red",
+        "status",
+        "compliance"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/statuscompliance/node-red-status"
@@ -18,12 +22,19 @@
             "url": "https://github.com/FJMonteroInformatica"
         }
     ],
-    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "files": [
+        "nodes/*",
+        "README.md",
+        "LICENSE",
+        "flows.json"
+    ],
     "node-red": {
         "nodes": {
-            "filter-by-date": "nodes/filtering/filter-by-date.js",
-            "filter-by": "nodes/filtering/filter-by.js",
-            "group-by": "nodes/filtering/group-by.js"
+            "and": "nodes/and.js",
+            "lesser-than": "nodes/lesser-than.js",
+            "implies": "nodes/implies.js",
+            "or": "nodes/or.js",
+            "if-else": "nodes/if-else.js"
         }
     },
     "dependencies": {

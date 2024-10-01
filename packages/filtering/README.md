@@ -7,7 +7,7 @@
 
 ## Description
 
-The `@alvarobc2412/filtering` package is a collection of Node-RED components specifically designed for the STATUS project, focusing on filtering JSON object information. These nodes help to manage data flows by applying different filtering rules based on content, date ranges, or specific attributes.
+The `@statuscompliance/filtering` package is a collection of Node-RED components specifically designed for the STATUS project, focusing on filtering JSON object information. These nodes help to manage data flows by applying different filtering rules based on content, date ranges, or specific attributes.
 
 ## Features
 
@@ -20,7 +20,7 @@ The `@alvarobc2412/filtering` package is a collection of Node-RED components spe
 You can install the package directly via npm:
 
 ```bash
-npm install @alvarobc2412/filtering
+npm install @statuscompliance/filtering
 ```
 
 Or add it to your `package.json` and run `npm install`:
@@ -28,7 +28,7 @@ Or add it to your `package.json` and run `npm install`:
 ```json
 {
     "dependencies": {
-        "@alvarobc2412/filtering": "^1.0.0"
+        "@statuscompliance/filtering": "^1.0.0"
     }
 }
 ```

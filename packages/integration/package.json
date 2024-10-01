@@ -1,9 +1,13 @@
 {
-    "name": "@alvarobc2412/integration",
+    "name": "@statuscompliance/integration",
     "version": "1.0.0",
     "description": "Collection of STATUS project components that are responsible for collecting information from different data sources such as GitHub, trello and others.",
     "license": "Apache-2.0",
-    "keywords": ["node-red", "status", "compliance"],
+    "keywords": [
+        "node-red",
+        "status",
+        "compliance"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/statuscompliance/node-red-status"
@@ -18,16 +22,21 @@
             "url": "https://github.com/FJMonteroInformatica"
         }
     ],
-    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "files": [
+        "nodes/*",
+        "README.md",
+        "LICENSE",
+        "flows.json"
+    ],
     "node-red": {
         "nodes": {
-            "github-collector": "nodes/integration/github-collector.js",
-            "trello-collector": "nodes/integration/trello-collector.js",
-            "url-to-doc": "nodes/integration/url-to-doc.js",
-            "project-to-url": "nodes/integration/project-to-url.js",
-            "log-getter": "nodes/integration/log-getter.js",
-            "log-trace": "nodes/integration/log-trace.js",
-            "csv-reader": "nodes/integration/csv-reader.js"
+            "github-collector": "nodes/github-collector.js",
+            "trello-collector": "nodes/trello-collector.js",
+            "url-to-doc": "nodes/url-to-doc.js",
+            "project-to-url": "nodes/project-to-url.js",
+            "log-getter": "nodes/log-getter.js",
+            "log-trace": "nodes/log-trace.js",
+            "csv-reader": "nodes/csv-reader.js"
         }
     },
     "dependencies": {

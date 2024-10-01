@@ -7,7 +7,7 @@
 
 ## Description
 
-The `@alvarobc2412/logic` package offers a collection of logical operators and functions tailored for the STATUS project. These components allow for easy manipulation of boolean values, enabling logical operations such as AND, OR, and conditional checks within Node-RED flows.
+The `@statuscompliance/logic` package offers a collection of logical operators and functions tailored for the STATUS project. These components allow for easy manipulation of boolean values, enabling logical operations such as AND, OR, and conditional checks within Node-RED flows.
 
 ## Features
 
@@ -20,7 +20,7 @@ The `@alvarobc2412/logic` package offers a collection of logical operators and f
 To install the package via npm, run:
 
 ```bash
-npm install @alvarobc2412/logic
+npm install @statuscompliance/logic
 ```
 
 Alternatively, add the dependency to your `package.json`:
@@ -28,7 +28,7 @@ Alternatively, add the dependency to your `package.json`:
 ```json
 {
     "dependencies": {
-        "@alvarobc2412/logic": "^1.0.0"
+        "@statuscompliance/logic": "^1.0.0"
     }
 }
 ```

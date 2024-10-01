@@ -1,9 +1,13 @@
 {
-    "name": "@alvarobc2412/validation",
+    "name": "@statuscompliance/validation",
     "version": "1.0.0",
     "description": "Collection of STATUS project components used for compliance checks",
     "license": "Apache-2.0",
-    "keywords": ["node-red", "status", "compliance"],
+    "keywords": [
+        "node-red",
+        "status",
+        "compliance"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/statuscompliance/node-red-status"
@@ -18,15 +22,20 @@
             "url": "https://github.com/FJMonteroInformatica"
         }
     ],
-    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "files": [
+        "nodes/*",
+        "README.md",
+        "LICENSE",
+        "flows.json"
+    ],
     "node-red": {
         "nodes": {
-            "exists-pipe": "nodes/validation/exists-pipe.js",
-            "exists-url": "nodes/validation/exists-url.js",
-            "exists-section-in-doc": "nodes/validation/exists-section-in-doc.js",
-            "has-activity": "nodes/validation/has-activity.js",
-            "check-property": "nodes/validation/check-property.js",
-            "is-valid-url": "nodes/validation/is-valid-url.js"
+            "exists-pipe": "nodes/exists-pipe.js",
+            "exists-url": "nodes/exists-url.js",
+            "exists-section-in-doc": "nodes/exists-section-in-doc.js",
+            "has-activity": "nodes/has-activity.js",
+            "check-property": "nodes/check-property.js",
+            "is-valid-url": "nodes/is-valid-url.js"
         }
     },
     "dependencies": {

@@ -7,7 +7,7 @@
 
 ## Description
 
-The `@alvarobc2412/status` package provides essential components for integrating the STATUS project with Node-RED. It includes nodes that facilitate storing and parsing data, enabling seamless communication between Node-RED and system backends.
+The `@statuscompliance/status` package provides essential components for integrating the STATUS project with Node-RED. It includes nodes that facilitate storing and parsing data, enabling seamless communication between Node-RED and system backends.
 
 ## Features
 
@@ -20,7 +20,7 @@ The `@alvarobc2412/status` package provides essential components for integrating
 Install via npm:
 
 ```bash
-npm install @alvarobc2412/status
+npm install @statuscompliance/status
 ```
 
 Or add the dependency to your `package.json`:
@@ -28,7 +28,7 @@ Or add the dependency to your `package.json`:
 ```json
 {
     "dependencies": {
-        "@alvarobc2412/status": "^1.0.0"
+        "@statuscompliance/status": "^1.0.0"
     }
 }
 ```

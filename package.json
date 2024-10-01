@@ -1,7 +1,8 @@
 {
-    "name": "@alvarobc2412/status",
+    "name": "status-compliance",
     "version": "1.4.0",
-    "description": "Collection of STATUS project components.",
+    "private": true,
+    "description": "Collection of STATUS packages for Node-RED",
     "license": "Apache-2.0",
     "keywords": [
         "node-red",
@@ -28,43 +29,15 @@
         "LICENSE",
         "flows.json"
     ],
-    "node-red": {
-        "nodes": {
-            "github-collector": "nodes/integration/github-collector.js",
-            "trello-collector": "nodes/integration/trello-collector.js",
-            "url-to-doc": "nodes/integration/url-to-doc.js",
-            "exists-pipe": "nodes/validation/exists-pipe.js",
-            "exists-url": "nodes/validation/exists-url.js",
-            "filter-by-date": "nodes/filtering/filter-by-date.js",
-            "filter-by": "nodes/filtering/filter-by.js",
-            "project-to-url": "nodes/integration/project-to-url.js",
-            "exists-section-in-doc": "nodes/validation/exists-section-in-doc.js",
-            "log-getter": "nodes/integration/log-getter.js",
-            "log-trace": "nodes/integration/log-trace.js",
-            "last-timestamp": "nodes/extraction/last-timestamp.js",
-            "and": "nodes/logic/and.js",
-            "lesser-than": "nodes/logic/lesser-than.js",
-            "has-activity": "nodes/validation/has-activity.js",
-            "implies": "nodes/logic/implies.js",
-            "csv-reader": "nodes/integration/csv-reader.js",
-            "check-property": "nodes/validation/check-property.js",
-            "group-by": "nodes/filtering/group-by.js",
-            "find-object": "nodes/extraction/find-object.js",
-            "get-property-value": "nodes/extraction/get-property-value.js",
-            "or": "nodes/logic/or.js",
-            "if-else": "nodes/logic/if-else.js",
-            "response": "nodes/control-flow/response.js",
-            "coexistence": "nodes/control-flow/coexistence.js",
-            "responded-existence": "nodes/control-flow/responded-existence.js",
-            "chain-response": "nodes/control-flow/chain-response.js",
-            "get-kv-property": "nodes/extraction/get-kv-property.js",
-            "is-valid-url": "nodes/validation/is-valid-url.js",
-            "status-parser": "nodes/status/status-parser.js",
-            "aux": "nodes/other/aux.js",
-            "status-storer": "nodes/status/status-storer.js"
-        }
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "install": "npm install",
+        "build": "npm run build -ws",
+        "test": "npm run test -ws"
     },
-    "dependencies": {
+    "devDependencies": {
         "axios": "^1.6.7",
         "pdf-parse": "^1.1.1",
         "xml2js": "^0.6.2",

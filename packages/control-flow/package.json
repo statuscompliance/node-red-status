@@ -1,9 +1,13 @@
 {
-    "name": "@alvarobc2412/logic",
+    "name": "@statuscompliance/control-flow",
     "version": "1.0.0",
-    "description": "Collection of components of the STATUS project containing logical operators and similar functions.",
+    "description": "Collection of STATUS project components that are responsible for performing control-flow checks.",
     "license": "Apache-2.0",
-    "keywords": ["node-red", "status", "compliance"],
+    "keywords": [
+        "node-red",
+        "status",
+        "compliance"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/statuscompliance/node-red-status"
@@ -18,14 +22,18 @@
             "url": "https://github.com/FJMonteroInformatica"
         }
     ],
-    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "files": [
+        "nodes/*",
+        "README.md",
+        "LICENSE",
+        "flows.json"
+    ],
     "node-red": {
         "nodes": {
-            "and": "nodes/logic/and.js",
-            "lesser-than": "nodes/logic/lesser-than.js",
-            "implies": "nodes/logic/implies.js",
-            "or": "nodes/logic/or.js",
-            "if-else": "nodes/logic/if-else.js"
+            "response": "nodes/response.js",
+            "coexistence": "nodes/coexistence.js",
+            "responded-existence": "nodes/responded-existence.js",
+            "chain-response": "nodes/chain-response.js"
         }
     },
     "dependencies": {

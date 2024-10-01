@@ -1,9 +1,13 @@
 {
-    "name": "@alvarobc2412/status",
+    "name": "@statuscompliance/filtering",
     "version": "1.0.0",
-    "description": "Collection of STATUS project components useful for integrating node-red with the system.",
+    "description": "Collection of STATUS project components that are responsible for filtering JSON object information.",
     "license": "Apache-2.0",
-    "keywords": ["node-red", "status", "compliance"],
+    "keywords": [
+        "node-red",
+        "status",
+        "compliance"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/statuscompliance/node-red-status"
@@ -18,11 +22,17 @@
             "url": "https://github.com/FJMonteroInformatica"
         }
     ],
-    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "files": [
+        "nodes/*",
+        "README.md",
+        "LICENSE",
+        "flows.json"
+    ],
     "node-red": {
         "nodes": {
-            "status-parser": "nodes/status/status-parser.js",
-            "status-storer": "nodes/status/status-storer.js"
+            "filter-by-date": "nodes/filter-by-date.js",
+            "filter-by": "nodes/filter-by.js",
+            "group-by": "nodes/group-by.js"
         }
     },
     "dependencies": {
