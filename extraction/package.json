@@ -3,7 +3,11 @@
     "version": "1.0.0",
     "description": "Collection of STATUS project components that are responsible for extracting information from event traces and JSON objects.",
     "license": "Apache-2.0",
-    "keywords": ["node-red", "status", "compliance"],
+    "keywords": [
+        "node-red",
+        "status",
+        "compliance"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/statuscompliance/node-red-status"
@@ -18,13 +22,18 @@
             "url": "https://github.com/FJMonteroInformatica"
         }
     ],
-    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "files": [
+        "nodes/*",
+        "README.md",
+        "LICENSE",
+        "flows.json"
+    ],
     "node-red": {
         "nodes": {
-            "last-timestamp": "nodes/extraction/last-timestamp.js",
-            "find-object": "nodes/extraction/find-object.js",
-            "get-property-value": "nodes/extraction/get-property-value.js",
-            "get-kv-property": "nodes/extraction/get-kv-property.js"
+            "last-timestamp": "nodes/last-timestamp.js",
+            "find-object": "nodes/find-object.js",
+            "get-property-value": "nodes/get-property-value.js",
+            "get-kv-property": "nodes/get-kv-property.js"
         }
     },
     "dependencies": {

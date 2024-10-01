@@ -3,7 +3,11 @@
     "version": "1.0.0",
     "description": "Collection of STATUS project components that are responsible for performing control-flow checks.",
     "license": "Apache-2.0",
-    "keywords": ["node-red", "status", "compliance"],
+    "keywords": [
+        "node-red",
+        "status",
+        "compliance"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/statuscompliance/node-red-status"
@@ -18,13 +22,18 @@
             "url": "https://github.com/FJMonteroInformatica"
         }
     ],
-    "files": ["nodes/*", "README.md", "LICENSE", "flows.json"],
+    "files": [
+        "nodes/*",
+        "README.md",
+        "LICENSE",
+        "flows.json"
+    ],
     "node-red": {
         "nodes": {
-            "response": "nodes/control-flow/response.js",
-            "coexistence": "nodes/control-flow/coexistence.js",
-            "responded-existence": "nodes/control-flow/responded-existence.js",
-            "chain-response": "nodes/control-flow/chain-response.js"
+            "response": "nodes/response.js",
+            "coexistence": "nodes/coexistence.js",
+            "responded-existence": "nodes/responded-existence.js",
+            "chain-response": "nodes/chain-response.js"
         }
     },
     "dependencies": {
