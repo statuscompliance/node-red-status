@@ -1,6 +1,6 @@
 {
     "name": "@statuscompliance/extraction",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Collection of STATUS project components that are responsible for extracting information from event traces and JSON objects.",
     "license": "Apache-2.0",
     "keywords": [
