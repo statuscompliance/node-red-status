@@ -36,7 +36,7 @@ jobs:
 
       - name: Get NPM package version from release
         id: get_version
-        run: echo "::set-output name=version::$(npm show @alvarobc2412/status version)"
+        run: echo "::set-output name=version::$(npm show @statuscompliance/status version)"
 
       - name: Build and push Docker image
         run: |
