@@ -1,51 +1,71 @@
+const axios = require("axios");
+
 module.exports = function (RED) {
     function StatusStorerNode(config) {
         RED.nodes.createNode(this, config);
         const node = this;
 
-        let buffer = [];
         let backendUrl =
-            config.backendUrl || "http://localhost:3001/api/computations";
-        let accessToken = config.accessToken || "secret";
-        let bufferSize = parseInt(config.bufferSize) || 10;
-        let flushInterval = parseInt(config.flushInterval) || 5000;
+            config.backendUrl !== undefined
+                ? config.backendUrl
+                : "http://status-backend:3001/api/computations";
 
-        async function sendToBackend() {
+        let accessToken =
+            config.accessToken !== undefined
+                ? config.accessToken
+                : config.accessToken;
+
+        let bufferSize =
+            config.bufferSize !== undefined ? parseInt(config.bufferSize) : 2;
+
+        let flushInterval =
+            config.flushInterval !== undefined
+                ? parseInt(config.flushInterval)
+                : 3000;
+
+        let buffer = [];
+        let totalPayloadsSent = 0;
+        let lastMessage = null;
+
+        async function sendToBackend(msg) {
             if (buffer.length === 0) return;
 
             const payloadToSend = buffer.slice();
             buffer = [];
 
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + accessToken,
-                },
-                body: JSON.stringify(payloadToSend),
-            };
-
             try {
-                const response = await fetch(backendUrl, options);
-                if (!response.ok) {
-                    const body = await response.text();
-                    node.error("Error en la respuesta del backend: " + body);
-                } else {
-                    node.log(
-                        "Paquete enviado correctamente: " +
-                            JSON.stringify(payloadToSend)
-                    );
+                const response = await axios.post(
+                    backendUrl,
+                    JSON.stringify(payloadToSend),
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: "Bearer " + accessToken,
+                        },
+                    }
+                );
+                totalPayloadsSent += payloadToSend.length;
+                lastMessage = msg ? msg : lastMessage;
+                if (lastMessage) {
+                    if (lastMessage.size === totalPayloadsSent) {
+                        totalPayloadsSent = 0;
+                        lastMessage.payload = {
+                            message: "Computations succesfully stored",
+                        };
+                        node.send(lastMessage);
+                    }
                 }
             } catch (error) {
-                node.error("Error al enviar al backend: " + error);
+                node.error("Error while sending payload to backend" + error);
             }
         }
 
-        function addToBuffer(msg) {
+        function addToBuffer(msg, bufferSize) {
+            let lastResponse = null;
             buffer.push(msg.payload);
 
             if (buffer.length >= bufferSize) {
-                sendToBackend();
+                lastResponse = sendToBackend(msg);
             }
         }
 
@@ -53,7 +73,7 @@ module.exports = function (RED) {
             backendUrl =
                 msg.req && msg.req.body && msg.req.body.backendUrl !== undefined
                     ? msg.req.body.backendUrl
-                    : config.backendUrl;
+                    : "http://status-backend:3001/api/computations";
 
             accessToken =
                 msg.req &&
@@ -64,19 +84,17 @@ module.exports = function (RED) {
 
             bufferSize =
                 msg.req && msg.req.body && msg.req.body.bufferSize !== undefined
-                    ? msg.req.body.bufferSize
-                    : config.bufferSize;
-            bufferSize = parseInt(bufferSize) || 10;
+                    ? parseInt(msg.req.body.bufferSize)
+                    : 2;
 
             flushInterval =
                 msg.req &&
                 msg.req.body &&
                 msg.req.body.flushInterval !== undefined
-                    ? msg.req.body.flushInterval
-                    : config.flushInterval;
-            flushInterval = parseInt(flushInterval) || 5000;
+                    ? parseInt(msg.req.body.flushInterval)
+                    : 2000;
 
-            addToBuffer(msg);
+            addToBuffer(msg, bufferSize);
         });
 
         const intervalId = setInterval(sendToBackend, flushInterval);
