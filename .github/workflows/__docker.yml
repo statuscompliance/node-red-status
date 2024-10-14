@@ -41,19 +41,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and Push Docker Image (Develop) 💿🐳
-        if: github.ref == 'refs/heads/develop'
-        uses: docker/build-push-action@v6.7.0
-        with:
-          context: .
-          file: Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: |
-            ${{ env.REGISTRY_IMAGE }}:develop
-
       - name: Build and Push Docker Image (Version Tags) 💿🐳
         if: startsWith(github.ref, 'refs/tags/')
         uses: docker/build-push-action@v6.7.0
@@ -79,3 +66,4 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ env.REGISTRY_IMAGE }}:PR.${{ env.PR_ID }}
+

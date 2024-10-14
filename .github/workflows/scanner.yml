@@ -34,25 +34,32 @@ jobs:
           echo "Modified packages: $MODIFIED_PACKAGES"
           echo "::set-output name=packages::$MODIFIED_PACKAGES"
 
-  trigger-package-workflows:
-    needs: scan-packages
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package: ${{ fromJson(steps.detect_changes.outputs.packages) }}
-
-    steps:
-      - name: Trigger package workflow
-        uses: ./.github/workflows/__package.yml
+      - name: Trigger package workflows
+        uses: actions/github-script@v6
         with:
-          package: ${{ matrix.package }}
+          script: |
+            const modifiedPackages = "${{ steps.detect_changes.outputs.packages }}".trim().split(" ");
+            for (const pkg of modifiedPackages) {
+              github.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: '__package.yml',
+                ref: context.ref,
+                inputs: { package: pkg }
+              });
+            }
 
   trigger-docker:
-    needs: [scan-packages, trigger-package-workflows]
+    needs: scan-packages
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Docker workflow
-        uses: ./.github/workflows/__docker.yml
+        uses: actions/github-script@v6
         with:
-          pr_id: ${{ github.event.pull_request.number || 'none' }}
-          github_ref: ${{ github.ref }}
+          script: |
+            github.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: '__docker.yml',
+              ref: context.ref
+            });
