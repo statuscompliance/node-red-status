@@ -1,4 +1,4 @@
-name: Scanner
+name: Publish packages
 
 on:
   push:
@@ -11,55 +11,23 @@ on:
       - main
 
 jobs:
-  scan-packages:
+  publish-packages:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [control-flow, extraction, filtering, integration, logic, status, validation]
+    
     steps:
-      - name: Checkout ⬇️
-        uses: actions/checkout@v4.1.7
-
-      - name: Detect modified packages 📦📝
-        id: detect_changes
-        run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-          echo "Changed files: $CHANGED_FILES"
-          MODIFIED_PACKAGES=""
-          
-          for package in ./packages/*; do
-            if echo "$CHANGED_FILES" | grep -q "$package"; then
-              package_name=$(basename "$package")
-              MODIFIED_PACKAGES="$MODIFIED_PACKAGES $package_name"
-            fi
-          done
-
-          echo "Modified packages: $MODIFIED_PACKAGES"
-          echo "::set-output name=packages::$MODIFIED_PACKAGES"
-
       - name: Trigger package workflows
-        uses: actions/github-script@v6
+        uses: ./.github/workflows/__package.yml
         with:
-          script: |
-            const modifiedPackages = "${{ steps.detect_changes.outputs.packages }}".trim().split(" ");
-            for (const pkg of modifiedPackages) {
-              github.actions.createWorkflowDispatch({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                workflow_id: '__package.yml',
-                ref: context.ref,
-                inputs: { package: pkg }
-              });
-            }
+          package: ${{ matrix.package }}
 
   trigger-docker:
-    needs: scan-packages
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Docker workflow
-        uses: actions/github-script@v6
+        uses: ./.github/workflows/__docker.yml
         with:
-          script: |
-            github.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: '__docker.yml',
-              ref: context.ref
-            });
+          pr_id: ${{ github.event.number }}
+          github_ref: ${{ github.ref }}
