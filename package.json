@@ -24,7 +24,7 @@
         }
     ],
     "files": [
-        "nodes/*",
+        "packages/*",
         "README.md",
         "LICENSE",
         "flows.json"
@@ -32,11 +32,6 @@
     "workspaces": [
         "packages/*"
     ],
-    "scripts": {
-        "install": "npm install",
-        "build": "npm run build -ws",
-        "test": "npm run test -ws"
-    },
     "devDependencies": {
         "axios": "^1.6.7",
         "pdf-parse": "^1.1.1",

@@ -1,0 +1,33 @@
+name: Publish Package
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        required: true
+        type: string
+
+jobs:
+  publish-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@v4.2.1
+
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v4.0.4
+        with:
+          node-version: '21.x'
+          check-latest: true
+          cache: 'npm'
+
+      - name: Install dependencies 📦
+        run: npm ci --no-audit
+
+      - name: Publish package to npm ⬆️📦
+        run: |
+          cd packages/${{ inputs.package }}
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
