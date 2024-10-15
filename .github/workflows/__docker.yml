@@ -66,4 +66,3 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ env.REGISTRY_IMAGE }}:PR.${{ env.PR_ID }}
-
