@@ -20,4 +20,4 @@ jobs:
     uses: ./.github/workflows/__docker.yml
     with:
         pr_id: ${{ github.event.number }}
-        github_ref: ${{ github.ref }}
+        github_ref: ${{ github.ref }
