@@ -3,13 +3,18 @@ name: Publish Package
 on:
   workflow_call:
     inputs:
-      package:
+      packages:
         required: true
         type: string
 
 jobs:
   publish-package:
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        packages: ${{fromJson(inputs.packages)}}
 
     steps:
       - name: Checkout ⬇️
@@ -27,7 +32,7 @@ jobs:
 
       - name: Publish package to npm ⬆️📦
         run: |
-          cd packages/${{ inputs.package }}
+          cd packages/${{ matrix.packages }}
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

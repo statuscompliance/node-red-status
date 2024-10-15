@@ -3,37 +3,21 @@ name: Publish packages
 on:
   push:
     branches:
-      - develop
       - main
   pull_request:
     branches:
-      - develop
       - main
 
 jobs:
   publish-packages:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package: [control-flow, extraction, filtering, integration, logic, status, validation]
-    
-    steps:
-      - name: Checkout Repository ⬇️
-        uses: actions/checkout@v4.2.1
-
-      - name: Trigger package workflows
-        uses: ./.github/workflows/__package.yml
-        with:
-          package: ${{ matrix.package }}
+    name: Trigger package workflows
+    uses: ./.github/workflows/__package.yml
+    with:
+        packages: '["control-flow", "extraction", "filtering", "integration", "logic", "status"," validation"]'
 
   trigger-docker:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository ⬇️
-        uses: actions/checkout@v4.2.1
-        
-      - name: Trigger Docker workflow
-        uses: ./.github/workflows/__docker.yml
-        with:
-          pr_id: ${{ github.event.number }}
-          github_ref: ${{ github.ref }}
+    name: Trigger Docker workflow
+    uses: ./.github/workflows/__docker.yml
+    with:
+        pr_id: ${{ github.event.number }}
+        github_ref: ${{ github.ref }}
