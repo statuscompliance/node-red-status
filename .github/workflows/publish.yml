@@ -12,12 +12,14 @@ jobs:
   publish-packages:
     name: Trigger package workflows
     uses: ./.github/workflows/__package.yml
+    secrets: inherit
     with:
         packages: '["control-flow", "extraction", "filtering", "integration", "logic", "status", "validation"]'
 
   trigger-docker:
     name: Trigger Docker workflow
     uses: ./.github/workflows/__docker.yml
+    secrets: inherit
     with:
         pr_id: ${{ github.event.number }}
         github_ref: ${{ github.ref }}
