@@ -11,10 +11,14 @@ jobs:
   publish-package:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write
+
     strategy:
       fail-fast: false
       matrix:
-        packages: ${{fromJson(inputs.packages)}}
+        packages: ${{ fromJson(inputs.packages) }}
 
     steps:
       - name: Checkout ⬇️
@@ -23,14 +27,34 @@ jobs:
       - name: Setup Node.js ⚙️
         uses: actions/setup-node@v4.0.4
         with:
-          node-version: '21.x'
+          node-version: '20'
           check-latest: true
           cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies 📦
         run: npm ci --no-audit
 
+      - name: Check if package version is already published ⏳
+        id: check-version
+        run: |
+          cd packages/${{ matrix.packages }}
+          FULL_VERSION=$(npm view @statuscompliance/${{ matrix.packages }} version 2>/dev/null || echo "0.0.0")
+          CURRENT_VERSION=$(echo "$FULL_VERSION" | cut -d':' -f2 | tr -d '\n' | tr -d '\r')
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+
+          echo "Current published version: $CURRENT_VERSION"
+          echo "Package version: $PACKAGE_VERSION"
+
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_ENV
+          echo "package_version=$PACKAGE_VERSION" >> $GITHUB_ENV
+
+      - name: Skip publish if version is already published ⛔️
+        if: env.current_version == env.package_version
+        run: echo "Version ${{ env.package_version }} is already published, skipping publish."
+
       - name: Publish package to npm ⬆️📦
+        if: env.current_version != env.package_version
         run: |
           cd packages/${{ matrix.packages }}
           npm publish --access public
