@@ -10,7 +10,9 @@ on:
 jobs:
   publish-package:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -26,6 +28,7 @@ jobs:
           node-version: '20'
           check-latest: true
           cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies 📦
         run: npm ci --no-audit
@@ -33,6 +36,6 @@ jobs:
       - name: Publish package to npm ⬆️📦
         run: |
           cd packages/${{ matrix.packages }}
-          npm publish --access public
+          npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
