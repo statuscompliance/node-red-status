@@ -10,9 +10,11 @@ on:
 jobs:
   publish-package:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       id-token: write
+
     strategy:
       fail-fast: false
       matrix:
@@ -36,6 +38,6 @@ jobs:
       - name: Publish package to npm ⬆️📦
         run: |
           cd packages/${{ matrix.packages }}
-          npm publish --provenance --access public
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

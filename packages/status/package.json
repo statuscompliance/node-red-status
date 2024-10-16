@@ -1,6 +1,6 @@
 {
     "name": "@statuscompliance/status",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Collection of STATUS project components useful for integrating node-red with the system.",
     "license": "Apache-2.0",
     "keywords": [

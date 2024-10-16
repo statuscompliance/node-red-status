@@ -1,6 +1,6 @@
 {
     "name": "@statuscompliance/logic",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Collection of components of the STATUS project containing logical operators and similar functions.",
     "license": "Apache-2.0",
     "keywords": [
