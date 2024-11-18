@@ -1,4 +1,4 @@
-name: Publish packages
+name: Publish packages 🐳📦
 
 on:
   push:
@@ -27,4 +27,3 @@ jobs:
     with:
         pr_id: ${{ github.event.number }}
         github_ref: ${{ github.ref }}
-        tag: ${{ github.ref_name }}
