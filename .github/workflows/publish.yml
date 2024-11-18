@@ -4,20 +4,27 @@ on:
   push:
     branches:
       - main
+    tags:
+      - "*.*.*"
   pull_request:
     branches:
       - main
+    types:
+      - labeled
 
 jobs:
   publish-packages:
-    name: Trigger package workflows
+    if: github.event_name == 'push'
+    name: Trigger package workflows 🚀
     uses: ./.github/workflows/__package.yml
     with:
         packages: '["control-flow", "extraction", "filtering", "integration", "logic", "status"," validation"]'
 
   trigger-docker:
-    name: Trigger Docker workflow
+    if: (github.event.pull_request && github.event.label.name == '🐳 Dockerize')  || github.event_name == 'push'
+    name: Trigger Docker workflow 🐳
     uses: ./.github/workflows/__docker.yml
     with:
         pr_id: ${{ github.event.number }}
         github_ref: ${{ github.ref }}
+        tag: ${{ github.ref_name }}
