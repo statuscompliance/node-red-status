@@ -1,39 +1,45 @@
 {
-    "name": "status-compliance",
-    "version": "1.4.0",
-    "private": true,
-    "description": "Collection of STATUS packages for Node-RED",
-    "license": "Apache-2.0",
-    "keywords": [
-        "node-red",
-        "status",
-        "compliance"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/statuscompliance/node-red-status"
-    },
-    "author": {
-        "name": "Álvaro Bernal",
-        "url": "https://github.com/alvarobernal2412"
-    },
-    "contributors": [
-        {
-            "name": "Francisco Montero",
-            "url": "https://github.com/FJMonteroInformatica"
-        }
-    ],
-    "files": [
-        "packages/*",
-        "README.md",
-        "LICENSE",
-        "flows.json"
-    ],
-    "workspaces": [
-        "packages/*"
-    ],
-    "devDependencies": {
-        "axios": "1.7.7",
-        "pdf-parse": "1.1.1"
-    }
+  "name": "status-compliance",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Collection of STATUS packages for Node-RED",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.9.0",
+    "yarn": "Yarn is not supported, please use npm",
+    "pnpm": "PNPM is not supported, please use npm"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+      "node-red",
+      "status",
+      "compliance"
+  ],
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/statuscompliance/node-red-status"
+  },
+  "author": {
+      "name": "Álvaro Bernal",
+      "url": "https://github.com/alvarobernal2412"
+  },
+  "contributors": [
+      {
+          "name": "Francisco Montero",
+          "url": "https://github.com/FJMonteroInformatica"
+      }
+  ],
+  "files": [
+      "packages/*",
+      "README.md",
+      "LICENSE",
+      "flows.json"
+  ],
+  "workspaces": [
+      "packages/*"
+  ],
+  "devDependencies": {
+      "axios": "1.7.7",
+      "pdf-parse": "1.1.1"
+  }
 }
