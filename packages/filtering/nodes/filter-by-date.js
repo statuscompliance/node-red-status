@@ -5,11 +5,9 @@ module.exports = function (RED) {
 
         node.on("input", function (msg) {
             // Parse input parameters from config
-            var attribute = msg.req.body.attribute || config.attribute;
-            var startDate = new Date(
-                msg.req.body.startDate || config.startDate
-            );
-            var endDate = new Date(msg.req.body.endDate || config.endDate);
+            var attribute = msg.req && msg.req.body && msg.req.body.attribute !== undefined ? msg.req.body.attribute : config.attribute;
+            var startDate = new Date(msg.req && msg.req.body && msg.req.body.startDate!== undefined ? msg.req.body.startDate : config.startDate);
+            var endDate = new Date(msg.req && msg.req.body && msg.req.body.endDate !== undefined ? msg.req.body.endDate : config.endDate);
             try {
                 if (Array.isArray(msg.payload)) {
                     msg.payload.forEach(function (obj) {
