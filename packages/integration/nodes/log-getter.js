@@ -1,6 +1,6 @@
 const axios = require("axios");
-const xml2js = require("xml2js");
-const zlib = require("zlib");
+const { parse } = require("fast-xml-parser");
+const pako = require("pako");
 
 module.exports = function (RED) {
     function LogGetterNode(config) {
@@ -29,9 +29,7 @@ module.exports = function (RED) {
             }
 
             try {
-                axios.get(url, {
-                    responseType: "arraybuffer",
-                }); // This is just for BPM 2024
+                // Fetch data from the URL
                 const response = await axios.get(url, {
                     responseType: "arraybuffer",
                 });
@@ -39,7 +37,7 @@ module.exports = function (RED) {
 
                 // Check if the URL has a .json extension
                 if (url.endsWith(".json")) {
-                    // If it's a JSON file, parse directly as JSON
+                    // Parse directly as JSON
                     try {
                         const jsonResult = JSON.parse(buffer.toString("utf8"));
                         msg.log = jsonResult;
@@ -51,47 +49,42 @@ module.exports = function (RED) {
                     }
                 } else {
                     // Try to decompress if necessary
-                    zlib.gunzip(buffer, (err, decompressedBuffer) => {
-                        let dataString;
+                    let dataString;
+                    try {
+                        const decompressedBuffer = pako.ungzip(buffer, { to: 'string' });
+                        dataString = decompressedBuffer;
+                    } catch (err) {
+                        // If decompression fails, assume it's plain text
+                        dataString = buffer.toString("utf8");
+                    }
 
-                        if (err) {
-                            // If decompression fails, assume it's plain text
-                            dataString = buffer.toString("utf8");
-                        } else {
-                            // Decompression succeeded, convert to string
-                            dataString = decompressedBuffer.toString("utf8");
-                        }
-
-                        // Determine if data is XML or JSON
-                        if (dataString.trim().startsWith("<")) {
-                            // Parse as XML
-                            xml2js.parseString(dataString, (err, result) => {
-                                if (err) {
-                                    node.error(
-                                        "Failed to parse XML: " + err.message
-                                    );
-                                    if (done) done(err);
-                                    return;
-                                }
-                                msg.log = result;
-                                node.send(msg);
-                                if (done) done();
+                    // Determine if data is XML or JSON
+                    if (dataString.trim().startsWith("<")) {
+                        // Parse as XML
+                        try {
+                            const xmlResult = parse(dataString, {
+                                ignoreAttributes: false,
+                                attributeNamePrefix: "@_",
                             });
-                        } else {
-                            // Attempt to parse as JSON
-                            try {
-                                const jsonResult = JSON.parse(dataString);
-                                msg.log = jsonResult;
-                                node.send(msg);
-                                if (done) done();
-                            } catch (jsonErr) {
-                                node.error(
-                                    "Failed to parse JSON: " + jsonErr.message
-                                );
-                                if (done) done(jsonErr);
-                            }
+                            msg.log = xmlResult;
+                            node.send(msg);
+                            if (done) done();
+                        } catch (xmlErr) {
+                            node.error("Failed to parse XML: " + xmlErr.message);
+                            if (done) done(xmlErr);
                         }
-                    });
+                    } else {
+                        // Attempt to parse as JSON
+                        try {
+                            const jsonResult = JSON.parse(dataString);
+                            msg.log = jsonResult;
+                            node.send(msg);
+                            if (done) done();
+                        } catch (jsonErr) {
+                            node.error("Failed to parse JSON: " + jsonErr.message);
+                            if (done) done(jsonErr);
+                        }
+                    }
                 }
             } catch (error) {
                 node.error("Failed to fetch the log: " + error.message);
