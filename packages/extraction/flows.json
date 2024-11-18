@@ -1,0 +1,270 @@
+[
+    {
+        "id": "a16837866ec75648",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c3d3f204f653a75a",
+        "type": "group",
+        "z": "a16837866ec75648",
+        "name": "Extraction nodes",
+        "style": {
+            "fill": "#e3f3d3",
+            "fill-opacity": "0.66",
+            "label": true,
+            "stroke": "#addb7b",
+            "label-position": "n",
+            "color": "#000000"
+        },
+        "nodes": [
+            "70def0f922eb5d07",
+            "48523ad586983d77",
+            "65c068484f2c191f",
+            "7a5eb927b0dcdcc1",
+            "f1f9e4f95b638987",
+            "dc8611090ce702ed",
+            "9bd68e9747fb4d53",
+            "d4671da30291ef44",
+            "00289b074cf17b09",
+            "c6194ce1aec9cbc8"
+        ],
+        "x": 134,
+        "y": 279,
+        "w": 1052,
+        "h": 262
+    },
+    {
+        "id": "f4cdab2561ef4edb",
+        "type": "comment",
+        "z": "a16837866ec75648",
+        "name": "The `@statuscompliance/extraction` package is a collection of Node-RED components \\n specifically designed for the STATUS project, focusing on extracting information from \\n event traces and JSON objects. These nodes facilitate the retrieval of specific \\n properties and values, enabling more efficient data handling within workflows.",
+        "info": "The `@statuscompliance/extraction` package is a collection of Node-RED components \\n specifically designed for the STATUS project, focusing on extracting information from \\n event traces and JSON objects. These nodes facilitate the retrieval of specific \\n properties and values, enabling more efficient data handling within workflows.",
+        "x": 660,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "70def0f922eb5d07",
+        "type": "last-timestamp",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "",
+        "activity": "Login",
+        "position": "1",
+        "params": {
+            "activity": "string",
+            "position": "number"
+        },
+        "x": 840,
+        "y": 380,
+        "wires": [
+            [
+                "f1f9e4f95b638987"
+            ]
+        ]
+    },
+    {
+        "id": "48523ad586983d77",
+        "type": "get-property-value",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "",
+        "propertyToGet": "name",
+        "params": {
+            "propertyToGet": "string"
+        },
+        "x": 850,
+        "y": 440,
+        "wires": [
+            [
+                "00289b074cf17b09"
+            ]
+        ]
+    },
+    {
+        "id": "65c068484f2c191f",
+        "type": "find-object",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "",
+        "key": "name",
+        "keyValue": "Bob",
+        "params": {
+            "key": "string",
+            "keyValue": "string"
+        },
+        "x": 830,
+        "y": 320,
+        "wires": [
+            [
+                "f1f9e4f95b638987"
+            ]
+        ]
+    },
+    {
+        "id": "7a5eb927b0dcdcc1",
+        "type": "get-kv-property",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "",
+        "keyToSearch": "concept:name",
+        "payloadProperty": "events",
+        "response": "result",
+        "params": {
+            "keyToSearch": "string",
+            "payloadProperty": "string",
+            "response": "string"
+        },
+        "x": 840,
+        "y": 500,
+        "wires": [
+            [
+                "f1f9e4f95b638987"
+            ]
+        ]
+    },
+    {
+        "id": "f1f9e4f95b638987",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "dc8611090ce702ed",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "Find the object with key 'name' and value 'Bob'",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"id\":1,\"name\":\"Alice\",\"role\":\"developer\"},{\"id\":2,\"name\":\"Bob\",\"role\":\"designer\"},{\"id\":3,\"name\":\"Charlie\",\"role\":\"manager\"}]",
+        "payloadType": "json",
+        "x": 360,
+        "y": 320,
+        "wires": [
+            [
+                "65c068484f2c191f"
+            ]
+        ]
+    },
+    {
+        "id": "9bd68e9747fb4d53",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "Finds the latest timestamp for a specified activity 'Login' within a trace event",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"event\":[{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Login\"}},{\"$\":{\"key\":\"concept:instance\",\"value\":\"1234\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:00:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Logout\"}},{\"$\":{\"key\":\"concept:instance\",\"value\":\"1234\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T11:00:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Login\"}},{\"$\":{\"key\":\"concept:instance\",\"value\":\"5678\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T09:30:00Z\"}}]}]}",
+        "payloadType": "json",
+        "x": 450,
+        "y": 380,
+        "wires": [
+            [
+                "70def0f922eb5d07"
+            ]
+        ]
+    },
+    {
+        "id": "d4671da30291ef44",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "Extracts the 'name' value from an object in the payload",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"name\":\"Alice\",\"age\":30,\"location\":\"Wonderland\"}",
+        "payloadType": "json",
+        "x": 380,
+        "y": 440,
+        "wires": [
+            [
+                "48523ad586983d77"
+            ]
+        ]
+    },
+    {
+        "id": "00289b074cf17b09",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "msg.value",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "value",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c6194ce1aec9cbc8",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "Retrieves a specific key-value property from a nested object within the payload",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{   \"events\": [     {       \"$\": { \"key\": \"concept:name\", \"value\": \"Login\" },       \"timestamp\": \"2024-11-18T10:00:00Z\"     },     {       \"$\": { \"key\": \"concept:name\", \"value\": \"Logout\" },       \"timestamp\": \"2024-11-18T11:00:00Z\"     }   ] }",
+        "payloadType": "json",
+        "x": 460,
+        "y": 500,
+        "wires": [
+            [
+                "7a5eb927b0dcdcc1"
+            ]
+        ]
+    }
+]
