@@ -12,20 +12,23 @@ on:
 
 env:
   REGISTRY_IMAGE: ${{ secrets.DOCKER_USERNAME }}/node-red-status
+  GHCR_IMAGE: ${{ secrets.DOCKER_USERNAME }}/node-red-status
   PR_ID: ${{ inputs.pr_id }}
   TAG: ${{ inputs.github_ref }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: ["amd64", "arm64"]
-
-    steps:
+    
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+      
+    steps:      
       - name: Checkout ⬇️
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.2
         with:
           show-progress: false
 
@@ -33,7 +36,7 @@ jobs:
         uses: docker/setup-qemu-action@v3.2.0
 
       - name: Configure Docker Buildx ⚙️
-        uses: docker/setup-buildx-action@v3.6.1
+        uses: docker/setup-buildx-action@v3.7.1
 
       - name: Login to DockerHub 🔑
         uses: docker/login-action@v3.3.0
@@ -41,22 +44,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and Push Docker Image (Version Tags) 💿🐳
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: docker/build-push-action@v6.7.0
+      - name: Login to GitHub Container Registry 🔑
+        uses: docker/login-action@v3.3.0
         with:
-          context: .
-          file: Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: |
-            ${{ env.REGISTRY_IMAGE }}:${{ env.TAG }}
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Docker Image for Pull Request 💿🐳
-        if: github.event_name == 'pull_request'
-        uses: docker/build-push-action@v6.7.0
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6.9.0
         with:
           context: .
           file: Dockerfile
@@ -65,4 +61,20 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ${{ env.REGISTRY_IMAGE }}:PR.${{ env.PR_ID }}
+            ${{ startsWith(github.ref, 'refs/tags/') && format('{0}:{1}', env.REGISTRY_IMAGE, env.TAG) || '' }}
+            ${{ github.ref == 'refs/heads/main' && format('{0}:latest', env.REGISTRY_IMAGE) || '' }}
+            ${{ github.event_name == 'pull_request' && format('{0}:PR.{1}', env.REGISTRY_IMAGE, env.PR_ID) || '' }}
+
+      - name: Build and Push Ghcr Image
+        uses: docker/build-push-action@v6.9.0
+        with:
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ startsWith(github.ref, 'refs/tags/') && format('ghcr.io/{0}:{1}', env.GHCR_IMAGE, env.TAG) || '' }}
+            ${{ github.ref == 'refs/heads/main' && format('ghcr.io/{0}:latest', env.GHCR_IMAGE) || '' }}
+            ${{ github.event_name == 'pull_request' && format('ghcr.io/{0}:PR.{1}', env.GHCR_IMAGE, env.PR_ID) || '' }}
