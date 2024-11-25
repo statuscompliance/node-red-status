@@ -4,7 +4,7 @@ module.exports = function (RED) {
         var node = this;
 
         node.on("input", function (msg) {
-            newMsg = { ...msg };
+            let newMsg = { ...msg };
             let status = newMsg.req.query.status;
 
             if (status === "true") {

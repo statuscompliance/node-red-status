@@ -15,7 +15,7 @@ module.exports = function (RED) {
                 let A = payloads[0];
                 let B = payloads[1];
                 let and = A && B;
-                newIndex = msg.payload.index;
+                let newIndex = msg.payload.index;
                 delete newMsg.payload;
                 newMsg.payload = {
                     result: and,
