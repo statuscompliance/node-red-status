@@ -1,0 +1,365 @@
+[
+    {
+        "id": "a16837866ec75648",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "05b3c5a835df8adc",
+        "type": "group",
+        "z": "a16837866ec75648",
+        "name": "Validation nodes",
+        "style": {
+            "stroke": "#c8e7a7",
+            "label": true,
+            "color": "#000000",
+            "fill": "#e3f3d3",
+            "fill-opacity": "0.64",
+            "label-position": "n"
+        },
+        "nodes": [
+            "36e01c31f2b3bc33",
+            "20242c45f1c049e1",
+            "33b2529882d8c838",
+            "190c70886cdba28b",
+            "d0493e85f82ec0af",
+            "f1f7c9082dbbe48e",
+            "42783e5e6639fafa",
+            "6d8503bac3aff8c1",
+            "9886c16ed2a9321b",
+            "35eca949ede82989",
+            "5c75de9ff2a6616b",
+            "cac1c5f58c405b38",
+            "cea35a765c436642"
+        ],
+        "x": 34,
+        "y": 279,
+        "w": 952,
+        "h": 322
+    },
+    {
+        "id": "f4cdab2561ef4edb",
+        "type": "comment",
+        "z": "a16837866ec75648",
+        "name": "The `@statuscompliance/validation` package provides essential components \\n for the STATUS project, aimed at validating and checking compliance within \\n Node-RED. It includes nodes that enable users to verify data, perform document \\n checks, and ensure compliance with project-specific requirements.",
+        "info": "The `@statuscompliance/validation` package provides essential components \\n for the STATUS project, aimed at validating and checking compliance within \\n Node-RED. It includes nodes that enable users to verify data, perform document \\n checks, and ensure compliance with project-specific requirements.",
+        "x": 540,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "36e01c31f2b3bc33",
+        "type": "has-activity",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "",
+        "conceptName": "Intermediate",
+        "attribute": "concept:name",
+        "value": "value",
+        "params": {
+            "conceptName": "string"
+        },
+        "x": 630,
+        "y": 340,
+        "wires": [
+            [
+                "6d8503bac3aff8c1"
+            ]
+        ]
+    },
+    {
+        "id": "20242c45f1c049e1",
+        "type": "is-valid-url",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "string": "",
+        "property": "url",
+        "params": {
+            "property": "string"
+        },
+        "x": 630,
+        "y": 380,
+        "wires": [
+            [
+                "6d8503bac3aff8c1"
+            ]
+        ]
+    },
+    {
+        "id": "33b2529882d8c838",
+        "type": "check-property",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "",
+        "propertyToCheck": "activity",
+        "expectedValue": "Payment Handled",
+        "params": {
+            "propertyToCheck": "string",
+            "expectedValue": "string"
+        },
+        "x": 620,
+        "y": 440,
+        "wires": [
+            [
+                "6d8503bac3aff8c1"
+            ]
+        ]
+    },
+    {
+        "id": "190c70886cdba28b",
+        "type": "exists-section-in-doc",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "",
+        "section": "Multiple Bibliographies",
+        "valueType": "URL",
+        "user": "",
+        "repo": "",
+        "path": "",
+        "docName": "",
+        "url": "",
+        "githubToken": "",
+        "params": {
+            "section": "string",
+            "valueType": "ENUM(\"GithubUrl\", \"URL\")",
+            "user": "string",
+            "repo": "string",
+            "path": "string",
+            "docName": "string",
+            "url": "string",
+            "githubToken": "string"
+        },
+        "x": 600,
+        "y": 480,
+        "wires": [
+            [
+                "6d8503bac3aff8c1"
+            ]
+        ]
+    },
+    {
+        "id": "d0493e85f82ec0af",
+        "type": "exists-url",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "",
+        "urlType": "config",
+        "cardId": "",
+        "apiKey": "",
+        "trelloToken": "",
+        "githubToken": "",
+        "params": {
+            "urlType": "string",
+            "cardId": "string",
+            "apiKey": "string",
+            "trelloToken": "string",
+            "githubToken": "string"
+        },
+        "x": 640,
+        "y": 520,
+        "wires": [
+            [
+                "6d8503bac3aff8c1"
+            ]
+        ]
+    },
+    {
+        "id": "f1f7c9082dbbe48e",
+        "type": "exists-pipe",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "count": "2",
+        "params": {
+            "count": "number"
+        },
+        "x": 630,
+        "y": 560,
+        "wires": [
+            [
+                "6d8503bac3aff8c1"
+            ]
+        ]
+    },
+    {
+        "id": "42783e5e6639fafa",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "BPI Structure Example",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"trace\":{\"event\":[{\"string\":{\"$\":{\"key\":\"concept:name\",\"value\":\"Start\"}}},{\"string\":{\"$\":{\"key\":\"concept:name\",\"value\":\"eventA\"}}},{\"string\":{\"$\":{\"key\":\"concept:name\",\"value\":\"Intermediate\"}}},{\"string\":{\"$\":{\"key\":\"concept:name\",\"value\":\"eventB\"}}},{\"string\":{\"$\":{\"key\":\"concept:name\",\"value\":\"End\"}}}]}}",
+        "payloadType": "json",
+        "x": 360,
+        "y": 320,
+        "wires": [
+            [
+                "36e01c31f2b3bc33"
+            ]
+        ]
+    },
+    {
+        "id": "6d8503bac3aff8c1",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "9886c16ed2a9321b",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "Example 2 (Different Structure)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"events\":[{\"activity\":\"Payment Handled\"},{\"activity\":\"Payment Requested\"}]}",
+        "payloadType": "json",
+        "x": 330,
+        "y": 360,
+        "wires": [
+            [
+                "36e01c31f2b3bc33"
+            ]
+        ]
+    },
+    {
+        "id": "35eca949ede82989",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "URL example",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"url\": \"https://github.com/statuscompliance/status-backend\"}",
+        "payloadType": "json",
+        "x": 390,
+        "y": 400,
+        "wires": [
+            [
+                "20242c45f1c049e1"
+            ]
+        ]
+    },
+    {
+        "id": "5c75de9ff2a6616b",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "Object Example",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"activity\":\"Payment Handled\"}",
+        "payloadType": "json",
+        "x": 380,
+        "y": 440,
+        "wires": [
+            [
+                "33b2529882d8c838"
+            ]
+        ]
+    },
+    {
+        "id": "cac1c5f58c405b38",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "Example PDF with section \"Multiple Bibliographies\"",
+        "props": [
+            {
+                "p": "req.body.url",
+                "v": "https://www.overleaf.com/latex/templates/multiple-bibliographies-with-multibib/fzmrrgbcvqhf.pdf",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.valueType",
+                "v": "URL",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 270,
+        "y": 480,
+        "wires": [
+            [
+                "190c70886cdba28b"
+            ]
+        ]
+    },
+    {
+        "id": "cea35a765c436642",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "05b3c5a835df8adc",
+        "name": "2 Level structure",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"events\":[{\"activity\":\"Payment Handled\"},{\"activity\":\"Payment Requested\"}],\"timestamp\":1732530854}",
+        "payloadType": "json",
+        "x": 380,
+        "y": 560,
+        "wires": [
+            [
+                "f1f7c9082dbbe48e"
+            ]
+        ]
+    }
+]
