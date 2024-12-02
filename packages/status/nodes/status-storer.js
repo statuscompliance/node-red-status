@@ -34,7 +34,7 @@ module.exports = function (RED) {
             buffer = [];
 
             try {
-                const response = await axios.post(
+                await axios.post(
                     backendUrl,
                     JSON.stringify(payloadToSend),
                     {
@@ -101,7 +101,6 @@ module.exports = function (RED) {
 
         node.on("close", function () {
             clearInterval(intervalId);
-            sendToBackend();
         });
     }
 
