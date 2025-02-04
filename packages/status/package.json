@@ -3,10 +3,10 @@
     "version": "1.1.0",
     "description": "Collection of STATUS project components useful for integrating node-red with the system.",
     "engines": {
-      "node": ">=22.0.0",
-      "npm": ">=10.9.0",
-      "yarn": "Yarn is not supported, please use npm",
-      "pnpm": "PNPM is not supported, please use npm"
+        "node": ">=22.0.0",
+        "npm": ">=10.9.0",
+        "yarn": "Yarn is not supported, please use npm",
+        "pnpm": "PNPM is not supported, please use npm"
     },
     "license": "Apache-2.0",
     "keywords": [
