@@ -6,7 +6,8 @@ module.exports = function (RED) {
         let payloads = [];
 
         node.on("input", function (msg) {
-            var expectedStatus = msg.req.query.status;
+            msg.req && msg.req.body && msg.req.body.attribute !== undefined ? msg.req.body.attribute : config.attribute;
+            var expectedStatus = msg.req && msg.req.query && msg.req.query.status !== undefined ? msg.req.query.status : undefined;
             let newMsg = { ...msg };
             if (typeof newMsg.payload.result === "boolean") {
                 payloads.push(newMsg.payload.result);

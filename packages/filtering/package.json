@@ -1,7 +1,13 @@
 {
     "name": "@statuscompliance/filtering",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "Collection of STATUS project components that are responsible for filtering JSON object information.",
+    "engines": {
+        "node": ">=22.0.0",
+        "npm": ">=10.9.0",
+        "yarn": "Yarn is not supported, please use npm",
+        "pnpm": "PNPM is not supported, please use npm"
+    },
     "license": "Apache-2.0",
     "keywords": [
         "node-red",
@@ -36,8 +42,5 @@
             "group-by": "nodes/group-by.js"
         }
     },
-    "dependencies": {
-        "axios": "1.7.8",
-        "pdf-parse": "1.1.1"
-    }
+    "dependencies": {}
 }

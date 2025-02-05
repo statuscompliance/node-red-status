@@ -1,0 +1,305 @@
+[
+    {
+        "id": "a16837866ec75648",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f3a6ad21d04cc75c",
+        "type": "group",
+        "z": "a16837866ec75648",
+        "name": "Control-flow nodes",
+        "style": {
+            "stroke": "#addb7b",
+            "fill": "#e3f3d3",
+            "label": true,
+            "label-position": "n",
+            "fill-opacity": "0.6"
+        },
+        "nodes": [
+            "e530ed812f727e1b",
+            "edc44960b72dde5e",
+            "1cc8c9126666604a",
+            "5731fa19c505a4bf",
+            "529586adf9f2ec44",
+            "726115bdf490f121",
+            "391e34f366b8863b",
+            "7b2ad4f2ec851520",
+            "f70d9249c9d89a8a",
+            "c8d3f2c394c20453",
+            "3ec1f2608ac5f60e"
+        ],
+        "x": 74,
+        "y": 239,
+        "w": 1042,
+        "h": 422
+    },
+    {
+        "id": "e530ed812f727e1b",
+        "type": "response",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "",
+        "eventAName": "eventA",
+        "eventBName": "eventB",
+        "negate": false,
+        "params": {
+            "eventAName": "string",
+            "eventBName": "string",
+            "negate": "boolean"
+        },
+        "x": 640,
+        "y": 280,
+        "wires": [
+            [
+                "726115bdf490f121"
+            ]
+        ]
+    },
+    {
+        "id": "edc44960b72dde5e",
+        "type": "coexistence",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "",
+        "eventAName": "eventA",
+        "eventBName": "eventB",
+        "negate": false,
+        "params": {
+            "eventAName": "string",
+            "eventBName": "string",
+            "negate": "boolean"
+        },
+        "x": 670,
+        "y": 380,
+        "wires": [
+            [
+                "726115bdf490f121"
+            ]
+        ]
+    },
+    {
+        "id": "1cc8c9126666604a",
+        "type": "responded-existence",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "",
+        "eventAName": "eventA",
+        "eventBName": "eventB",
+        "negate": false,
+        "params": {
+            "eventAName": "string",
+            "eventBName": "string",
+            "negate": "boolean"
+        },
+        "x": 660,
+        "y": 460,
+        "wires": [
+            [
+                "726115bdf490f121"
+            ]
+        ]
+    },
+    {
+        "id": "5731fa19c505a4bf",
+        "type": "chain-response",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "",
+        "eventAName": "eventA",
+        "eventBName": "eventB",
+        "negate": false,
+        "time": "180",
+        "params": {
+            "eventAName": "string",
+            "eventBName": "string",
+            "negate": "boolean",
+            "time": "number"
+        },
+        "x": 660,
+        "y": 540,
+        "wires": [
+            [
+                "726115bdf490f121"
+            ]
+        ]
+    },
+    {
+        "id": "529586adf9f2ec44",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": " Event B occurs immediately after Event A",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{   \"event\": [     {       \"string\": [         {           \"$\": {             \"key\": \"concept:name\",             \"value\": \"Start\"           }         }       ]     },     {       \"string\": [         {           \"$\": {             \"key\": \"concept:name\",             \"value\": \"eventA\"           }         }       ]     },     {       \"string\": [         {           \"$\": {             \"key\": \"concept:name\",             \"value\": \"Intermediate\"           }         }       ]     },     {       \"string\": [         {           \"$\": {             \"key\": \"concept:name\",             \"value\": \"eventB\"           }         }       ]     },     {       \"string\": [         {           \"$\": {             \"key\": \"concept:name\",             \"value\": \"End\"           }         }       ]     }   ] }",
+        "payloadType": "json",
+        "x": 320,
+        "y": 280,
+        "wires": [
+            [
+                "e530ed812f727e1b"
+            ]
+        ]
+    },
+    {
+        "id": "726115bdf490f121",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "391e34f366b8863b",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": " Both events A and B have occurred",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"event\":[{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Start\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"eventB\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Intermediate\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"eventA\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"End\"}}]}]}",
+        "payloadType": "json",
+        "x": 320,
+        "y": 380,
+        "wires": [
+            [
+                "edc44960b72dde5e"
+            ]
+        ]
+    },
+    {
+        "id": "7b2ad4f2ec851520",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "Event B occurs at any point after Event A has occurred",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"trace\":{\"event\":[{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Start\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:00:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"eventA\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:05:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Intermediate\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:10:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"eventB\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:15:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"End\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:20:00Z\"}}]}]}}",
+        "payloadType": "json",
+        "x": 320,
+        "y": 460,
+        "wires": [
+            [
+                "1cc8c9126666604a"
+            ]
+        ]
+    },
+    {
+        "id": "f70d9249c9d89a8a",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "Event B has occurred 180s  after event A",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"event\":[{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Start\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:00:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"eventA\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:05:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"Intermediate\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:06:00Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"eventB\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:06:30Z\"}}]},{\"string\":[{\"$\":{\"key\":\"concept:name\",\"value\":\"End\"}}],\"date\":[{\"$\":{\"key\":\"time:timestamp\",\"value\":\"2024-11-18T10:20:00Z\"}}]}]}",
+        "payloadType": "json",
+        "x": 320,
+        "y": 540,
+        "wires": [
+            [
+                "5731fa19c505a4bf",
+                "c8d3f2c394c20453"
+            ]
+        ]
+    },
+    {
+        "id": "c8d3f2c394c20453",
+        "type": "chain-response",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "",
+        "eventAName": "eventA",
+        "eventBName": "eventB",
+        "negate": false,
+        "time": "60",
+        "params": {
+            "eventAName": "string",
+            "eventBName": "string",
+            "negate": "boolean",
+            "time": "number"
+        },
+        "x": 660,
+        "y": 620,
+        "wires": [
+            [
+                "3ec1f2608ac5f60e"
+            ]
+        ]
+    },
+    {
+        "id": "3ec1f2608ac5f60e",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "negative result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "f4cdab2561ef4edb",
+        "type": "comment",
+        "z": "a16837866ec75648",
+        "name": "The @statuscompliance/control-flow package is a collection of Node-RED components \\n specifically designed for the STATUS project, focusing on performing control-flow checks \\n  within workflows. This set of nodes helps ensure the correct sequencing and coexistence  \\n of events, enabling more robust compliance and control flow management.",
+        "info": "The @statuscompliance/control-flow package is a collection of Node-RED components \\n specifically designed for the STATUS project, focusing on performing control-flow checks \\n  within workflows. This set of nodes helps ensure the correct sequencing and coexistence  \\n of events, enabling more robust compliance and control flow management.",
+        "x": 590,
+        "y": 140,
+        "wires": []
+    }
+]

@@ -2,8 +2,8 @@ module.exports = function (RED) {
     function GroupByPropertyNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
-        var groups = {};
-        var ac = 0;
+        let groups = {};
+        let ac = 0;
         node.on("input", function (msg) {
             let property =
                 msg.req && msg.req.body && msg.req.body.property !== undefined
@@ -22,7 +22,7 @@ module.exports = function (RED) {
                 groups[key].push(payload);
                 ac++;
             }
-            if (ac === msg.len) {
+            if (ac === msg.len-1) {
                 msg.payload = groups;
                 node.send(msg);
             }

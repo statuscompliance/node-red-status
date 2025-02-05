@@ -6,27 +6,20 @@ module.exports = function (RED) {
 
         const node = this;
         node.on("input", async function (msg) {
-            switch (msg.req.body.valueType || config.valueType) {
+            let valueType = msg.req && msg.req.body && msg.req.body.valueType !== undefined ? msg.req.body.valueType : config.valueType;
+            switch (valueType) {
                 case "GithubUrl":
-                    const user = msg.req.body.user || config.user;
-                    const repo = msg.req.body.repo || config.repo;
-                    const path = msg.req.body.path || config.path;
-                    const docName = encodeURIComponent(
-                        `${msg.req.body.docName || config.docName}.pdf`
-                    );
-                    const githubToken =
-                        msg.req.body.githubToken || config.githubToken;
-                    const githubUrl = `https://api.github.com/repos/${user}/${repo}/contents/${path}/${docName}`;
+                    let user = msg.req && msg.req.body && msg.req.body.user !== undefined ? msg.req.body.user : config.user;
+                    let repo = msg.req && msg.req.body && msg.req.body.repo !== undefined ? msg.req.body.repo : config.repo;
+                    let path = msg.req && msg.req.body && msg.req.body.path !== undefined ? msg.req.body.path : config.path;
+                    let docName = encodeURIComponent(msg.req && msg.req.body && msg.req.body.docName !== undefined ? `${msg.req.body.docName}.pdf` : `${config.docName}.pdf`);
+                    let githubToken = msg.req && msg.req.body && msg.req.body.githubToken !== undefined ? msg.req.body.githubToken : config.githubToken;
 
-                    if (!githubUrl) {
-                        node.error("GitHub URL not provided");
-                        msg.payload = "GitHub URL not provided";
-                        node.send(msg);
-                        return;
-                    }
-                    if (!user) {
-                        node.error("GitHub user not provided");
-                        msg.payload = "GitHub user not provided";
+                    let githubUrl = `https://api.github.com/repos/${user}/${repo}/contents/${path}/${docName}`;
+
+                    if (!user || !repo || !path || !docName || !githubToken) {
+                        node.error("Missing required parameters");
+                        msg.payload = "Missing required parameters";
                         node.send(msg);
                         return;
                     }
@@ -59,7 +52,7 @@ module.exports = function (RED) {
                     }
                     break;
                 case "URL":
-                    const url = msg.req.body.url || config.url;
+                    let url = msg.req && msg.req.body && msg.req.body.url !== undefined ? msg.req.body.url : config.url;
                     if (!url) {
                         node.error("URL not provided");
                         msg.payload = "URL not provided";
@@ -98,6 +91,7 @@ module.exports = function (RED) {
                         msg.payload = "Unsupported file type";
                         node.send(msg);
                     }
+                    break;
                 default:
                     node.warn("Invalid filter type");
                     break;

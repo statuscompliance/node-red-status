@@ -1,0 +1,446 @@
+[
+    {
+        "id": "a16837866ec75648",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "79104e95baf23b39",
+        "type": "group",
+        "z": "a16837866ec75648",
+        "name": "Logic nodes",
+        "style": {
+            "stroke": "#c8e7a7",
+            "fill": "#e3f3d3",
+            "fill-opacity": "0.58",
+            "label": true,
+            "label-position": "n",
+            "color": "#000000"
+        },
+        "nodes": [
+            "563c66de87585191",
+            "c0523dadadd4935c",
+            "f7eef7a6b4b262fb",
+            "50fdaca3641f0db0",
+            "1377fc2701723ea9",
+            "db3f2c1c9a77c9d6",
+            "99718c2500e84c17",
+            "35fc2c13755e7a66",
+            "8829593a0ce97468",
+            "f15b85a65b6ebd29",
+            "863af0f3b08e7270",
+            "cf5d354269328064",
+            "8b1a82ee243bc062",
+            "eaca30dcf8347af8",
+            "6f47711e056c8b0b",
+            "720b5d3694668826",
+            "78d0e8477b7957e9",
+            "78e1e3a5a03eae06"
+        ],
+        "x": 154,
+        "y": 219,
+        "w": 752,
+        "h": 442
+    },
+    {
+        "id": "f4cdab2561ef4edb",
+        "type": "comment",
+        "z": "a16837866ec75648",
+        "name": "The `@statuscompliance/logic` package offers a collection of logical operators \\n and functions tailored for the STATUS project. These components allow for \\n easy manipulation of boolean values, enabling logical operations such as AND, \\n OR, and conditional checks within Node-RED flows.",
+        "info": "The `@statuscompliance/logic` package offers a collection of logical operators \\n and functions tailored for the STATUS project. These components allow for \\n easy manipulation of boolean values, enabling logical operations such as AND, \\n OR, and conditional checks within Node-RED flows.",
+        "x": 540,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "563c66de87585191",
+        "type": "and",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "",
+        "x": 630,
+        "y": 260,
+        "wires": [
+            [
+                "35fc2c13755e7a66"
+            ]
+        ]
+    },
+    {
+        "id": "c0523dadadd4935c",
+        "type": "lesser-than",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "",
+        "x": 610,
+        "y": 420,
+        "wires": [
+            [
+                "35fc2c13755e7a66"
+            ]
+        ]
+    },
+    {
+        "id": "f7eef7a6b4b262fb",
+        "type": "implies",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "",
+        "x": 620,
+        "y": 500,
+        "wires": [
+            [
+                "35fc2c13755e7a66"
+            ]
+        ]
+    },
+    {
+        "id": "50fdaca3641f0db0",
+        "type": "or",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "",
+        "x": 630,
+        "y": 340,
+        "wires": [
+            [
+                "35fc2c13755e7a66"
+            ]
+        ]
+    },
+    {
+        "id": "1377fc2701723ea9",
+        "type": "if-else",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "",
+        "x": 410,
+        "y": 600,
+        "wires": [
+            [
+                "6f47711e056c8b0b"
+            ],
+            [
+                "720b5d3694668826"
+            ]
+        ]
+    },
+    {
+        "id": "db3f2c1c9a77c9d6",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "AND operator",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"result\":true},{\"result\":true}]",
+        "payloadType": "json",
+        "x": 270,
+        "y": 260,
+        "wires": [
+            [
+                "99718c2500e84c17"
+            ]
+        ]
+    },
+    {
+        "id": "99718c2500e84c17",
+        "type": "split",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 420,
+        "y": 260,
+        "wires": [
+            [
+                "563c66de87585191"
+            ]
+        ]
+    },
+    {
+        "id": "35fc2c13755e7a66",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "8829593a0ce97468",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "First element",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "position",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2",
+        "payloadType": "num",
+        "x": 270,
+        "y": 400,
+        "wires": [
+            [
+                "c0523dadadd4935c"
+            ]
+        ]
+    },
+    {
+        "id": "f15b85a65b6ebd29",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Second element",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "position",
+                "v": "2",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "5",
+        "payloadType": "num",
+        "x": 280,
+        "y": 440,
+        "wires": [
+            [
+                "c0523dadadd4935c"
+            ]
+        ]
+    },
+    {
+        "id": "863af0f3b08e7270",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "OR operator",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"result\":true},{\"result\":false}]",
+        "payloadType": "json",
+        "x": 270,
+        "y": 340,
+        "wires": [
+            [
+                "cf5d354269328064"
+            ]
+        ]
+    },
+    {
+        "id": "cf5d354269328064",
+        "type": "split",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 430,
+        "y": 340,
+        "wires": [
+            [
+                "50fdaca3641f0db0"
+            ]
+        ]
+    },
+    {
+        "id": "8b1a82ee243bc062",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Implies operator [ !A || B ]",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"result\":false },{\"result\":true}]",
+        "payloadType": "json",
+        "x": 310,
+        "y": 500,
+        "wires": [
+            [
+                "eaca30dcf8347af8"
+            ]
+        ]
+    },
+    {
+        "id": "eaca30dcf8347af8",
+        "type": "split",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 490,
+        "y": 500,
+        "wires": [
+            [
+                "f7eef7a6b4b262fb"
+            ]
+        ]
+    },
+    {
+        "id": "6f47711e056c8b0b",
+        "type": "function",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Print \"Condition met\"",
+        "func": "msg.payload = \"Condition met\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 580,
+        "wires": [
+            [
+                "35fc2c13755e7a66"
+            ]
+        ]
+    },
+    {
+        "id": "720b5d3694668826",
+        "type": "function",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Print \"Condition NOT met\"",
+        "func": "msg.payload = \"Condition NOT met\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 620,
+        "wires": [
+            [
+                "35fc2c13755e7a66"
+            ]
+        ]
+    },
+    {
+        "id": "78d0e8477b7957e9",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "True payload",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "json",
+        "x": 270,
+        "y": 580,
+        "wires": [
+            [
+                "1377fc2701723ea9"
+            ]
+        ]
+    },
+    {
+        "id": "78e1e3a5a03eae06",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "False payload",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "json",
+        "x": 270,
+        "y": 620,
+        "wires": [
+            [
+                "1377fc2701723ea9"
+            ]
+        ]
+    }
+]

@@ -4,10 +4,12 @@ module.exports = function (RED) {
         var node = this;
 
         node.on("input", function (msg) {
-            var attribute = msg.req.body.attribute || config.attribute;
-            var value = msg.req.body.value || config.value;
+            let attribute = msg.req && msg.req.body && msg.req.body.attribute !== undefined ? msg.req.body.attribute : config.attribute;
+            let value = msg.req && msg.req.body && msg.req.body.value !== undefined ? msg.req.body.value : config.value;
+
+            let type = msg.req && msg.req.body && msg.req.body.valueType !== undefined ? msg.req.body.valueType : config.valueType;
             // Filtrar mensajes basados en el tipo seleccionado
-            switch (msg.req.body.valueType || config.valueType) {
+            switch (type) {
                 case "Clasification":
                     if (msg.payload[attribute] === value) {
                         node.send(msg);

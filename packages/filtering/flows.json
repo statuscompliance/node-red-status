@@ -1,0 +1,286 @@
+[
+    {
+        "id": "a16837866ec75648",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "77cc17acf334b248",
+        "type": "group",
+        "z": "a16837866ec75648",
+        "name": "Filtering nodes",
+        "style": {
+            "stroke": "#c8e7a7",
+            "fill": "#e3f3d3",
+            "fill-opacity": "0.64",
+            "label": true,
+            "label-position": "n",
+            "color": "#000000"
+        },
+        "nodes": [
+            "3eccc789435e1d47",
+            "fb236ca012f4916e",
+            "b290e7299891ff9e",
+            "28b902b21c8e7c06",
+            "afdcf0d12d571226",
+            "c34f59b0c909b311",
+            "99a2e39b11a1dea8",
+            "edc9d5cfeac1176f",
+            "234d902532973f52",
+            "4427030d6f218336"
+        ],
+        "x": 114,
+        "y": 259,
+        "w": 972,
+        "h": 202
+    },
+    {
+        "id": "f4cdab2561ef4edb",
+        "type": "comment",
+        "z": "a16837866ec75648",
+        "name": "The `@statuscompliance/filtering` package is a collection of Node-RED components \\n specifically designed for the STATUS project, focusing on filtering JSON object \\n information. These nodes help to manage data flows by applying different filtering rules \\n based on content, date ranges, or specific attributes.",
+        "info": "The `@statuscompliance/filtering` package is a collection of Node-RED components \\n specifically designed for the STATUS project, focusing on filtering JSON object \\n information. These nodes help to manage data flows by applying different filtering rules \\n based on content, date ranges, or specific attributes.",
+        "x": 600,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "3eccc789435e1d47",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "fb236ca012f4916e",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "Filters messages based on 'Importance'",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"id\":123,\"type\":\"important\",\"content\":\"Este es un mensaje importante\",\"date\":\"2024-01-15T12:00:00Z\"}",
+        "payloadType": "json",
+        "x": 320,
+        "y": 300,
+        "wires": [
+            [
+                "b290e7299891ff9e"
+            ]
+        ]
+    },
+    {
+        "id": "b290e7299891ff9e",
+        "type": "filter-by",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "",
+        "valueType": "Importance",
+        "attribute": "type",
+        "value": "important",
+        "params": {
+            "name": "string",
+            "valueType": "ENUM(\"Clasification\", \"Importance\", \"ContentType\", \"DateFromToday\", \"State\", \"ActivityPipe\", \"AssetPipe\", \"ActorPipe\")",
+            "attribute": "string",
+            "value": "string"
+        },
+        "x": 790,
+        "y": 300,
+        "wires": [
+            [
+                "3eccc789435e1d47"
+            ]
+        ]
+    },
+    {
+        "id": "28b902b21c8e7c06",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "Filters objects by a specified date range.",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"id\":2,\"created_at\":\"2024-05-15T10:00:00Z\",\"content\":\"Documento fuera del rango\"},{\"id\":3,\"created_at\":\"2024-08-20T14:45:00Z\",\"content\":\"Documento dentro del rango\"},{\"id\":4,\"created_at\":\"2024-09-25T18:30:00Z\",\"content\":\"Otro documento dentro del rango\"}]",
+        "payloadType": "json",
+        "x": 320,
+        "y": 360,
+        "wires": [
+            [
+                "99a2e39b11a1dea8"
+            ]
+        ]
+    },
+    {
+        "id": "afdcf0d12d571226",
+        "type": "filter-by-date",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "",
+        "attribute": "created_at",
+        "startDate": "2024-06-01",
+        "endDate": "2024-10-01",
+        "params": {
+            "attribute": "string",
+            "startDate": "string",
+            "endDate": "string"
+        },
+        "x": 690,
+        "y": 360,
+        "wires": [
+            [
+                "c34f59b0c909b311"
+            ]
+        ]
+    },
+    {
+        "id": "c34f59b0c909b311",
+        "type": "join",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": false,
+        "timeout": "1",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 830,
+        "y": 360,
+        "wires": [
+            [
+                "3eccc789435e1d47"
+            ]
+        ]
+    },
+    {
+        "id": "99a2e39b11a1dea8",
+        "type": "split",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 550,
+        "y": 360,
+        "wires": [
+            [
+                "afdcf0d12d571226"
+            ]
+        ]
+    },
+    {
+        "id": "edc9d5cfeac1176f",
+        "type": "group-by",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "",
+        "property": "category",
+        "params": {
+            "property": "string"
+        },
+        "x": 660,
+        "y": 420,
+        "wires": [
+            [
+                "3eccc789435e1d47"
+            ]
+        ]
+    },
+    {
+        "id": "234d902532973f52",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "Groups incoming messages by",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "len",
+                "v": "4",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"id\":1,\"category\":\"A\",\"value\":100},{\"id\":2,\"category\":\"B\",\"value\":200},{\"id\":3,\"category\":\"A\",\"value\":150},{\"id\":4,\"category\":\"C\",\"value\":300}]",
+        "payloadType": "json",
+        "x": 290,
+        "y": 420,
+        "wires": [
+            [
+                "4427030d6f218336"
+            ]
+        ]
+    },
+    {
+        "id": "4427030d6f218336",
+        "type": "split",
+        "z": "a16837866ec75648",
+        "g": "77cc17acf334b248",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 510,
+        "y": 420,
+        "wires": [
+            [
+                "edc9d5cfeac1176f"
+            ]
+        ]
+    }
+]

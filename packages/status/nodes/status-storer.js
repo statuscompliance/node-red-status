@@ -5,103 +5,77 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         const node = this;
 
-        let backendUrl =
-            config.backendUrl !== undefined
-                ? config.backendUrl
-                : "http://status-backend:3001/api/computations";
-
-        let accessToken =
-            config.accessToken !== undefined
-                ? config.accessToken
-                : config.accessToken;
-
-        let bufferSize =
-            config.bufferSize !== undefined ? parseInt(config.bufferSize) : 2;
-
-        let flushInterval =
-            config.flushInterval !== undefined
-                ? parseInt(config.flushInterval)
-                : 3000;
-
+        let backendUrl = config.backendUrl ?? "http://status-backend:3001/api/computations";
+        let accessToken = config.accessToken ?? '';
+        let bufferSize = parseInt(config.bufferSize ?? 2);
+        let flushInterval = parseInt(config.flushInterval ?? 3000);
+        
         let buffer = [];
         let totalPayloadsSent = 0;
         let lastMessage = null;
 
-        async function sendToBackend(msg) {
+        async function sendToBackend(msg, isFinal = false) {
             if (buffer.length === 0) return;
-
-            const payloadToSend = buffer.slice();
+            isFinal = msg.size === (totalPayloadsSent + buffer.length);
+            const payloadToSend = {
+                computations: buffer.slice(),
+                done: isFinal,
+            };
             buffer = [];
 
             try {
-                const response = await axios.post(
+                totalPayloadsSent += payloadToSend.computations.length;
+                await axios.post(
                     backendUrl,
                     JSON.stringify(payloadToSend),
                     {
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: "Bearer " + accessToken,
+                            "x-access-token": accessToken
                         },
+                        withCredentials: true,
                     }
                 );
-                totalPayloadsSent += payloadToSend.length;
-                lastMessage = msg ? msg : lastMessage;
-                if (lastMessage) {
-                    if (lastMessage.size === totalPayloadsSent) {
-                        totalPayloadsSent = 0;
-                        lastMessage.payload = {
-                            message: "Computations succesfully stored",
-                        };
-                        node.send(lastMessage);
-                    }
+                totalPayloadsSent += payloadToSend.computations.length;
+                lastMessage = msg ?? lastMessage;
+                if (isFinal) {
+                    totalPayloadsSent = 0;
+                    lastMessage.payload = {
+                        message: "Computations succesfully stored",
+                    };
+                    node.send(lastMessage);
                 }
+                
             } catch (error) {
                 node.error("Error while sending payload to backend" + error);
             }
         }
 
-        function addToBuffer(msg, bufferSize) {
-            let lastResponse = null;
+        function addToBuffer(msg) {
             buffer.push(msg.payload);
-
             if (buffer.length >= bufferSize) {
-                lastResponse = sendToBackend(msg);
+                sendToBackend(msg, false);
             }
         }
 
         node.on("input", function (msg) {
-            backendUrl =
-                msg.req && msg.req.body && msg.req.body.backendUrl !== undefined
-                    ? msg.req.body.backendUrl
-                    : "http://status-backend:3001/api/computations";
-
-            accessToken =
-                msg.req &&
-                msg.req.body &&
-                msg.req.body.accessToken !== undefined
-                    ? msg.req.body.accessToken
-                    : config.accessToken;
-
-            bufferSize =
-                msg.req && msg.req.body && msg.req.body.bufferSize !== undefined
-                    ? parseInt(msg.req.body.bufferSize)
-                    : 2;
-
-            flushInterval =
-                msg.req &&
-                msg.req.body &&
-                msg.req.body.flushInterval !== undefined
-                    ? parseInt(msg.req.body.flushInterval)
-                    : 2000;
-
-            addToBuffer(msg, bufferSize);
+            backendUrl = (msg.req?.body?.backendUrl || config.backendUrl) ?? "http://status-backend:3001/api/computations";
+            accessToken = (msg.req?.headers['x-access-token'] || msg.req?.cookies?.accessToken) ?? config.accessToken;
+            bufferSize = parseInt(msg.req?.body?.bufferSize ?? 2);
+            flushInterval = parseInt(msg.req?.body?.flushInterval ?? 2000);
+            let computationGroup = msg.req?.body?.computationGroup ?? '';
+            
+            msg.payload = {
+                computationGroup: computationGroup,
+                ...msg.payload,
+            };
+            addToBuffer(msg);
         });
 
-        const intervalId = setInterval(sendToBackend, flushInterval);
+        const intervalId = setInterval(() => sendToBackend, flushInterval);
 
         node.on("close", function () {
             clearInterval(intervalId);
-            sendToBackend();
         });
     }
 

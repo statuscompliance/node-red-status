@@ -5,9 +5,13 @@
         defaults: {
             name: { value: "" },
             conceptName: { value: "" },
-            params: { 
+            attribute: { value: "" },
+            value: { value: "" },
+            params: {
                 value: {
                     conceptName: 'string',
+                    attribute: 'string',
+                    value: 'string',
                 },
             }
         },
@@ -41,10 +45,18 @@
         <label for="node-input-conceptName"><i class="fa fa-align-justify"></i> Concept Name</label>
         <input type="text" id="node-input-conceptName" placeholder="Concept Name">
     </div>
+    <div class="form-row">
+        <label for="node-input-attribute"><i class="fa fa-info"></i> Attribute</label>
+        <input type="text" id="node-input-attribute" placeholder="Attribute">
+    </div>
+    <div class="form-row">
+        <label for="node-input-value"><i class="fa fa-key"></i> Value (In case of dictionary structure)</label>
+        <input type="text" id="node-input-value" placeholder="Value">
+    </div>
 </script>
 <script type="text/x-red" data-help-name="has-activity">
     <p>
-        The "Check Concept Name" node checks if a specific concept name exists within an event trace. It searches through the trace's event strings to find if any string matches the given concept name.
+        The "has-activity" node verifies if a specific concept name exists within a given event trace or data structure. It uses the Fuse.js library for fuzzy matching, enabling more flexible search criteria. This is particularly useful for validating or filtering traces in process mining scenarios.
     </p>
 
     <h3>Inputs</h3>
@@ -53,7 +65,7 @@
             <span class="property-type">object</span>
         </dt>
         <dd>
-            The payload should include a <code>trace</code> object with the following structure:
+            The payload should contain a structured dataset (e.g., event trace) to be searched. Typically:
             <pre><code>
 {
     "trace": {
@@ -72,12 +84,25 @@
     }
 }
             </code></pre>
+            Alternatively, the input could use the <code>events</code> property or any arbitrary dataset as long as it aligns with the expected structure.
         </dd>
         <dt>conceptName
             <span class="property-type">string</span>
         </dt>
         <dd>
-            The concept name to search for within the trace's event strings. This can be set via the node's configuration or provided in the incoming message's body under <code>req.body.conceptName</code>.
+            The name or term to search for in the dataset. This can be set in the node's configuration or provided dynamically through <code>req.body.conceptName</code>.
+        </dd>
+        <dt>attribute
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The key or property name to match against. Defaults to <code>"concept:name"</code>, but can be customized through <code>req.body.attribute</code>.
+        </dd>
+        <dt>value
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Optional. Specifies the key in the data objects to focus the search on. Defaults to searching the <code>attribute</code> property.
         </dd>
     </dl>
 
@@ -87,35 +112,37 @@
             <span class="property-type">object</span>
         </dt>
         <dd>
-            The output payload will contain a <code>result</code> property:
+            The output payload includes:
             <ul>
-                <li><code>{ "result": true }</code> if the specified concept name is found in the trace.</li>
-                <li><code>{ "result": false }</code> if the specified concept name is not found in the trace.</li>
+                <li><code>result: true</code> if the specified <code>conceptName</code> is found in the dataset.</li>
+                <li><code>result: false</code> if no match is found.</li>
+                <li><code>match</code>: an array of matched objects (if any).</li>
             </ul>
         </dd>
     </dl>
 
     <h3>Details</h3>
     <p>
-        The node checks the <code>trace</code> object within the payload to find events with a string that has the key <code>"concept:name"</code> matching the provided <code>conceptName</code>. It performs the following steps:
+        This node iterates through the input dataset to identify matches using Fuse.js. Key steps include:
         <ul>
-            <li>Retrieves the <code>conceptName</code> from the node's configuration or the message body.</li>
-            <li>Iterates through the <code>trace.event</code> array to check each event's string elements.</li>
-            <li>Checks if any string element contains a key-value pair where the key is <code>"concept:name"</code> and the value matches the <code>conceptName</code>.</li>
+            <li>Extracting the search term (<code>conceptName</code>) and optional <code>attribute</code> or <code>value</code>.</li>
+            <li>Flattening the dataset to ensure a consistent structure for searching.</li>
+            <li>Performing a fuzzy search using Fuse.js, which supports partial and inexact matches.</li>
         </ul>
+        Matching criteria can be fine-tuned with Fuse.js options such as the threshold and scoring.
     </p>
 
     <h3>Examples of Use:</h3>
     <ul>
         <li><strong>Example 1:</strong>
             <ul>
-                <li><code>conceptName: "StartEvent"</code></li>
-                <li>The node will check if there is an event in the trace with a string element having <code>concept:name</code> equal to <code>"StartEvent"</code>.</li>
+                <li><code>conceptName: "StartEvent"</code>, <code>attribute: "concept:name"</code></li>
+                <li>The node checks if any event in the trace has <code>"concept:name"</code> close to <code>"StartEvent"</code> (fuzzy match).</li>
             </ul>
         </li>
         <li><strong>Example 2:</strong>
             <ul>
-                <li>Given the following payload:</li>
+                <li>Given payload:</li>
                 <pre><code>
 {
     "trace": {
@@ -134,11 +161,31 @@
     }
 }
                 </code></pre>
-                <li>And <code>conceptName</code> set to <code>"EndEvent"</code>, the node will output <code>{ "result": true }</code> as the concept name is found in the trace.</li>
+                <li>And configuration:</li>
+                <ul>
+                    <li><code>conceptName: "endevent"</code> (case-insensitive match)</li>
+                    <li><code>attribute: "concept:name"</code></li>
+                </ul>
+                <li>The node outputs:
+                    <pre><code>
+{
+    "result": true,
+    "match": [
+        {
+            "$": {
+                "key": "concept:name",
+                "value": "EndEvent"
+            }
+        }
+    ]
+}
+                    </code></pre>
+                </li>
             </ul>
         </li>
     </ul>
+
     <p>
-        This node is useful for filtering or validating traces based on the presence of specific concept names in event logs.
+        This node's flexibility makes it ideal for scenarios where data quality or structure is inconsistent, as Fuse.js can handle inexact matches gracefully.
     </p>
 </script>

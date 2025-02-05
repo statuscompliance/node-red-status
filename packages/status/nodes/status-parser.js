@@ -4,8 +4,8 @@ module.exports = function (RED) {
         var node = this;
 
         node.on("input", function (msg) {
-            newMsg = { ...msg };
-            let status = newMsg.req.query.status;
+            let newMsg = { ...msg };
+            let status = newMsg.req && newMsg.req.query && newMsg.req.query.status ? newMsg.req.query.status : "";
 
             if (status === "true") {
                 newMsg.payload = newMsg.payload.filter(

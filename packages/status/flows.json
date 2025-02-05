@@ -1,0 +1,220 @@
+[
+    {
+        "id": "8cf0baba89e4886a",
+        "type": "tab",
+        "label": "Flow 1 ",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4f4e407755ef2334",
+        "type": "group",
+        "z": "8cf0baba89e4886a",
+        "name": "Status nodes",
+        "style": {
+            "stroke": "#c8e7a7",
+            "fill": "#e3f3d3",
+            "fill-opacity": "0.7",
+            "label": true,
+            "label-position": "n",
+            "color": "#000000"
+        },
+        "nodes": [
+            "5831ed1bd562c414",
+            "86a042f75bb66446",
+            "138bba2903413604",
+            "edc65dd086092ecd",
+            "0057584d7f536751",
+            "0d995640157930e9"
+        ],
+        "x": 228,
+        "y": 259,
+        "w": 764,
+        "h": 468
+    },
+    {
+        "id": "0d995640157930e9",
+        "type": "group",
+        "z": "8cf0baba89e4886a",
+        "g": "4f4e407755ef2334",
+        "name": "",
+        "style": {
+            "stroke": "#c8e7a7",
+            "fill": "#e3f3d3",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "5f14bd97f5ea906f",
+            "4d8ace46c3a2d8f4"
+        ],
+        "x": 254,
+        "y": 503,
+        "w": 712,
+        "h": 198
+    },
+    {
+        "id": "5831ed1bd562c414",
+        "type": "status-parser",
+        "z": "8cf0baba89e4886a",
+        "g": "4f4e407755ef2334",
+        "name": "",
+        "x": 630,
+        "y": 360,
+        "wires": [
+            [
+                "138bba2903413604"
+            ]
+        ]
+    },
+    {
+        "id": "86a042f75bb66446",
+        "type": "inject",
+        "z": "8cf0baba89e4886a",
+        "g": "4f4e407755ef2334",
+        "name": "Opt 1: status=true",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "req.query",
+                "v": "{\"status\": \"true\" }",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"id\":1,\"name\":\"Item 1\",\"result\":true},{\"id\":2,\"name\":\"Item 2\",\"result\":false},{\"id\":3,\"name\":\"Item 3\",\"result\":true}]",
+        "payloadType": "json",
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "5831ed1bd562c414"
+            ]
+        ]
+    },
+    {
+        "id": "138bba2903413604",
+        "type": "debug",
+        "z": "8cf0baba89e4886a",
+        "g": "4f4e407755ef2334",
+        "name": "result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "5f14bd97f5ea906f",
+        "type": "status-storer",
+        "z": "8cf0baba89e4886a",
+        "g": "0d995640157930e9",
+        "name": "",
+        "backendUrl": "",
+        "accessToken": "",
+        "bufferSize": "",
+        "flushInterval": "",
+        "params": {
+            "backendUrl": "string",
+            "accessToken": "string",
+            "bufferSize": "number",
+            "flushInterval": "number"
+        },
+        "x": 610,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "edc65dd086092ecd",
+        "type": "inject",
+        "z": "8cf0baba89e4886a",
+        "g": "4f4e407755ef2334",
+        "name": "Opt 2: status=false",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "req.query",
+                "v": "{\"status\": \"false\" }",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"id\":1,\"name\":\"Item 1\",\"result\":true},{\"id\":2,\"name\":\"Item 2\",\"result\":false},{\"id\":3,\"name\":\"Item 3\",\"result\":true}]",
+        "payloadType": "json",
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [
+                "5831ed1bd562c414"
+            ]
+        ]
+    },
+    {
+        "id": "0057584d7f536751",
+        "type": "inject",
+        "z": "8cf0baba89e4886a",
+        "g": "4f4e407755ef2334",
+        "name": "Opt 3: undefined status",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"id\":1,\"name\":\"Item 1\",\"result\":true},{\"id\":2,\"name\":\"Item 2\",\"result\":false},{\"id\":3,\"name\":\"Item 3\",\"result\":true}]",
+        "payloadType": "json",
+        "x": 420,
+        "y": 420,
+        "wires": [
+            [
+                "5831ed1bd562c414"
+            ]
+        ]
+    },
+    {
+        "id": "f46926caca41a1cd",
+        "type": "comment",
+        "z": "8cf0baba89e4886a",
+        "name": "The `@statuscompliance/status` package provides essential components for integrating \\n the STATUS project with Node-RED. It includes nodes that facilitate storing and parsing data, \\n enabling seamless communication between Node-RED and system backends.",
+        "info": "The `@statuscompliance/status` package provides essential components for integrating \\n the STATUS project with Node-RED. It includes nodes that facilitate storing and parsing data, \\n enabling seamless communication between Node-RED and system backends.",
+        "x": 600,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "4d8ace46c3a2d8f4",
+        "type": "comment",
+        "z": "8cf0baba89e4886a",
+        "g": "0d995640157930e9",
+        "name": "The \"Status Storer\" Node-RED custom node takes as input messages with a payload to buffer, \\n and optionally configuration values (e.g., backendUrl, accessToken, bufferSize, flushInterval); \\n it produces no direct output but sends buffered messages in bulk to a backend API, \\n confirming success with a status message when applicable (See the help guide for more info).",
+        "info": "",
+        "x": 610,
+        "y": 580,
+        "wires": []
+    }
+]
