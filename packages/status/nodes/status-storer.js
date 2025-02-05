@@ -48,6 +48,11 @@ module.exports = function (RED) {
                 
             } catch (error) {
                 node.error("Error while sending payload to backend" + error);
+                msg.payload = {
+                    message: "Error while sending payload to backend",
+                    error: error,
+                };
+                node.send(msg);
             }
         }
 

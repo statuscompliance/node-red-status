@@ -1,6 +1,6 @@
 {
     "name": "@statuscompliance/status",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Collection of STATUS project components useful for integrating node-red with the system.",
     "engines": {
         "node": ">=22.0.0",
