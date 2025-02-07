@@ -43,5 +43,7 @@
             "get-kv-property": "nodes/get-kv-property.js"
         }
     },
-    "dependencies": {}
+    "dependencies": {
+        "uuid": "11.0.5"
+    }
 }

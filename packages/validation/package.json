@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/validation",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Collection of STATUS project components used for compliance checks",
   "engines": {
     "node": ">=22.0.0",
@@ -48,6 +48,7 @@
   "dependencies": {
     "axios": "1.7.9",
     "fuse.js": "7.1.0",
-    "pdf-parse": "1.1.1"
+    "pdf-parse": "1.1.1",
+    "uuid": "11.0.5"
   }
 }

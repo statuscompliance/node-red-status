@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 module.exports = function (RED) {
     function IsValidURL(config) {
         RED.nodes.createNode(this, config);
@@ -17,12 +19,18 @@ module.exports = function (RED) {
                     "(\\#[-a-zA-Z\\d_]*)?$",
                 "i"
             );
-
+            let result = false;
             if (urlPattern.test(msg.payload[property])) {
-                msg.payload.result = true;
-            } else {
-                msg.payload.result = false;
+                result = true;
             }
+            msg.payload.result = result
+            msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
+            msg.payload.evidences.push({
+                id: uuidv4(),
+                key: "url",
+                value: msg.payload[property],
+                result: result
+            });
             node.send(msg);
         });
     }

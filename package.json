@@ -11,33 +11,34 @@
   },
   "license": "Apache-2.0",
   "keywords": [
-      "node-red",
-      "status",
-      "compliance"
+    "node-red",
+    "status",
+    "compliance"
   ],
   "repository": {
-      "type": "git",
-      "url": "https://github.com/statuscompliance/node-red-status"
+    "type": "git",
+    "url": "https://github.com/statuscompliance/node-red-status"
   },
   "author": {
-      "name": "Álvaro Bernal",
-      "url": "https://github.com/alvarobernal2412"
+    "name": "Álvaro Bernal",
+    "url": "https://github.com/alvarobernal2412"
   },
   "contributors": [
-      {
-          "name": "Francisco Montero",
-          "url": "https://github.com/FJMonteroInformatica"
-      }
+    {
+      "name": "Francisco Montero",
+      "url": "https://github.com/FJMonteroInformatica"
+    }
   ],
   "files": [
-      "packages/*",
-      "README.md",
-      "LICENSE",
-      "flows.json"
+    "packages/*",
+    "README.md",
+    "LICENSE",
+    "flows.json"
   ],
   "workspaces": [
-      "packages/*"
+    "packages/*"
   ],
-  "devDependencies": {
+  "dependencies": {
+    "uuid": "^11.0.5"
   }
 }
