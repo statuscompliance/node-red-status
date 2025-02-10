@@ -4,38 +4,24 @@ module.exports = function (RED) {
         var node = this;
 
         this.on("input", function (msg) {
-            var eventAName =
-                msg.req && msg.req.body && msg.req.body.eventAName !== undefined
-                    ? msg.req.body.eventAName
-                    : config.eventAName;
-            var eventBName =
-                msg.req && msg.req.body && msg.req.body.eventBName !== undefined
-                    ? msg.req.body.eventBName
-                    : config.eventBName;
+            let eventAName = msg.req?.body?.eventAName ?? config.eventAName;
+            let eventBName = msg.req?.body?.eventBName ?? config.eventBName;
+            let negate = msg.req?.body?.negate ?? config.negate;
+            let time = msg.req?.body?.time ?? config.time;
 
-            var negate =
-                msg.req && msg.req.body && msg.req.body.negate !== undefined
-                    ? msg.req.body.negate
-                    : config.negate;
-
-            var time =
-                msg.req && msg.req.body && msg.req.body.time !== undefined
-                    ? msg.req.body.time
-                    : config.time;
-
-            var trace = msg.payload;
-
-            if (!trace || !trace.event || !Array.isArray(trace.event)) {
-                node.error("La traza no contiene eventos válidos", msg);
-                return;
+            let trace = (msg.payload.trace && msg.payload.trace.event) || msg.payload.event || msg.payload.events || msg.payload || [];
+            if (!Array.isArray(trace)) {
+                node.error("Invalid data format. Expected an array in trace.event or events.");
+                msg.payload.result = false;
+                return node.send(msg);
             }
 
-            var eventTimes = {
+            let eventTimes = {
                 eventA: null,
                 eventB: null,
             };
 
-            trace.event.forEach((event) => {
+            trace.forEach((event) => {
                 if (event.string) {
                     let strings = Array.isArray(event.string)
                         ? event.string
@@ -55,25 +41,39 @@ module.exports = function (RED) {
                 }
             });
 
-            // Verificar si B ocurre inmediatamente después de A
+            let result;
             if (eventTimes.eventA && eventTimes.eventB) {
-                // Aquí se puede definir lo que significa "acto seguido" (ej., 1 minuto después)
                 let timeDifference = eventTimes.eventB - eventTimes.eventA;
-                // Define el umbral para considerar B como "acto seguido" (ej., 1 minuto)
-                let threshold = time * 1000; // 1 minuto en milisegundos
+                let threshold = time * 1000;
 
                 if (timeDifference >= 0 && timeDifference <= threshold) {
-                    msg.payload = true;
+                    result = true;
                 } else {
-                    msg.payload = false;
+                    result = false;
                 }
             } else {
-                msg.payload = false;
+                result = false;
             }
 
             if (negate) {
-                msg.payload = !msg.payload;
+                result = !result;
             }
+            msg.payload.result = result;
+            msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
+            msg.payload.evidences.push({
+                id: uuidv4(),
+                name: "Chain Response",
+                value: { 
+                    eventA: { 
+                        timestamp: eventTimes.eventA, 
+                        value: eventAName
+                    }, eventB: { 
+                        timestamp: eventTimes.eventB, 
+                        value: eventBName
+                    }
+                },
+                result: result,
+            });
             node.send(msg);
         });
     }

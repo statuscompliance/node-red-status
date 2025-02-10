@@ -1,26 +1,20 @@
+const { v4: uuidv4 } = require('uuid');
+
 module.exports = function (RED) {
     function ResponseNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
         this.on("input", function (msg) {
-            var eventAName =
-                msg.req && msg.req.body && msg.req.body.eventAName !== undefined
-                    ? msg.req.body.eventAName
-                    : config.eventAName;
-            var eventBName =
-                msg.req && msg.req.body && msg.req.body.eventBName !== undefined
-                    ? msg.req.body.eventBName
-                    : config.eventBName;
-            var negate =
-                msg.req && msg.req.body && msg.req.body.negate !== undefined
-                    ? msg.req.body.negate
-                    : config.negate;
+            let eventAName = msg.req?.body?.eventAName ?? config.eventAName;
+            let eventBName = msg.req?.body?.eventBName ?? config.eventBName;
+            let negate = msg.req?.body?.negate ?? config.negate;
 
-            var trace = msg.payload;
+            let trace = (msg.payload.trace && msg.payload.trace.event) || msg.payload.event || msg.payload.events || msg.payload || [];
 
-            if (!trace || !trace.event || !Array.isArray(trace.event)) {
-                node.error("La traza no contiene eventos válidos", msg);
+
+            if (!Array.isArray(trace)) {
+                node.error("The trace is not in the expected format. Expected an array in trace.event.");
                 return;
             }
 
@@ -28,8 +22,7 @@ module.exports = function (RED) {
             let foundB = false;
             let isFollowed = false;
 
-            // Procesar la traza
-            trace.event.forEach((event) => {
+            trace.forEach((event) => {
                 if (event.string) {
                     let strings = Array.isArray(event.string)
                         ? event.string
@@ -39,12 +32,10 @@ module.exports = function (RED) {
                     if (name) {
                         if (name.$.value === eventAName) {
                             foundA = true;
-                            // Marca que A ha sido encontrado
                         } else if (name.$.value === eventBName) {
                             if (foundA) {
-                                // B es el siguiente evento después de A
                                 isFollowed = true;
-                                foundA = false; // Resetea para encontrar otro par A-B
+                                foundA = false;
                             }
                             foundB = true;
                         }
@@ -52,11 +43,19 @@ module.exports = function (RED) {
                 }
             });
 
-            msg.payload = isFollowed;
+            let result = isFollowed;
 
             if (negate) {
-                msg.payload = !msg.payload;
+                result = !msg.payload;
             }
+
+            msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
+            msg.payload.evidences.push({
+                id: uuidv4(),
+                name: "Response",
+                value: [eventAName, eventBName],
+                result: result,
+            });
             node.send(msg);
         });
     }
