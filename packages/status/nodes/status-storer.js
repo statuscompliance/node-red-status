@@ -70,9 +70,11 @@ module.exports = function (RED) {
             flushInterval = parseInt(msg.req?.body?.flushInterval ?? 2000);
             let computationGroup = msg.req?.body?.computationGroup ?? '';
             
+            const { result: value, ...rest } = msg.payload;
             msg.payload = {
                 computationGroup: computationGroup,
-                ...msg.payload,
+                value,
+                ...rest,
             };
             addToBuffer(msg);
         });
