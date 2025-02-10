@@ -1,10 +1,10 @@
 const Fuse = require("fuse.js");
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = function (RED) {
     function CheckConceptNameNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
-
 
         function flattenData(data, attribute, result = []) {
             if (Array.isArray(data)) {
@@ -20,27 +20,11 @@ module.exports = function (RED) {
         }
 
         node.on("input", async function (msg) {
-            let conceptName =
-                msg.req &&
-                msg.req.body &&
-                msg.req.body.conceptName !== undefined
-                    ? msg.req.body.conceptName
-                    : config.conceptName;
+            let conceptName = msg.req?.body?.conceptName ?? config.conceptName;
+            let attribute = msg.req?.body?.attribute ?? config.attribute;
+            let value = msg.req?.body?.value ?? config.value;
 
-            let attribute =
-                msg.req &&
-                msg.req.body &&
-                msg.req.body.attribute !== undefined
-                    ? msg.req.body.attribute
-                    : config.attribute;
-            
-            let value = msg.req &&
-                msg.req.body &&
-                msg.req.body.value !== undefined
-                    ? msg.req.body.value
-                    : config.value;
-
-            let data = (msg.payload.trace && msg.payload.trace.event) || msg.payload.events || msg.payload || [];
+            let data = (msg.payload.trace && msg.payload.trace.event) || msg.payload.event || msg.payload.events || msg.payload || [];
 
             if (!Array.isArray(data)) {
                 node.error("Invalid data format. Expected an array in trace.event or events.");
@@ -51,7 +35,7 @@ module.exports = function (RED) {
             let searchableList = flattenData(data, attribute);
 
             const fuse = new Fuse(searchableList, {
-                keys: value? [value]: [attribute],
+                keys: value? [value]: ["value"],
                 includeScore: true,
                 threshold: 0.3,
             });
@@ -59,7 +43,14 @@ module.exports = function (RED) {
             const result = fuse.search(conceptName);
 
             msg.payload.result = result.length > 0;
-            msg.payload.match = result.map((item) => item.item);
+            msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
+            msg.payload.evidences.push({
+                id: uuidv4(),
+                key: conceptName,
+                value: result.map((item) => item.item),
+                result: result.length > 0,
+            });
+
             node.send(msg);
         });
     }

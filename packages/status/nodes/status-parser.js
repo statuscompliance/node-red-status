@@ -5,18 +5,13 @@ module.exports = function (RED) {
 
         node.on("input", function (msg) {
             let newMsg = { ...msg };
-            let status = newMsg.req && newMsg.req.query && newMsg.req.query.status ? newMsg.req.query.status : "";
+            let status = newMsg.req?.query?.status ?? "";
 
-            if (status === "true") {
+            if (status === "true" || status === "false") {
+                const filterValue = status === "true";
                 newMsg.payload = newMsg.payload.filter(
-                    (obj) => obj.result === true
+                    (obj) => obj.result === filterValue
                 );
-            } else if (status === "false") {
-                newMsg.payload = newMsg.payload.filter(
-                    (obj) => obj.result === false
-                );
-            } else {
-                newMsg.payload = newMsg.payload;
             }
             node.send(newMsg);
         });

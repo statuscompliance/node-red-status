@@ -5,33 +5,19 @@ module.exports = function (RED) {
         var node = this;
 
         node.on("input", function (msg) {
-            var keyToSearch =
-                msg.req &&
-                msg.req.body &&
-                msg.req.body.keyToSearch !== undefined
-                    ? msg.req.body.keyToSearch
-                    : config.keyToSearch;
-            var payloadProperty =
-                msg.req &&
-                msg.req.body &&
-                msg.req.body.payloadProperty !== undefined
-                    ? msg.req.body.payloadProperty
-                    : config.payloadProperty;
-            var response =
-                msg.req && msg.req.body && msg.req.body.response !== undefined
-                    ? msg.req.body.response
-                    : config.response;
+            var keyToSearch = msg.req?.body?.keyToSearch ?? config.keyToSearch;
+            var payloadProperty = msg.req?.body?.payloadProperty ?? config.payloadProperty;
+            var response = msg.req?.body?.response ?? config.response;
 
-            var trace = null;
-
+            let trace = msg.payload.trace? msg.payload.trace : msg.payload;
             if (
-                msg.payload &&
-                typeof msg.payload === "object" &&
-                msg.payload.hasOwnProperty(payloadProperty)
+                trace &&
+                typeof trace === "object" &&
+                trace.hasOwnProperty(payloadProperty)
             ) {
-                trace = msg.payload[payloadProperty];
+                trace = trace[payloadProperty];
             } else {
-                node.error("La traza no contiene eventos válidos", msg);
+                node.error("The property does not exist in the payload");
                 return;
             }
 

@@ -5,14 +5,14 @@ module.exports = function (RED) {
 
         node.on("input", function (msg) {
             // Parse input parameters from config
-            var attribute = msg.req && msg.req.body && msg.req.body.attribute !== undefined ? msg.req.body.attribute : config.attribute;
-            var startDate = new Date(msg.req && msg.req.body && msg.req.body.startDate!== undefined ? msg.req.body.startDate : config.startDate);
-            var endDate = new Date(msg.req && msg.req.body && msg.req.body.endDate !== undefined ? msg.req.body.endDate : config.endDate);
+            let attribute = msg.req?.body?.attribute ?? config.attribute;
+            let startDate = new Date(msg.req?.body?.startDate ?? config.startDate);
+            let endDate = new Date(msg.req?.body?.endDate ?? config.endDate);
             try {
                 if (Array.isArray(msg.payload)) {
                     msg.payload.forEach(function (obj) {
-                        var attributeValue = obj[attribute];
-                        var documentDate = new Date(Date.parse(attributeValue)); // Convert value to Date object
+                        let attributeValue = obj[attribute];
+                        let documentDate = new Date(Date.parse(attributeValue));
                         filterAndSend(
                             node,
                             msg,
@@ -23,9 +23,8 @@ module.exports = function (RED) {
                         );
                     });
                 } else {
-                    var attributeValue = msg.payload[attribute];
-                    // Convert the attribute value to a date object
-                    var documentDate = new Date(Date.parse(attributeValue)); // Convert value to Date object
+                    let attributeValue = msg.payload[attribute];
+                    let documentDate = new Date(Date.parse(attributeValue));
                     filterAndSend(
                         node,
                         msg,
@@ -36,9 +35,7 @@ module.exports = function (RED) {
                     );
                 }
             } catch (err) {
-                node.error(err, msg); // Handle any errors that occur during processing
-                msg.payload =
-                    "Something went wrong while processing the message. Please check the logs for more details.";
+                node.error(err, msg);
                 node.send(msg);
             }
         });
@@ -52,10 +49,9 @@ module.exports = function (RED) {
             endDate,
             obj
         ) {
-            // Filter messages based on the date range
             if (documentDate >= startDate && documentDate <= endDate) {
                 msg.payload = obj;
-                node.send(msg); // Send the message if the document date is within the specified range
+                node.send(msg);
             }
         }
     }

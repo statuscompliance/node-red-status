@@ -1,37 +1,29 @@
+const { v4: uuidv4 } = require('uuid');
+
 module.exports = function (RED) {
     function RespondedExistence(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
         this.on("input", function (msg) {
-            var eventAName =
-                msg.req && msg.req.body && msg.req.body.eventAName !== undefined
-                    ? msg.req.body.eventAName
-                    : config.eventAName;
-            var eventBName =
-                msg.req && msg.req.body && msg.req.body.eventBName !== undefined
-                    ? msg.req.body.eventBName
-                    : config.eventBName;
-            var negate =
-                msg.req && msg.req.body && msg.req.body.negate !== undefined
-                    ? msg.req.body.negate
-                    : config.negate;
+            let eventAName = msg.req?.body?.eventAName ?? config.eventAName;
+            let eventBName = msg.req?.body?.eventBName ?? config.eventBName;
+            let negate = msg.req?.body?.negate ?? config.negate;
 
-            var trace = msg.payload.trace;
+            let trace = (msg.payload.trace && msg.payload.trace.event) || msg.payload.event || msg.payload.events || msg.payload || [];
 
-            if (!trace || !trace.event || !Array.isArray(trace.event)) {
-                node.error("La traza no contiene eventos válidos", msg);
-                return;
+            if (!Array.isArray(trace)) {
+                node.error("Invalid data format. Expected an array in trace.event or events.");
+                msg.payload.result = false;
+                return node.send(msg);
             }
 
-            // Crear un objeto para almacenar las marcas de tiempo de los eventos
-            var eventTimestamps = {
+            let eventTimestamps = {
                 eventA: null,
                 eventB: null,
             };
 
-            // Procesar la traza
-            trace.event.forEach((event) => {
+            trace.forEach((event) => {
                 if (event.string) {
                     let strings = Array.isArray(event.string)
                         ? event.string
@@ -53,19 +45,25 @@ module.exports = function (RED) {
                 }
             });
             let newMsg = { ...msg };
-            // Verificar el orden
+            
+            newMsg.payload.evidences = Array.isArray(newMsg.payload.evidences) ? newMsg.payload.evidences : [];
+            
+            let result = false;
             if (eventTimestamps.eventA && eventTimestamps.eventB) {
-                if (eventTimestamps.eventA < eventTimestamps.eventB) {
-                    newMsg.payload.result = true;
-                } else {
-                    newMsg.payload.result = false;
-                }
-            } else {
-                newMsg.payload.result = false; // Si uno de los eventos no se encuentra
+                result = eventTimestamps.eventA < eventTimestamps.eventB;
             }
+
             if (negate) {
-                newMsg.payload.result = !newMsg.payload.result;
+                result = !result;
             }
+
+            newMsg.payload.result = result;
+            newMsg.payload.evidences.push({
+                id: uuidv4(),
+                key: `${eventAName}-${eventBName}`,
+                value: [eventTimestamps.eventA, eventTimestamps.eventB],
+                result: result,
+            });
             node.send(newMsg);
         });
     }

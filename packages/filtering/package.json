@@ -42,5 +42,7 @@
             "group-by": "nodes/group-by.js"
         }
     },
-    "dependencies": {}
+    "dependencies": {
+        "uuid": "11.0.5"
+    }
 }
