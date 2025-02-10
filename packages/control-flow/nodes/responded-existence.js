@@ -18,13 +18,11 @@ module.exports = function (RED) {
                 return node.send(msg);
             }
 
-            // Crear un objeto para almacenar las marcas de tiempo de los eventos
             let eventTimestamps = {
                 eventA: null,
                 eventB: null,
             };
 
-            // Procesar la traza
             trace.forEach((event) => {
                 if (event.string) {
                     let strings = Array.isArray(event.string)

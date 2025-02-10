@@ -5,12 +5,12 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
-        // Almacena los últimos dos payloads
         let payloads = [];
         let evidences = [];
 
         node.on("input", function (msg) {
             let newMsg = { ...msg };
+            newMsg.payload.evidences = Array.isArray(newMsg.payload.evidences) ? newMsg.payload.evidences : [];
             if (typeof newMsg.payload.result === "boolean") {
                 payloads.push(newMsg.payload.result);
                 evidences = [...evidences, ...newMsg.payload.evidences];
@@ -22,11 +22,9 @@ module.exports = function (RED) {
                 evidences.push({
                     id: uuidv4(),
                     key: 'AND operation',
-                    value: [ A, B],
+                    value: [A, B],
                     result: and,
                 });
-
-                delete newMsg.payload;
                 newMsg.payload = {
                     ...msg.payload,
                     result: and,
