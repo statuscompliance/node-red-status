@@ -5,11 +5,9 @@ module.exports = function (RED) {
         var node = this;
 
         node.on("input", function (msg) {
-            const propertyToCheck = msg.req && msg.req.body && msg.req.body.propertyToCheck !== undefined
-                ? msg.req.body.propertyToCheck : config.propertyToCheck;
+            const propertyToCheck = msg.req?.body?.propertyToCheck ?? config.propertyToCheck;
+            const expectedValue = msg.req?.body?.expectedValue ?? config.expectedValue;
 
-            const expectedValue = msg.req && msg.req.body && msg.req.body.expectedValue !== undefined 
-                ? msg.req.body.expectedValue : config.expectedValue;
             if (
                 msg.payload &&
                 typeof msg.payload === "object" &&
@@ -18,6 +16,7 @@ module.exports = function (RED) {
                 let propertyValue = msg.payload[propertyToCheck];
                 let isMatching = propertyValue === expectedValue;
                 msg.payload.result = isMatching;
+                addEvidence(msg, propertyToCheck, propertyValue, isMatching);
                 node.send(msg);
 
             } else if (msg.expectedValue && msg.parts && msg.array) {
@@ -27,12 +26,23 @@ module.exports = function (RED) {
                 let isMatching = propertyValue === msg.expectedValue;
 
                 msg.payload.result = isMatching;
+                addEvidence(msg, msg.propertyToCheck, propertyValue, isMatching);
                 node.send(msg);
             } else {
                 msg.payload.result = false;
+                addEvidence(msg, propertyToCheck, "Property not found", false);
                 node.send(msg);
             }
         });
+        
+        function addEvidence(msg, key, value, result) {
+            msg.payload.evidences.push({
+                id: uuidv4(),
+                key,
+                value,
+                result
+            });
+        }
     }
 
     RED.nodes.registerType("check-property", CheckPropertyNode);

@@ -6,7 +6,6 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
-
         function flattenData(data, attribute, result = []) {
             if (Array.isArray(data)) {
                 data.forEach((item) => flattenData(item, attribute, result));
@@ -21,25 +20,9 @@ module.exports = function (RED) {
         }
 
         node.on("input", async function (msg) {
-            let conceptName =
-                msg.req &&
-                msg.req.body &&
-                msg.req.body.conceptName !== undefined
-                    ? msg.req.body.conceptName
-                    : config.conceptName;
-
-            let attribute =
-                msg.req &&
-                msg.req.body &&
-                msg.req.body.attribute !== undefined
-                    ? msg.req.body.attribute
-                    : config.attribute;
-            
-            let value = msg.req &&
-                msg.req.body &&
-                msg.req.body.value !== undefined
-                    ? msg.req.body.value
-                    : config.value;
+            let conceptName = msg.req?.body?.conceptName ?? config.conceptName;
+            let attribute = msg.req?.body?.attribute ?? config.attribute;
+            let value = msg.req?.body?.value ?? config.value;
 
             let data = (msg.payload.trace && msg.payload.trace.event) || msg.payload.event || msg.payload.events || msg.payload || [];
 
@@ -49,7 +32,6 @@ module.exports = function (RED) {
                 return node.send(msg);
             }
 
-            
             let searchableList = flattenData(data, attribute);
 
             const fuse = new Fuse(searchableList, {

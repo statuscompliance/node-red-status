@@ -5,10 +5,7 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
         node.on("input", function (msg) {
-            var property =
-                msg.req && msg.req.body && msg.req.body.property !== undefined
-                    ? msg.req.body.property
-                    : config.property;
+            let property = msg.req?.body?.property ?? config.property;
 
             const urlPattern = new RegExp(
                 "^(https?:\\/\\/)?" +
