@@ -49,7 +49,7 @@ module.exports = function (RED) {
       const {
         from = config.from,
         to = config.to,
-        control_id =  config.control_id,
+        controlId =  config.controlId,
         level1 = config.level1,
         level2 = config.level2,
         level3 = config.level3,
@@ -85,7 +85,7 @@ module.exports = function (RED) {
           from,
           to
         },
-        control_id: control_id
+        controlId: controlId
       };
 
       node.send(newMsg);
