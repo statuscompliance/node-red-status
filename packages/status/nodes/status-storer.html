@@ -8,7 +8,13 @@
             accessToken: { value: "" },
             bufferSize: { value: "" },
             flushInterval: { value: "" },
+            from: { value: "" },
+            to: { value: "" },
+            controlId: { value: "" },
             params: { value: {
+                from: 'string',
+                to: 'string',
+                controlId: 'string',
                 backendUrl: "string",
                 accessToken: "string",
                 bufferSize: "number",
@@ -34,6 +40,18 @@
     <div class="form-row">
         <label for="node-input-name">Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-from"><i class="fa fa-calendar"></i> From</label>
+        <input type="text" id="node-input-from" placeholder="Start Period">
+    </div>
+    <div class="form-row">
+        <label for="node-input-to"><i class="fa fa-calendar"></i> To</label>
+        <input type="text" id="node-input-to" placeholder="End Period">
+    </div>
+    <div class="form-row">
+        <label for="node-input-controlId"><i class="fa fa-id-badge"></i> Control ID</label>
+        <input type="text" id="node-input-controlId" placeholder="Control Identifier">
     </div>
     <div class="form-row">
         <label for="node-input-backendUrl">Backend URL</label>
