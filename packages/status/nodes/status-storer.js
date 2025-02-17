@@ -64,17 +64,28 @@ module.exports = function (RED) {
         }
 
         node.on("input", function (msg) {
+            const {
+                from = config.from,
+                to = config.to,
+                controlId =  config.controlId,
+              } = msg.req?.body || {};
             backendUrl = (msg.req?.body?.backendUrl || config.backendUrl) ?? "http://status-backend:3001/api/computations";
             accessToken = (msg.req?.headers['x-access-token'] || msg.req?.cookies?.accessToken) ?? config.accessToken;
             bufferSize = parseInt(msg.req?.body?.bufferSize ?? 2);
             flushInterval = parseInt(msg.req?.body?.flushInterval ?? 2000);
             let computationGroup = msg.req?.body?.computationGroup ?? '';
             
-            const { result: value, ...rest } = msg.payload;
+            const { result: value, scope, evidences } = msg.payload;
             msg.payload = {
                 computationGroup: computationGroup,
+                period: {
+                    from,
+                    to
+                },
+                controlId: controlId,
                 value,
-                ...rest,
+                scope,
+                evidences
             };
             addToBuffer(msg);
         });

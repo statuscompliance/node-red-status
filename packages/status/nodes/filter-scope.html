@@ -1,0 +1,123 @@
+  <script type="text/javascript">
+  (function() {
+    RED.nodes.registerType('filter-scope', {
+        category: 'status',
+        color: "#DDAA99",
+        defaults: {
+            name: {value:""},
+            filters: {value: []}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "font-awesome/fa-sitemap",
+        label: function() {
+            return this.name || "filter-scope";
+        },
+        oneditprepare: function() {
+            var node = this;
+            var eList = $('#node-input-filter-container').css('min-height','120px').css('min-width','450px');
+            
+            eList.editableList({
+                addItem: function(container, index, data) {
+                    var filterData = data || {attribute:"declaration", value:"concept:name"};
+                    container.css({overflow: 'hidden', whiteSpace: 'nowrap'});
+                    var row = $('<div/>').appendTo(container);
+                    
+                    var attrInput = $('<input/>', {
+                        type: "text",
+                        class: "node-input-filter-attribute",
+                        placeholder: "Attribute"
+                    }).css("width","45%").appendTo(row);
+                    
+                    $('<div/>',{style: 'display:inline-block; padding:0px 6px;'}).text('=').appendTo(row);
+                    
+                    var valueInput = $('<input/>', {
+                        type: "text",
+                        class: "node-input-filter-value",
+                        placeholder: "Value"
+                    }).css("width","45%").appendTo(row);
+                    
+                    attrInput.val(filterData.attribute);
+                    valueInput.val(filterData.value);
+                },
+                removable: true,
+                sortable: true
+            });
+            
+            if (!this.filters || this.filters.length === 0) {
+                eList.editableList('addItem', { attribute: "declaration", value: "concept:name" });
+            } else {
+                this.filters.forEach(function(filter) {
+                    eList.editableList('addItem', filter);
+                });
+            }
+        },
+        oneditsave: function() {
+            var filters = [];
+            $('#node-input-filter-container').editableList('items').each(function() {
+                var attr = $(this).find(".node-input-filter-attribute").val();
+                var value = $(this).find(".node-input-filter-value").val();
+                if (attr && value) {
+                    filters.push({attribute: attr, value: value});
+                }
+            });
+            this.filters = filters;
+        }
+    });
+  })();
+  </script>
+
+<script type="text/html" data-template-name="filter-scope">
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> <span>Name</span></label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+
+  <div class="form-row node-input-filter-container-row">
+      <ol id="node-input-filter-container"></ol>
+  </div>
+</script>
+<script type="text/x-red" data-help-name="filter-scope">
+  <h2>Filter Scope</h2>
+  <p>The <strong>Filter Scope</strong> node filters messages based on user-defined attributes and values. It processes sequences of messages and filters objects with properties specified by the user.</p>
+
+  <h3>Inputs</h3>
+  <dl>
+      <dt>msg.payload</dt>
+      <dd>An array of objects containing the data to be filtered.</dd>
+      <dt>msg.req.body.scope</dt>
+      <dd>A scope object specifying the expected attributes and values.</dd>
+  </dl>
+
+  <h3>Outputs</h3>
+  <dl>
+      <dt>msg.payload</dt>
+      <dd>Returns the filtered scope data if the validation passes.</dd>
+  </dl>
+
+  <h3>Details</h3>
+  <p>The node extracts values from the message payload and compares them against the expected scope values. If all filters match, the message is forwarded; otherwise, it is discarded.</p>
+
+  <h3>Node Configuration</h3>
+  <ul>
+      <li><strong>Filters</strong>: A list of key-value pairs where the key is the attribute name and the value is the expected filter value.</li>
+  </ul>
+
+  <h3>Examples of Use</h3>
+  
+  <h4>Example 1: Filtering by Country</h4>
+  <pre>
+  msg.payload = [
+      { "concept:name": "Spain", "city": "Madrid" },
+      { "concept:name": "France", "city": "Paris" }
+  ];
+  msg.req.body.scope = { "country": "Spain" };
+  </pre>
+  <p>If the filter is set to <code>concept:name = Spain</code>, only the first object will pass.</p>
+
+  <h4>Example 2: Allowing Wildcards</h4>
+  <pre>
+  msg.req.body.scope = { "country": "*" };
+  </pre>
+  <p>This allows any country to pass the filter.</p>
+</script>
