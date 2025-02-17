@@ -9,6 +9,7 @@ module.exports = function (RED) {
             let eventAName = msg.req?.body?.eventAName ?? config.eventAName;
             let eventBName = msg.req?.body?.eventBName ?? config.eventBName;
             let negate = msg.req?.body?.negate ?? config.negate;
+            let storeEvidences = config.storeEvidences;
 
             let trace = (msg.payload.trace && msg.payload.trace.event) || msg.payload.event || msg.payload.events || msg.payload || [];
 
@@ -53,12 +54,14 @@ module.exports = function (RED) {
 
             msg.payload.result = result
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
-            msg.payload.evidences.push({
-                id: uuidv4(),
-                name: "Coexistence",
-                value: [eventAName, eventBName],
-                result: result,
-            });
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    name: "Coexistence",
+                    value: [eventAName, eventBName],
+                    result: result,
+                });
+            }
             node.send(msg);
         });
     }

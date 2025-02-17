@@ -9,6 +9,7 @@ module.exports = function (RED) {
             let eventAName = msg.req?.body?.eventAName ?? config.eventAName;
             let eventBName = msg.req?.body?.eventBName ?? config.eventBName;
             let negate = msg.req?.body?.negate ?? config.negate;
+            let storeEvidences = config.storeEvidences;
 
             let trace = (msg.payload.trace && msg.payload.trace.event) || msg.payload.event || msg.payload.events || msg.payload || [];
 
@@ -58,12 +59,14 @@ module.exports = function (RED) {
             }
 
             newMsg.payload.result = result;
-            newMsg.payload.evidences.push({
-                id: uuidv4(),
-                key: `${eventAName}-${eventBName}`,
-                value: [eventTimestamps.eventA, eventTimestamps.eventB],
-                result: result,
-            });
+            if(storeEvidences){
+                newMsg.payload.evidences.push({
+                    id: uuidv4(),
+                    key: `${eventAName}-${eventBName}`,
+                    value: [eventTimestamps.eventA, eventTimestamps.eventB],
+                    result: result,
+                });
+            }
             node.send(newMsg);
         });
     }

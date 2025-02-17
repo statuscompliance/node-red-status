@@ -7,6 +7,7 @@
             conceptName: { value: "" },
             attribute: { value: "" },
             value: { value: "" },
+            storeEvidences: { value: false},
             params: {
                 value: {
                     conceptName: 'string',
@@ -52,6 +53,10 @@
     <div class="form-row">
         <label for="node-input-value"><i class="fa fa-key"></i> Value (In case of dictionary structure)</label>
         <input type="text" id="node-input-value" placeholder="Value">
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeEvidences">Store Evidences</label>
+        <input type="checkbox" id="node-input-storeEvidences">
     </div>
 </script>
 <script type="text/x-red" data-help-name="has-activity">

@@ -7,6 +7,7 @@
             eventAName: { value: ""},
             eventBName: { value: ""},
             negate: { value: false},
+            storeEvidences: { value: false},
             time: { value: 0, validate: RED.validators.number() },
             params: { value: {
                 eventAName: "string",
@@ -58,8 +59,10 @@
         <label for="node-input-time">Time</label>
         <input type="number" id="node-input-time" placeholder="Time">
     </div>
-
-
+    <div class="form-row">
+        <label for="node-input-storeEvidences">Store Evidences</label>
+        <input type="checkbox" id="node-input-storeEvidences">
+    </div>
 </script>
 <script type="text/x-red" data-help-name="chain-response">
     <p>Checks whether Event B has occurred some <code>time</code> after event A.</p>

@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/validation",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Collection of STATUS project components used for compliance checks",
   "engines": {
     "node": ">=22.0.0",

@@ -4,6 +4,7 @@
         color: '#DDAA99',
         defaults: {
             count: { value: 0},
+            storeEvidences: { value: false},
             params: { 
                 value: {
                     count: 'number',
@@ -41,6 +42,10 @@
     <div class="form-row">
         <label for="node-input-count"><i class="icon-number"></i> Count</label>
         <input type="number" id="node-input-count" placeholder="Count">
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeEvidences">Store Evidences</label>
+        <input type="checkbox" id="node-input-storeEvidences">
     </div>
 </script>
 <script type="text/x-red" data-help-name="exists-pipe">

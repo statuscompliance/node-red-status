@@ -12,6 +12,7 @@
             docName: { value: "" },
             url: { value: "" },
             githubToken: { value: "" },
+            storeEvidences: { value: false},
             params: {
                 value: {
                     section: 'string',
@@ -79,6 +80,10 @@
     <div class="form-row">
         <label for="node-input-githubToken"><i class="fa fa-key"></i>GitHub Token</label>
         <input type="text" id="node-input-githubToken" placeholder="Token">
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeEvidences">Store Evidences</label>
+        <input type="checkbox" id="node-input-storeEvidences">
     </div>
 </script>
 <script type="text/x-red" data-help-name="exists-section-in-doc">

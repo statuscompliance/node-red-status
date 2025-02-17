@@ -10,21 +10,24 @@ module.exports = function (RED) {
 
         node.on("input", function (msg) {
             let newMsg = { ...msg };
+            let storeEvidences = config.storeEvidences;
             newMsg.payload.evidences = Array.isArray(newMsg.payload.evidences) ? newMsg.payload.evidences : [];
             if (typeof newMsg.payload.result === "boolean") {
                 payloads.push(newMsg.payload.result);
-                evidences = [...evidences, ...newMsg.payload.evidences];
+                evidences = evidences.concat(newMsg.payload.evidences);
             }
             if (payloads.length === 2) {
                 let A = payloads[0];
                 let B = payloads[1];
                 let and = A && B;
-                evidences.push({
-                    id: uuidv4(),
-                    key: 'AND operation',
-                    value: [A, B],
-                    result: and,
-                });
+                if(storeEvidences){
+                    evidences.push({
+                        id: uuidv4(),
+                        key: 'AND operation',
+                        value: [A, B],
+                        result: and,
+                    });
+                }
                 newMsg.payload = {
                     ...msg.payload,
                     result: and,

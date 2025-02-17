@@ -9,12 +9,17 @@ module.exports = function (RED) {
         let evidences = [];
 
         node.on("input", function (msg) {
-            let attribute = msg.req?.body?.attribute ?? config.attribute;
             let expectedStatus = msg.req?.query?.status;
             let newMsg = { ...msg };
+            let storeEvidences = config.storeEvidences;
+            newMsg.payload.evidences = Array.isArray(newMsg.payload.evidences) ? newMsg.payload.evidences : [];
             if (typeof newMsg.payload.result === "boolean") {
                 payloads.push(newMsg.payload.result);
-                evidences = [...evidences, ...newMsg.payload.evidences];
+                if (evidences.length > 0) {
+                    evidences = evidences.concat(newMsg.payload.evidences);
+                } else {
+                    evidences = newMsg.payload.evidences;
+                }
             }
             if (payloads.length === 2) {
                 let A = payloads[0];
@@ -22,24 +27,23 @@ module.exports = function (RED) {
                 let implies = !A || B;
                 if (implies === true && expectedStatus === "true" || expectedStatus === "false" || expectedStatus === undefined) {
                     newMsg.payload.result = implies;
-                    evidences.push({
-                        id: uuidv4(),
-                        key: 'IMPLIES operation',
-                        value: [A, B],
-                        result: implies,
-                    });
+                    if(storeEvidences){
+                        evidences.push({
+                            id: uuidv4(),
+                            key: 'IMPLIES operation',
+                            value: [A, B],
+                            result: implies,
+                        });
+                    }
                     newMsg.payload = {
                         ...msg.payload,
                         result: implies,
                         evidences: evidences,
                     };
-                    payloads = [];
-                    evidences = [];
                     node.send(newMsg);
-                } else {
-                    payloads = [];
-                    evidences = [];
                 }
+                payloads = [];
+                evidences = [];
             }
         });
     }

@@ -6,7 +6,7 @@ module.exports = function (RED) {
         var node = this;
         node.on("input", function (msg) {
             let property = msg.req?.body?.property ?? config.property;
-
+            const storeEvidences = config.storeEvidences;
             const urlPattern = new RegExp(
                 "^(https?:\\/\\/)?" +
                     "((([a-zA-Z\\d]([a-zA-Z\\d-]*[a-zA-Z\\d])*)\\.)+[a-zA-Z]{2,}|" +
@@ -22,12 +22,14 @@ module.exports = function (RED) {
             }
             msg.payload.result = result
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
-            msg.payload.evidences.push({
-                id: uuidv4(),
-                key: "url",
-                value: msg.payload[property],
-                result: result
-            });
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    key: "url",
+                    value: msg.payload[property],
+                    result: result
+                });
+            }
             node.send(msg);
         });
     }
