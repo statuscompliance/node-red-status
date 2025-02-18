@@ -4,6 +4,7 @@
         color: '#DDAA99',
         defaults: {
             name: { value: "" },
+            storeEvidences: { value: false},
         },
         inputs: 1,
         outputs: 1,
@@ -30,6 +31,10 @@
     <div class="form-row">
         <label for="node-input-name">Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeEvidences">Store Evidences</label>
+        <input type="checkbox" id="node-input-storeEvidences">
     </div>
 </script>
 <script type="text/x-red" data-help-name="implies">

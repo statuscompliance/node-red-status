@@ -1,6 +1,6 @@
 {
     "name": "@statuscompliance/logic",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Collection of components of the STATUS project containing logical operators and similar functions.",
     "engines": {
         "node": ">=22.0.0",

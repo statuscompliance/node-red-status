@@ -1,6 +1,6 @@
 {
     "name": "@statuscompliance/control-flow",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Collection of STATUS project components that are responsible for performing control-flow checks.",
     "engines": {
         "node": ">=22.0.0",

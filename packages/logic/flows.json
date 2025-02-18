@@ -61,6 +61,7 @@
         "z": "a16837866ec75648",
         "g": "79104e95baf23b39",
         "name": "",
+        "storeEvidences": true,
         "x": 630,
         "y": 260,
         "wires": [
@@ -75,6 +76,7 @@
         "z": "a16837866ec75648",
         "g": "79104e95baf23b39",
         "name": "",
+        "storeEvidences": true,
         "x": 610,
         "y": 420,
         "wires": [
@@ -89,6 +91,7 @@
         "z": "a16837866ec75648",
         "g": "79104e95baf23b39",
         "name": "",
+        "storeEvidences": true,
         "x": 620,
         "y": 500,
         "wires": [
@@ -103,6 +106,7 @@
         "z": "a16837866ec75648",
         "g": "79104e95baf23b39",
         "name": "",
+        "storeEvidences": true,
         "x": 630,
         "y": 340,
         "wires": [
@@ -144,7 +148,7 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "[{\"result\":true},{\"result\":true}]",
+        "payload": "[{\"result\":true,\"evidences\":[{\"example\":true}]},{\"result\":true}]",
         "payloadType": "json",
         "x": 270,
         "y": 260,
@@ -214,8 +218,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "2",
-        "payloadType": "num",
+        "payload": "{\"result\":2,\"evidences\":[{\"example\":true}]}",
+        "payloadType": "json",
         "x": 270,
         "y": 400,
         "wires": [
@@ -232,7 +236,9 @@
         "name": "Second element",
         "props": [
             {
-                "p": "payload"
+                "p": "payload.result",
+                "v": "5",
+                "vt": "num"
             },
             {
                 "p": "position",
@@ -245,8 +251,6 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "5",
-        "payloadType": "num",
         "x": 280,
         "y": 440,
         "wires": [
@@ -271,7 +275,7 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "[{\"result\":true},{\"result\":false}]",
+        "payload": "[{\"result\":true,\"evidences\":[{\"example\":true}]},{\"result\":false}]",
         "payloadType": "json",
         "x": 270,
         "y": 340,
@@ -318,7 +322,7 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "[{\"result\":false },{\"result\":true}]",
+        "payload": "[{\"result\":false,\"evidences\":[{\"example\":true}]},{\"result\":true}]",
         "payloadType": "json",
         "x": 310,
         "y": 500,
@@ -399,7 +403,9 @@
         "name": "True payload",
         "props": [
             {
-                "p": "payload"
+                "p": "payload.result",
+                "v": "true",
+                "vt": "bool"
             }
         ],
         "repeat": "",
@@ -407,8 +413,6 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "true",
-        "payloadType": "json",
         "x": 270,
         "y": 580,
         "wires": [
@@ -425,7 +429,9 @@
         "name": "False payload",
         "props": [
             {
-                "p": "payload"
+                "p": "payload.result",
+                "v": "false",
+                "vt": "bool"
             }
         ],
         "repeat": "",
@@ -433,8 +439,6 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "false",
-        "payloadType": "json",
         "x": 270,
         "y": 620,
         "wires": [

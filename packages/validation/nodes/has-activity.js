@@ -23,7 +23,7 @@ module.exports = function (RED) {
             let conceptName = msg.req?.body?.conceptName ?? config.conceptName;
             let attribute = msg.req?.body?.attribute ?? config.attribute;
             let value = msg.req?.body?.value ?? config.value;
-
+            const storeEvidences = config.storeEvidences;
             let data = (msg.payload.trace && msg.payload.trace.event) || msg.payload.event || msg.payload.events || msg.payload || [];
 
             if (!Array.isArray(data)) {
@@ -44,13 +44,14 @@ module.exports = function (RED) {
 
             msg.payload.result = result.length > 0;
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
-            msg.payload.evidences.push({
-                id: uuidv4(),
-                key: conceptName,
-                value: result.map((item) => item.item),
-                result: result.length > 0,
-            });
-
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    key: conceptName,
+                    value: result.map((item) => item.item),
+                    result: result.length > 0,
+                });
+            }
             node.send(msg);
         });
     }

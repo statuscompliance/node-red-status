@@ -7,6 +7,7 @@ module.exports = function (RED) {
         node.on("input", function (msg) {
             const propertyToCheck = msg.req?.body?.propertyToCheck ?? config.propertyToCheck;
             const expectedValue = msg.req?.body?.expectedValue ?? config.expectedValue;
+            const storeEvidences = config.storeEvidences;
 
             if (
                 msg.payload &&
@@ -16,7 +17,8 @@ module.exports = function (RED) {
                 let propertyValue = msg.payload[propertyToCheck];
                 let isMatching = propertyValue === expectedValue;
                 msg.payload.result = isMatching;
-                addEvidence(msg, propertyToCheck, propertyValue, isMatching);
+                
+                addEvidence(msg, propertyToCheck, propertyValue, isMatching, storeEvidences);
                 node.send(msg);
 
             } else if (msg.expectedValue && msg.parts && msg.array) {
@@ -26,22 +28,24 @@ module.exports = function (RED) {
                 let isMatching = propertyValue === msg.expectedValue;
 
                 msg.payload.result = isMatching;
-                addEvidence(msg, msg.propertyToCheck, propertyValue, isMatching);
+                addEvidence(msg, msg.propertyToCheck, propertyValue, isMatching, storeEvidences);
                 node.send(msg);
             } else {
                 msg.payload.result = false;
-                addEvidence(msg, propertyToCheck, "Property not found", false);
+                addEvidence(msg, propertyToCheck, "Property not found", false, storeEvidences);
                 node.send(msg);
             }
         });
         
-        function addEvidence(msg, key, value, result) {
-            msg.payload.evidences.push({
-                id: uuidv4(),
-                key,
-                value,
-                result
-            });
+        function addEvidence(msg, key, value, result, storeEvidences) {
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    key,
+                    value,
+                    result
+                });
+            }
         }
     }
 

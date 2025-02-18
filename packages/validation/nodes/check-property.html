@@ -6,6 +6,7 @@
             name: { value: "" },
             propertyToCheck: { value: "" },
             expectedValue: { value: "" },
+            storeEvidences: { value: false},
             params: { 
                 value: {
                     propertyToCheck: 'string',
@@ -46,6 +47,10 @@
     <div class="form-row">
         <label for="node-input-expectedValue"><i class="fa fa-key"></i> Value</label>
         <input type="text" id="node-input-expectedValue" placeholder="Value">
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeEvidences">Store Evidences</label>
+        <input type="checkbox" id="node-input-storeEvidences">
     </div>
 </script>
 <script type="text/x-red" data-help-name="check-property">

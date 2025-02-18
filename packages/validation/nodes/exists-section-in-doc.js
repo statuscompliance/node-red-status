@@ -9,6 +9,7 @@ module.exports = function (RED) {
         const node = this;
         node.on("input", async function (msg) {
             let valueType = msg.req?.body?.valueType ?? config.valueType;
+            const storeEvidences = config.storeEvidences;
             switch (valueType) {
                 case "GithubUrl":
                     let user = msg.req?.body?.user ?? config.user;
@@ -22,7 +23,7 @@ module.exports = function (RED) {
                     if (!user || !repo || !path || !docName || !githubToken) {
                         node.error("Missing required parameters");
                         msg.payload.result = false;
-                        addEvidence(msg, "Missing required parameters", "Missing required parameters", false);
+                        addEvidence(msg, "Missing required parameters", "Missing required parameters", false, storeEvidences);
                         node.send(msg);
                         return;
                     }
@@ -39,12 +40,12 @@ module.exports = function (RED) {
                             .get(pdfUrl, { responseType: "arraybuffer" })
                             .then((response) => {
                                 const pdfContent = Buffer.from(response.data);
-                                extractTextFromPDF(pdfContent, node, msg);
+                                extractTextFromPDF(pdfContent, node, msg, storeEvidences);
                             })
                             .catch((error) => {
                                 node.error("Error fetching PDF:", error);
                                 msg.payload.result = false;
-                                addEvidence(msg, "PDF", "Error fetching PDF", false);
+                                addEvidence(msg, "PDF", "Error fetching PDF", false, storeEvidences);
                                 node.send(msg);
                             });
                     } catch (error) {
@@ -59,7 +60,7 @@ module.exports = function (RED) {
                     if (!url) {
                         node.error("URL not provided");
                         msg.payload.result = false;
-                        addEvidence(msg, "URL", "URL not provided", false);
+                        addEvidence(msg, "URL", "URL not provided", false, storeEvidences);
                         node.send(msg);
                         return;
                     }
@@ -69,12 +70,12 @@ module.exports = function (RED) {
                             .get(url, { responseType: "arraybuffer" })
                             .then((response) => {
                                 const pdfContent = Buffer.from(response.data);
-                                extractTextFromPDF(pdfContent, node, msg);
+                                extractTextFromPDF(pdfContent, node, msg, storeEvidences);
                             })
                             .catch((error) => {
                                 node.error("Error fetching PDF:", error);
                                 msg.payload.result = false;
-                                addEvidence(msg, "PDF", "Error fetching PDF", false);
+                                addEvidence(msg, "PDF", "Error fetching PDF", false, storeEvidences);
                                 node.send(msg);
                             });
                     } else if (url.endsWith(".txt")) {
@@ -82,12 +83,12 @@ module.exports = function (RED) {
                             .get(url)
                             .then((response) => {
                                 msg.payload.result = response.data;
-                                existSection(msg);
+                                existSection(msg, storeEvidences);
                             })
                             .catch((error) => {
                                 node.error("Error fetching TXT:", error);
                                 msg.payload.result = false;
-                                addEvidence(msg, "TXT", "Error fetching TXT", false);
+                                addEvidence(msg, "TXT", "Error fetching TXT", false, storeEvidences);
                                 node.send(msg);
                             });
                     } else {
@@ -102,7 +103,7 @@ module.exports = function (RED) {
             }
         });
 
-        function existSection(msg) {
+        function existSection(msg, storeEvidences) {
             let data = msg.payload.result;
             let section = msg.req?.body?.section ?? config.section;
             const result =  data.includes(section).toString();
@@ -111,11 +112,11 @@ module.exports = function (RED) {
                 section: section,
                 data: data,
             }
-            addEvidence(msg, "Section", evidence, result);
+            addEvidence(msg, "Section", evidence, result, storeEvidences);
             node.send(msg);
         }
 
-        function extractTextFromPDF(url, node, msg) {
+        function extractTextFromPDF(url, node, msg, storeEvidences) {
             pdfParse(url)
                 .then((data) => {
                     msg.payload.result = data.text;
@@ -126,18 +127,20 @@ module.exports = function (RED) {
                         "Error extracting text from PDF: " + error.message
                     );
                     msg.payload.result = false;
-                    addEvidence(msg, "PDF", "Error extracting text from PDF", false);
+                    addEvidence(msg, "PDF", "Error extracting text from PDF", false, storeEvidences);
                     node.send(msg);
                 });
         }
 
-        function addEvidence(msg, key, value, result) {
-            msg.payload.evidences.push({
-                id: uuidv4(),
-                key,
-                value,
-                result
-            });
+        function addEvidence(msg, key, value, result, storeEvidences) {
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    key,
+                    value,
+                    result
+                });
+            }
         }
     }
     RED.nodes.registerType("exists-section-in-doc", ExistsSectionInDocNode);

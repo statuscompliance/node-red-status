@@ -7,6 +7,7 @@ module.exports = function (RED) {
         var node = this;
 
         node.on("input", async function (msg) {
+            const storeEvidences = config.storeEvidences;
             let urlType = msg.req?.body?.urlType ?? config.urlType;
             let cardId = msg.req?.body?.cardId ?? config.cardId;
             let apiKey = msg.req?.body?.apiKey ?? config.apiKey;
@@ -17,16 +18,16 @@ module.exports = function (RED) {
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
 
             if (!isValidUrl(msg.payload) || !["body", "config", "payload"].includes(urlType)) {
-                addEvidence(msg, "URL", "Invalid URL Type", false);
+                addEvidence(msg, "URL", "Invalid URL Type", false, storeEvidences);
                 return node.send(msg);
             }
 
             try {
                 const response = await axios.get(`https://api.trello.com/1/cards/${cardId}/attachments?key=${apiKey}&token=${trelloToken}`);
-                await processAttachments(response.data, githubToken, msg, node);
+                await processAttachments(response.data, githubToken, msg, node, storeEvidences);
             } catch (error) {
                 node.error("Error fetching Trello attachments:", error);
-                addEvidence(msg, "Trello attachments", "Error fetching Trello attachments", false);
+                addEvidence(msg, "Trello attachments", "Error fetching Trello attachments", false, storeEvidences);
                 node.send(msg);
             }
         });
@@ -40,18 +41,18 @@ module.exports = function (RED) {
             }
         }
 
-        async function processAttachments(attachments, githubToken, msg, node) {
+        async function processAttachments(attachments, githubToken, msg, node, storeEvidences) {
             const githubAttachment = attachments.find(att => att.url.includes("github"));
             if (!githubAttachment) {
                 node.error("No GitHub repository URL found in the card");
-                addEvidence(msg, "GitHub repository", "No GitHub repository URL found", false);
+                addEvidence(msg, "GitHub repository", "No GitHub repository URL found", false, storeEvidences);
                 return node.send(msg);
             }
 
             let match = githubAttachment.url.match(/^https:\/\/github\.com\/([^\/]+)\/([^\/]+)(?:\/tree\/[^\/]+)?\/?$/);
             if (!match) {
                 node.error("Invalid GitHub repository URL");
-                addEvidence(msg, "GitHub repository", "Invalid GitHub repository URL", false);
+                addEvidence(msg, "GitHub repository", "Invalid GitHub repository URL", false, storeEvidences);
                 return node.send(msg);
             }
 
@@ -61,22 +62,24 @@ module.exports = function (RED) {
                     headers: { Authorization: githubToken }
                 });
                 const result = response.status === 200;
-                addEvidence(msg, "GitHub repository", githubAttachment.url, result);
+                addEvidence(msg, "GitHub repository", githubAttachment.url, result, storeEvidences);
                 msg.payload.result = result;
             } catch (error) {
                 node.error("Error fetching GitHub repository:", error);
-                addEvidence(msg, "GitHub repository", "Error fetching GitHub repository", false);
+                addEvidence(msg, "GitHub repository", "Error fetching GitHub repository", false, storeEvidences);
             }
             node.send(msg);
         }
 
-        function addEvidence(msg, key, value, result) {
-            msg.payload.evidences.push({
-                id: uuidv4(),
-                key,
-                value,
-                result
-            });
+        function addEvidence(msg, key, value, result, storeEvidences) {
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    key,
+                    value,
+                    result
+                });
+            }
         }
     }
 
