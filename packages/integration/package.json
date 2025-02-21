@@ -42,9 +42,9 @@
     },
     "dependencies": {
         "axios": "1.7.9",
-        "fast-xml-parser": "4.5.1",
+        "fast-xml-parser": "4.5.3",
         "pako": "2.1.0",
         "pdf-parse": "1.1.1",
-        "uuid": "11.0.5"
+        "uuid": "11.1.0"
     }
 }
