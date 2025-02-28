@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/filtering",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Collection of STATUS project components that are responsible for filtering JSON object information.",
   "engines": {
     "node": ">=20.18.3",
