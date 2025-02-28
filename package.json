@@ -1,6 +1,6 @@
 {
   "name": "status-compliance",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Collection of STATUS packages for Node-RED",
   "engines": {
