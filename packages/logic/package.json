@@ -1,50 +1,50 @@
 {
-    "name": "@statuscompliance/logic",
-    "version": "1.1.2",
-    "description": "Collection of components of the STATUS project containing logical operators and similar functions.",
-    "engines": {
-        "node": ">=22.0.0",
-        "npm": ">=10.9.0",
-        "yarn": "Yarn is not supported, please use npm",
-        "pnpm": "PNPM is not supported, please use npm"
-    },
-    "license": "Apache-2.0",
-    "keywords": [
-        "node-red",
-        "status",
-        "compliance"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/statuscompliance/node-red-status"
-    },
-    "author": {
-        "name": "Álvaro Bernal",
-        "url": "https://github.com/alvarobernal2412"
-    },
-    "contributors": [
-        {
-            "name": "Francisco Montero",
-            "url": "https://github.com/FJMonteroInformatica"
-        }
-    ],
-    "files": [
-        "nodes/*",
-        "README.md",
-        "LICENSE",
-        "flows.json"
-    ],
-    "node-red": {
-        "version": ">=3.1.3",
-        "nodes": {
-            "and": "nodes/and.js",
-            "lesser-than": "nodes/lesser-than.js",
-            "implies": "nodes/implies.js",
-            "or": "nodes/or.js",
-            "if-else": "nodes/if-else.js"
-        }
-    },
-    "dependencies": {
-        "uuid": "11.1.0"
+  "name": "@statuscompliance/logic",
+  "version": "1.1.2",
+  "description": "Collection of components of the STATUS project containing logical operators and similar functions.",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.9.0",
+    "yarn": "Yarn is not supported, please use npm",
+    "pnpm": "PNPM is not supported, please use npm"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "node-red",
+    "status",
+    "compliance"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/statuscompliance/node-red-status"
+  },
+  "author": {
+    "name": "Álvaro Bernal",
+    "url": "https://github.com/alvarobernal2412"
+  },
+  "contributors": [
+    {
+      "name": "Francisco Montero",
+      "url": "https://github.com/FJMonteroInformatica"
     }
+  ],
+  "files": [
+    "nodes/*",
+    "README.md",
+    "LICENSE",
+    "flows.json"
+  ],
+  "node-red": {
+    "version": ">=3.1.3",
+    "nodes": {
+      "and": "nodes/and.js",
+      "lesser-than": "nodes/lesser-than.js",
+      "implies": "nodes/implies.js",
+      "or": "nodes/or.js",
+      "if-else": "nodes/if-else.js"
+    }
+  },
+  "dependencies": {
+    "uuid": "11.1.0"
+  }
 }
