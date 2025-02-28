@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 module.exports = function (RED) {
     function CheckPropertyNode(config) {
         RED.nodes.createNode(this, config);
