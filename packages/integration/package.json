@@ -47,7 +47,7 @@
     }
   },
   "dependencies": {
-    "axios": "1.8.1",
+    "axios": "1.8.2",
     "fast-xml-parser": "4.5.3",
     "pako": "2.1.0",
     "pdf-parse": "1.1.1",
