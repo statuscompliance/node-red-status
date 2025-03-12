@@ -1,13 +1,7 @@
 {
   "name": "@statuscompliance/control-flow",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Collection of STATUS project components that are responsible for performing control-flow checks.",
-  "engines": {
-    "node": ">=20.18.3",
-    "npm": ">=10.8.2",
-    "yarn": "Yarn is not supported, please use npm",
-    "pnpm": "PNPM is not supported, please use npm"
-  },
   "license": "Apache-2.0",
   "keywords": [
     "node-red",
