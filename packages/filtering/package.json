@@ -1,48 +1,42 @@
 {
-    "name": "@statuscompliance/filtering",
-    "version": "1.1.0",
-    "description": "Collection of STATUS project components that are responsible for filtering JSON object information.",
-    "engines": {
-        "node": ">=22.0.0",
-        "npm": ">=10.9.0",
-        "yarn": "Yarn is not supported, please use npm",
-        "pnpm": "PNPM is not supported, please use npm"
-    },
-    "license": "Apache-2.0",
-    "keywords": [
-        "node-red",
-        "status",
-        "compliance"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/statuscompliance/node-red-status"
-    },
-    "author": {
-        "name": "Álvaro Bernal",
-        "url": "https://github.com/alvarobernal2412"
-    },
-    "contributors": [
-        {
-            "name": "Francisco Montero",
-            "url": "https://github.com/FJMonteroInformatica"
-        }
-    ],
-    "files": [
-        "nodes/*",
-        "README.md",
-        "LICENSE",
-        "flows.json"
-    ],
-    "node-red": {
-        "version": ">=3.1.3",
-        "nodes": {
-            "filter-by-date": "nodes/filter-by-date.js",
-            "filter-by": "nodes/filter-by.js",
-            "group-by": "nodes/group-by.js"
-        }
-    },
-    "dependencies": {
-        "uuid": "11.0.5"
+  "name": "@statuscompliance/filtering",
+  "version": "2.0.0",
+  "description": "Collection of STATUS project components that are responsible for filtering JSON object information.",
+  "license": "Apache-2.0",
+  "keywords": [
+    "node-red",
+    "status",
+    "compliance"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/statuscompliance/node-red-status"
+  },
+  "author": {
+    "name": "Álvaro Bernal",
+    "url": "https://github.com/alvarobernal2412"
+  },
+  "contributors": [
+    {
+      "name": "Francisco Montero",
+      "url": "https://github.com/FJMonteroInformatica"
     }
+  ],
+  "files": [
+    "nodes/*",
+    "README.md",
+    "LICENSE",
+    "flows.json"
+  ],
+  "node-red": {
+    "version": ">=4.0.9",
+    "nodes": {
+      "filter-by-date": "nodes/filter-by-date.js",
+      "filter-by": "nodes/filter-by.js",
+      "group-by": "nodes/group-by.js"
+    }
+  },
+  "dependencies": {
+    "uuid": "11.1.0"
+  }
 }

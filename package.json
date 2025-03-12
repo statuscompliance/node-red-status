@@ -1,14 +1,8 @@
 {
   "name": "status-compliance",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Collection of STATUS packages for Node-RED",
-  "engines": {
-    "node": ">=22.0.0",
-    "npm": ">=10.9.0",
-    "yarn": "Yarn is not supported, please use npm",
-    "pnpm": "PNPM is not supported, please use npm"
-  },
   "license": "Apache-2.0",
   "keywords": [
     "node-red",
@@ -39,6 +33,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "uuid": "11.0.5"
+    "uuid": "11.1.0"
   }
 }

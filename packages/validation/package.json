@@ -1,13 +1,7 @@
 {
   "name": "@statuscompliance/validation",
-  "version": "1.1.3",
+  "version": "2.0.0",
   "description": "Collection of STATUS project components used for compliance checks",
-  "engines": {
-    "node": ">=22.0.0",
-    "npm": ">=10.9.0",
-    "yarn": "Yarn is not supported, please use npm",
-    "pnpm": "PNPM is not supported, please use npm"
-  },
   "license": "Apache-2.0",
   "keywords": [
     "node-red",
@@ -35,7 +29,7 @@
     "flows.json"
   ],
   "node-red": {
-    "version": ">=3.1.3",
+    "version": ">=4.0.9",
     "nodes": {
       "exists-pipe": "nodes/exists-pipe.js",
       "exists-url": "nodes/exists-url.js",
@@ -46,9 +40,9 @@
     }
   },
   "dependencies": {
-    "axios": "1.7.9",
+    "axios": "1.8.1",
     "fuse.js": "7.1.0",
     "pdf-parse": "1.1.1",
-    "uuid": "11.0.5"
+    "uuid": "11.1.0"
   }
 }
