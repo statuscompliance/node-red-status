@@ -1,0 +1,72 @@
+[
+    {
+        "id": "b5993a09b0ad6fc7",
+        "type": "tab",
+        "label": "Flujo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c2a142156e1ea262",
+        "type": "ai-response",
+        "z": "b5993a09b0ad6fc7",
+        "name": "",
+        "apiKey": "google-gemini-api-key",
+        "model": "gemini-2.5-flash",
+        "maxTokens": 200,
+        "temperature": 0.7,
+        "topP": 0.9,
+        "topK": 1,
+        "systemPrompt": "Eres un asistente útil y amable.",
+        "maxHistory": 10,
+        "x": 300,
+        "y": 60,
+        "wires": [
+            [
+                "886172e52c23399c"
+            ]
+        ]
+    },
+    {
+        "id": "0cbb383d7106f684",
+        "type": "inject",
+        "z": "b5993a09b0ad6fc7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Hola, esto es una prueba de la api de gemini.",
+        "payloadType": "str",
+        "x": 110,
+        "y": 60,
+        "wires": [
+            [
+                "c2a142156e1ea262"
+            ]
+        ]
+    },
+    {
+        "id": "886172e52c23399c",
+        "type": "debug",
+        "z": "b5993a09b0ad6fc7",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 60,
+        "wires": []
+    }
+]

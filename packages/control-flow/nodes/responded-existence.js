@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
+const { addEvidence } = require('../../../utils/common.js')
 
 module.exports = function (RED) {
     function RespondedExistence(config) {
@@ -33,7 +33,7 @@ module.exports = function (RED) {
                     let name = strings.find((e) => e.$.key === "concept:name");
                     let timestamp =
                         event.date &&
-                        event.date[0].$["key"] === "time:timestamp"
+                            event.date[0].$["key"] === "time:timestamp"
                             ? new Date(event.date[0].$.value)
                             : null;
                     if (name && timestamp) {
@@ -46,9 +46,9 @@ module.exports = function (RED) {
                 }
             });
             let newMsg = { ...msg };
-            
+
             newMsg.payload.evidences = Array.isArray(newMsg.payload.evidences) ? newMsg.payload.evidences : [];
-            
+
             let result = false;
             if (eventTimestamps.eventA && eventTimestamps.eventB) {
                 result = eventTimestamps.eventA < eventTimestamps.eventB;
@@ -59,14 +59,9 @@ module.exports = function (RED) {
             }
 
             newMsg.payload.result = result;
-            if(storeEvidences){
-                newMsg.payload.evidences.push({
-                    id: uuidv4(),
-                    key: `${eventAName}-${eventBName}`,
-                    value: [eventTimestamps.eventA, eventTimestamps.eventB],
-                    result: result,
-                });
-            }
+
+            addEvidence(newMsg, `${eventAName}-${eventBName}`, [eventTimestamps.eventA, eventTimestamps.eventB], result, storeEvidences);
+
             node.send(newMsg);
         });
     }
