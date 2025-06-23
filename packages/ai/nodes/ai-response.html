@@ -1,0 +1,100 @@
+<script type="text/html" data-template-name="ai-response">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Nombre</label>
+        <input type="text" id="node-input-name" placeholder="Nombre">
+    </div>
+    <div class="form-row">
+        <label for="node-input-apiKey"><i class="fa fa-key"></i> API Key</label>
+        <input type="password" id="node-input-apiKey" placeholder="Tu API Key de Gemini">
+    </div>
+    <div class="form-row">
+        <label for="node-input-model"><i class="fa fa-cogs"></i> Select Model</label>
+        <input type="text" id="node-input-model" placeholder="gemini-pro">
+    </div>
+    <div class="form-row">
+        <label for="node-input-maxTokens"><i class="fa fa-text-width"></i> Max. Output Tokens</label>
+        <input type="number" id="node-input-maxTokens" placeholder="200" min="10">
+    </div>
+    <div class="form-row">
+        <label for="node-input-temperature"><i class="fa fa-thermometer-half"></i> Temperature</label>
+        <input type="number" id="node-input-temperature" placeholder="0.7" step="0.1" min="0" max="1">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topP"><i class="fa fa-dot-circle-o"></i> Top P</label>
+        <input type="number" id="node-input-topP" placeholder="0.9" step="0.01" min="0" max="1">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topK"><i class="fa fa-sort-numeric-asc"></i> Top K</label>
+        <input type="number" id="node-input-topK" placeholder="1" min="1" max="100">
+    </div>
+
+    <hr/>
+
+    <div class="form-row">
+        <label for="node-input-systemPrompt"><i class="fa fa-comment"></i> Sistem Prompt</label>
+        <textarea id="node-input-systemPrompt" style="height: 100px;" placeholder="Eres un asistente útil y amable..."></textarea>
+    </div>
+    <div class="form-row">
+        <label for="node-input-maxHistory"><i class="fa fa-history"></i> Max. Historial</label>
+        <input type="number" id="node-input-maxHistory" placeholder="10" min="0">
+    </div>
+
+    <div class="form-tips">
+        Consejo: La API Key es necesaria para la comunicación con Gemini. Para entornos de producción, considera usar un método de almacenamiento de credenciales más seguro.
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ai-response">
+    <p>Un nodo que interactúa con el Large Language Model (LLM) de <b>Google Gemini</b>, gestionando tanto la generación de respuestas como el <b>contexto y el historial</b> de la conversación. La API Key se configura directamente en el nodo para mayor comodidad.</p>
+    <p>Espera el texto de entrada del usuario en <code>msg.payload</code>. El nodo gestionará automáticamente el historial de la conversación y aplicará el prompt del sistema antes de consultar a Gemini.</p>
+    <h3>Configuración</h3>
+    <dl class="message-properties">
+        <dt>Nombre <span class="property-type">string</span></dt>
+        <dd>Nombre opcional para el nodo en el editor.</dd>
+        <dt>API Key <span class="property-type">string</span></dt>
+        <dd>Tu clave de API para Google Gemini. <b>¡CUIDADO! Esta clave será visible en la configuración del nodo.</b></dd>
+        <dt>Modelo <span class="property-type">string</span></dt>
+        <dd>El nombre del modelo de Gemini a usar (ej. <code>gemini-pro</code> o <code>gemini-2.5-flash</code>).</dd>
+        <dt>Max. Output Tokens <span class="property-type">number</span></dt>
+        <dd>El número máximo de tokens en la respuesta generada.</dd>
+        <dt>Temperatura <span class="property-type">number</span></dt>
+        <dd>Controla la aleatoriedad de la respuesta (0.0 para menos aleatorio, 1.0 para más creativo).</dd>
+        <dt>Top P <span class="property-type">number</span></dt>
+        <dd>Parámetro para el muestreo de núcleo. Cuanto más bajo, más determinista.</dd>
+        <dt>Top K <span class="property-type">number</span></dt>
+        <dd>Parámetro para el muestreo Top-K. Cuanto más bajo, más restringido.</dd>
+        <dt>Prompt del Sistema <span class="property-type">string</span></dt>
+        <dd>Instrucciones iniciales para el LLM sobre su rol, personalidad o directrices de respuesta. Se incluye al inicio de la conversación.</dd>
+        <dt>Max. Historial <span class="property-type">number</span></dt>
+        <dd>El número máximo de interacciones (pares de usuario/asistente) a recordar en el historial de la conversación para esta instancia del nodo.</dd>
+    </dl>
+    <h3>Salida</h3>
+    <p>El mensaje de salida (<code>msg.payload</code>) contendrá la respuesta de texto generada por Gemini.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ai-response',{
+        category: 'AI',
+        color: '#E0FFB5',
+        defaults: {
+            name: {value:""},
+            apiKey: {value:"", required: true},
+            model: {value:"gemini-2.5-flash", required: true},
+            maxTokens: {value:200, validate:RED.validators.number()},
+            temperature: {value:0.7, validate:RED.validators.number()},
+            topP: {value:0.9, validate:RED.validators.number()},
+            topK: {value:1, validate:RED.validators.number()},
+            systemPrompt: {value:"Eres un asistente útil y amable.", required: true},
+            maxHistory: {value:10, validate:RED.validators.number()}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-comments",
+        label: function() {
+            return this.name||"AI Response (Gemini)";
+        },
+        labelStyle: function() {
+            return this.name ? "node_label_italic" : "";
+        }
+    });
+</script>
