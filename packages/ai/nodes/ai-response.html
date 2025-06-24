@@ -8,7 +8,7 @@
         <input type="password" id="node-input-apiKey" placeholder="Tu API Key de Gemini">
     </div>
     <div class="form-row">
-        <label for="node-input-model"><i class="fa fa-cogs"></i> Select Model</label>
+        <label for="node-input-model"><i class="fa fa-cogs"></i> Modelo</label>
         <input type="text" id="node-input-model" placeholder="gemini-pro">
     </div>
     <div class="form-row">
@@ -16,7 +16,7 @@
         <input type="number" id="node-input-maxTokens" placeholder="200" min="10">
     </div>
     <div class="form-row">
-        <label for="node-input-temperature"><i class="fa fa-thermometer-half"></i> Temperature</label>
+        <label for="node-input-temperature"><i class="fa fa-thermometer-half"></i> Temperatura</label>
         <input type="number" id="node-input-temperature" placeholder="0.7" step="0.1" min="0" max="1">
     </div>
     <div class="form-row">
@@ -31,7 +31,7 @@
     <hr/>
 
     <div class="form-row">
-        <label for="node-input-systemPrompt"><i class="fa fa-comment"></i> Sistem Prompt</label>
+        <label for="node-input-systemPrompt"><i class="fa fa-comment"></i> Prompt del Sistema</label>
         <textarea id="node-input-systemPrompt" style="height: 100px;" placeholder="Eres un asistente útil y amable..."></textarea>
     </div>
     <div class="form-row">
@@ -41,18 +41,21 @@
 
     <div class="form-tips">
         Consejo: La API Key es necesaria para la comunicación con Gemini. Para entornos de producción, considera usar un método de almacenamiento de credenciales más seguro.
+        <br/>
+        <b>Nota:</b> Los parámetros configurados aquí pueden ser sobreescritos por los valores enviados en <code>msg.req.body</code>.
     </div>
 </script>
 
 <script type="text/html" data-help-name="ai-response">
-    <p>Un nodo que interactúa con el Large Language Model (LLM) de <b>Google Gemini</b>, gestionando tanto la generación de respuestas como el <b>contexto y el historial</b> de la conversación. La API Key se configura directamente en el nodo para mayor comodidad.</p>
+    <p>Un nodo que interactúa con el Large Language Model (LLM) de <b>Google Gemini</b>, gestionando tanto la generación de respuestas como el <b>contexto y el historial</b> de la conversación.</p>
     <p>Espera el texto de entrada del usuario en <code>msg.payload</code>. El nodo gestionará automáticamente el historial de la conversación y aplicará el prompt del sistema antes de consultar a Gemini.</p>
+    <p><b>Flexibilidad de Parámetros:</b> Todos los parámetros de configuración (API Key, Modelo, Prompt del Sistema, etc.) pueden ser sobreescritos en tiempo de ejecución si se envían en <code>msg.req.body</code>. Si no se especifican en <code>msg.req.body</code>, el nodo utilizará los valores configurados en sus propiedades o, si no están configurados allí, los valores predeterminados internos.</p>
     <h3>Configuración</h3>
     <dl class="message-properties">
         <dt>Nombre <span class="property-type">string</span></dt>
         <dd>Nombre opcional para el nodo en el editor.</dd>
         <dt>API Key <span class="property-type">string</span></dt>
-        <dd>Tu clave de API para Google Gemini. <b>¡CUIDADO! Esta clave será visible en la configuración del nodo.</b></dd>
+        <dd>Tu clave de API para Google Gemini. <b>¡CUIDADO! Esta clave será visible en la configuración del nodo si no se usa un método de credenciales seguro.</b></dd>
         <dt>Modelo <span class="property-type">string</span></dt>
         <dd>El nombre del modelo de Gemini a usar (ej. <code>gemini-pro</code> o <code>gemini-2.5-flash</code>).</dd>
         <dt>Max. Output Tokens <span class="property-type">number</span></dt>
@@ -78,8 +81,9 @@
         color: '#E0FFB5',
         defaults: {
             name: {value:""},
+            // Aseguramos que los valores por defecto coincidan con las propiedades que el JS lee de 'config'
             apiKey: {value:"", required: true},
-            model: {value:"gemini-2.5-flash", required: true},
+            model: {value:"gemini-pro", required: true}, // Cambiado a gemini-pro como en el .js
             maxTokens: {value:200, validate:RED.validators.number()},
             temperature: {value:0.7, validate:RED.validators.number()},
             topP: {value:0.9, validate:RED.validators.number()},

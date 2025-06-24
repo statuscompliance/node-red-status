@@ -4,51 +4,58 @@ module.exports = function (RED) {
     function AiResponseNode(config) {
         RED.nodes.createNode(this, config);
         this.name = config.name;
-        this.model = config.model || "gemini-2.5-flash";
-        this.apiKey = config.apiKey;
-        this.systemPrompt = config.systemPrompt || "Eres un asistente útil y amable.";
-        this.maxHistory = config.maxHistory || 10;
+        // --- ADDED: Store default config values on the node object ---
+        this.defaultModel = config.model || "gemini-2.5-flash";
+        this.defaultApiKey = config.apiKey; // This will be whatever is set in the node's properties
+        this.defaultSystemPrompt = config.systemPrompt || "Eres un asistente útil y amable.";
+        this.defaultMaxHistory = config.maxHistory || 10;
+        // -------------------------------------------------------------
 
         const node = this;
-
-        let genAI;
-        if (this.apiKey) {
-            genAI = new GoogleGenerativeAI(this.apiKey);
-        } else {
-            node.error("API Key de Gemini no configurada en la propiedad del nodo AI Response.", null);
-        }
+        let genAI = null; // genAI will be initialized per-input
 
         node.on('input', async function (msg) {
-            if (!genAI || !node.apiKey) {
-                node.error("El cliente de GoogleGenerativeAI no está inicializado o la API Key no está configurada. Introduce la API Key en las propiedades del nodo.", msg);
-                node.status({ fill: "red", shape: "dot", text: "Error: API Key / Cliente AI no iniciado" });
+            // Priority: msg.req.body > node's default config > hardcoded fallback
+            const currentModel = msg.req?.body?.model ?? node.defaultModel ?? "gemini-2.5-flash";
+            const currentApiKey = msg.req?.body?.apiKey ?? node.defaultApiKey; // Must come from config or msg.req.body
+            const currentSystemPrompt = msg.req?.body?.systemPrompt ?? node.defaultSystemPrompt ?? "Eres un asistente útil y amable.";
+            const currentMaxHistory = msg.req?.body?.maxHistory ?? node.defaultMaxHistory ?? 10;
+
+            // Generation config parameters - also allow msg.req.body overrides
+            const currentMaxOutputTokens = msg.req?.body?.maxOutputTokens ?? config.maxTokens ?? 200;
+            const currentTemperature = msg.req?.body?.temperature ?? config.temperature ?? 0.7;
+            const currentTopP = msg.req?.body?.topP ?? config.topP ?? 0.9;
+            const currentTopK = msg.req?.body?.topK ?? config.topK ?? 1;
+
+            if (!currentApiKey) {
+                node.error("API Key de Gemini no configurada. Introduce la API Key en las propiedades del nodo o en msg.req.body.", msg);
+                node.status({ fill: "red", shape: "dot", text: "Error: API Key faltante" });
                 return;
             }
 
-            const userInput = String(msg.payload);
+            genAI = new GoogleGenerativeAI(currentApiKey);
 
             let chatHistory = node.context().get('aiChatHistory') || [];
 
+            const userInput = String(msg.payload);
             chatHistory.push({ "role": "user", "content": userInput });
 
-            if (chatHistory.length > node.maxHistory * 2) {
-                chatHistory = chatHistory.slice(chatHistory.length - (node.maxHistory * 2));
+            if (chatHistory.length > currentMaxHistory * 2) {
+                chatHistory = chatHistory.slice(chatHistory.length - (currentMaxHistory * 2));
             }
 
             const geminiContents = [];
 
-            if (node.systemPrompt) {
+            if (currentSystemPrompt) {
+                // Ensure system prompt is handled correctly at the beginning of the conversation
+                // This logic might need further refinement depending on desired chat session restart/continuation
                 if (chatHistory.length === 1 && chatHistory[0].role === "user") {
-                    geminiContents.push({ role: "user", parts: [{ text: node.systemPrompt + "\n\n" + chatHistory[0].content }] });
-                } else if (chatHistory.length > 1 && chatHistory[0].role === "user") {
-                    geminiContents.push({ role: "user", parts: [{ text: node.systemPrompt + "\n\n" + chatHistory[0].content }] });
-                    for (let i = 1; i < chatHistory.length; i++) {
-                        const message = chatHistory[i];
-                        const geminiRole = message.role === "assistant" ? "model" : message.role;
-                        geminiContents.push({ role: geminiRole, parts: [{ text: message.content }] });
-                    }
+                    // If it's the very first user message, prepend system prompt to it
+                    geminiContents.push({ role: "user", parts: [{ text: currentSystemPrompt + "\n\n" + chatHistory[0].content }] });
                 } else {
-                    geminiContents.push({ role: "user", parts: [{ text: node.systemPrompt }] });
+                    // For subsequent messages, add the system prompt as a user message at the very beginning
+                    // (This ensures it's always included if specified, even if not part of the `chatHistory` array itself)
+                    geminiContents.push({ role: "user", parts: [{ text: currentSystemPrompt }] });
                     chatHistory.forEach(message => {
                         const geminiRole = message.role === "assistant" ? "model" : message.role;
                         geminiContents.push({ role: geminiRole, parts: [{ text: message.content }] });
@@ -64,22 +71,22 @@ module.exports = function (RED) {
             node.status({ fill: "blue", shape: "dot", text: "Consultando Gemini (SDK)..." });
 
             try {
-                const model = genAI.getGenerativeModel({ model: node.model });
+                const model = genAI.getGenerativeModel({ model: currentModel });
 
                 const result = await model.generateContent({
                     contents: geminiContents,
                     generationConfig: {
-                        maxOutputTokens: config.maxTokens || 200,
-                        temperature: config.temperature || 0.7,
-                        topP: config.topP || 0.9,
-                        topK: config.topK || 1
+                        maxOutputTokens: currentMaxOutputTokens,
+                        temperature: currentTemperature,
+                        topP: currentTopP,
+                        topK: currentTopK
                     }
                 });
 
                 const response = result.response;
                 if (response && response.text) {
                     const aiResponse = response.text();
-                    msg.payload = aiResponse;
+                    msg.payload = { payload: aiResponse };;
 
                     chatHistory.push({ "role": "assistant", "content": aiResponse });
                     node.context().set('aiChatHistory', chatHistory);
@@ -89,14 +96,14 @@ module.exports = function (RED) {
                 } else {
                     node.error("Respuesta inesperada del modelo Gemini: " + JSON.stringify(response), msg);
                     node.status({ fill: "red", shape: "dot", text: "Error Respuesta" });
-                    msg.payload = "Lo siento, no pude generar una respuesta clara.";
+                    msg.payload = { payload: "Lo siento, no pude generar una respuesta clara." };
                     node.send(msg);
                 }
 
             } catch (e) {
                 node.error(`Error al usar el SDK de Gemini: ${e.message}`, msg);
                 node.status({ fill: "red", shape: "dot", text: "Error SDK" });
-                msg.payload = "Ha ocurrido un error inesperado al procesar la respuesta.";
+                msg.payload = {payload: "Ha ocurrido un error inesperado al procesar la respuesta."};
                 node.send(msg);
             }
         });
@@ -108,6 +115,5 @@ module.exports = function (RED) {
             done();
         });
     }
-
-    RED.nodes.registerType("ai-response", AiResponseNode);
+    RED.nodes.registerType("ai-response", AiResponseNode, {});
 }

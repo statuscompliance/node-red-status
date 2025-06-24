@@ -1,4 +1,5 @@
-const { addEvidence } = require('../../../utils/common.js')
+const { v4: uuidv4 } = require('uuid');
+
 module.exports = function (RED) {
     function ChainResponseNode(config) {
         RED.nodes.createNode(this, config);
@@ -62,23 +63,22 @@ module.exports = function (RED) {
             }
             msg.payload.result = result;
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
-
-            addEvidence(
-                msg,
-                "Chain Response",
-                {
-                    eventA: {
-                        timestamp: eventTimes.eventA,
-                        value: eventAName
-                    }, 
-                    eventB: {
-                        timestamp: eventTimes.eventB,
-                        value: eventBName
-                    }
-                }
-                , result, 
-                storeEvidences
-            );
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    name: "Chain Response",
+                    value: { 
+                        eventA: { 
+                            timestamp: eventTimes.eventA, 
+                            value: eventAName
+                        }, eventB: { 
+                            timestamp: eventTimes.eventB, 
+                            value: eventBName
+                        }
+                    },
+                    result: result,
+                });
+            };
             node.send(msg);
         });
     }
