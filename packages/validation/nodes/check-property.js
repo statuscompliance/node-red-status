@@ -1,4 +1,4 @@
-const { addEvidence } = require('../../../utils/common.js')
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = function (RED) {
     function CheckPropertyNode(config) {
@@ -38,6 +38,17 @@ module.exports = function (RED) {
                 node.send(msg);
             }
         });
+        
+        function addEvidence(msg, key, value, result, storeEvidences) {
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    key,
+                    value,
+                    result
+                });
+            }
+        }
     }
 
     RED.nodes.registerType("check-property", CheckPropertyNode);

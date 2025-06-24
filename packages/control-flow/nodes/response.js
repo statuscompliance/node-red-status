@@ -1,4 +1,4 @@
-const { addEvidence } = require('../../../utils/common.js')
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = function (RED) {
     function ResponseNode(config) {
@@ -51,9 +51,14 @@ module.exports = function (RED) {
             }
 
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
-            
-            addEvidence(msg, "Response", [eventAName, eventBName], result, storeEvidences);
-            
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    name: "Response",
+                    value: [eventAName, eventBName],
+                    result: result,
+                });
+            }
             node.send(msg);
         });
     }

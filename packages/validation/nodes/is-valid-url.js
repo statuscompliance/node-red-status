@@ -1,4 +1,4 @@
-const { addEvidence } = require('../../../utils/common.js')
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = function (RED) {
     function IsValidURL(config) {
@@ -22,9 +22,14 @@ module.exports = function (RED) {
             }
             msg.payload.result = result
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
-
-            addEvidence(msg, "url", msg.payload[property], result, storeEvidences);
-
+            if(storeEvidences){
+                msg.payload.evidences.push({
+                    id: uuidv4(),
+                    key: "url",
+                    value: msg.payload[property],
+                    result: result
+                });
+            }
             node.send(msg);
         });
     }
