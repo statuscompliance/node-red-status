@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/status",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Collection of STATUS project components useful for integrating node-red with the system.",
   "license": "Apache-2.0",
   "keywords": [
@@ -29,10 +29,11 @@
     "flows.json"
   ],
   "node-red": {
-    "version": ">=4.0.9",
+    "version": ">=4.0.0",
     "nodes": {
       "status-storer": "nodes/status-storer.js",
-      "filter-scope": "nodes/filter-scope.js"
+      "filter-scope": "nodes/filter-scope.js",
+      "databinder": "nodes/databinder.js"
     }
   },
   "dependencies": {
