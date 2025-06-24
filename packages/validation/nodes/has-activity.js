@@ -1,5 +1,5 @@
 const Fuse = require("fuse.js");
-const { v4: uuidv4 } = require('uuid');
+const { addEvidence } = require('../../../utils/common.js')
 
 module.exports = function (RED) {
     function CheckConceptNameNode(config) {
@@ -35,7 +35,7 @@ module.exports = function (RED) {
             let searchableList = flattenData(data, attribute);
 
             const fuse = new Fuse(searchableList, {
-                keys: value? [value]: ["value"],
+                keys: value ? [value] : ["value"],
                 includeScore: true,
                 threshold: 0.3,
             });
@@ -44,14 +44,9 @@ module.exports = function (RED) {
 
             msg.payload.result = result.length > 0;
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
-            if(storeEvidences){
-                msg.payload.evidences.push({
-                    id: uuidv4(),
-                    key: conceptName,
-                    value: result.map((item) => item.item),
-                    result: result.length > 0,
-                });
-            }
+            
+            addEvidence(msg, conceptName, result.map((item) => item.item), result.length > 0, storeEvidences);
+            
             node.send(msg);
         });
     }
