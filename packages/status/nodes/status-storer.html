@@ -1,78 +1,83 @@
 <script type="text/javascript">
     RED.nodes.registerType('status-storer', {
         category: 'status',
-        color: '#DDAA99',
+        color: '#DDAA91', // Un color ligeramente diferente si quieres distinguirlo
         defaults: {
             name: { value: "" },
-            backendUrl: { value: "" },
+            backendUrl: { value: "http://status-backend:3001/api/v1/computations/bulk" }, // Default en JS y aquí
             accessToken: { value: "" },
-            bufferSize: { value: "" },
-            flushInterval: { value: "" },
+            bufferSize: { value: 2, validate: RED.validators.number() }, // Validar como número
+            flushInterval: { value: 2000, validate: RED.validators.number() }, // Validar como número
+            
+            // Nuevas propiedades para la configuración global de la computación
+            computationGroup: { value: "" },
             from: { value: "" },
             to: { value: "" },
             controlId: { value: "" },
-            params: { value: {
-                from: 'string',
-                to: 'string',
-                controlId: 'string',
-                backendUrl: "string",
-                accessToken: "string",
-                bufferSize: "number",
-                flushInterval: "number",
-            }},
         },
         inputs: 1,
-        outputs: 1,
+        outputs: 1, // El nodo ahora puede enviar mensajes de error/éxito por su salida
         icon: 'font-awesome/fa-database', 
         label: function () {
             return this.name || 'status-storer';
         },
         oneditprepare: function () {
+            // No hay lógica compleja de UI por ahora, pero se puede añadir aquí si es necesario
         },
         oneditsave: function () {
+            // Lógica al guardar los cambios del nodo
         },
         oneditcancel: function () {
+            // Lógica al cancelar los cambios del nodo
         },
     });
 </script>
 
 <script type="text/x-red" data-template-name="status-storer">
     <div class="form-row">
-        <label for="node-input-name">Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Optional Name for the Node">
     </div>
     <div class="form-row">
-        <label for="node-input-from"><i class="fa fa-calendar"></i> From</label>
-        <input type="text" id="node-input-from" placeholder="Start Period">
+        <label for="node-input-backendUrl"><i class="fa fa-globe"></i> Backend URL</label>
+        <input type="text" id="node-input-backendUrl" placeholder="http://status-backend:3001/api/v1/computations/bulk">
     </div>
     <div class="form-row">
-        <label for="node-input-to"><i class="fa fa-calendar"></i> To</label>
-        <input type="text" id="node-input-to" placeholder="End Period">
+        <label for="node-input-accessToken"><i class="fa fa-key"></i> Access Token</label>
+        <input type="text" id="node-input-accessToken" placeholder="x-access-token for backend API">
     </div>
     <div class="form-row">
-        <label for="node-input-controlId"><i class="fa fa-id-badge"></i> Control ID</label>
-        <input type="text" id="node-input-controlId" placeholder="Control Identifier">
+        <label for="node-input-bufferSize"><i class="fa fa-cubes"></i> Buffer Size</label>
+        <input type="number" id="node-input-bufferSize" placeholder="2">
     </div>
     <div class="form-row">
-        <label for="node-input-backendUrl">Backend URL</label>
-        <input type="text" id="node-input-backendUrl" placeholder="Backend URL">
+        <label for="node-input-flushInterval"><i class="fa fa-clock-o"></i> Flush Interval (ms)</label>
+        <input type="number" id="node-input-flushInterval" placeholder="2000">
+    </div>
+    <hr/> <div class="form-tips">
+        Optional: Provide default values for computations if not present in individual messages or `msg.req.body`.
     </div>
     <div class="form-row">
-        <label for="node-input-accessToken">Access Token</label>
-        <input type="text" id="node-input-accessToken" placeholder="Access Token">
+        <label for="node-input-computationGroup"><i class="fa fa-group"></i> Comp. Group ID</label>
+        <input type="text" id="node-input-computationGroup" placeholder="Optional global computation group ID">
     </div>
     <div class="form-row">
-        <label for="node-input-bufferSize">Buffer Size</label>
-        <input type="number" id="node-input-bufferSize" placeholder="Buffer Size">
+        <label for="node-input-from"><i class="fa fa-calendar-o"></i> Default Period From</label>
+        <input type="text" id="node-input-from" placeholder="e.g., 2025-01-01T00:00:00Z">
     </div>
     <div class="form-row">
-        <label for="node-input-flushInterval">Flush Interval</label>
-        <input type="number" id="node-input-flushInterval" placeholder="Flush Interval">
+        <label for="node-input-to"><i class="fa fa-calendar-o"></i> Default Period To</label>
+        <input type="text" id="node-input-to" placeholder="e.g., 2025-01-01T23:59:59Z">
+    </div>
+    <div class="form-row">
+        <label for="node-input-controlId"><i class="fa fa-id-card-o"></i> Default Control ID</label>
+        <input type="text" id="node-input-controlId" placeholder="Optional global control ID">
     </div>
 </script>
+
 <script type="text/x-red" data-help-name="status-storer">
     <p>
-        The "Status Storer" node collects and stores incoming messages in a buffer, then sends them in bulk to a backend API at regular intervals. This node is useful when you want to group multiple messages into a single request to reduce the number of requests to your backend.
+        The "Status Storer" node collects and stores incoming **individual computation messages** in a buffer, then sends them in bulk to a backend API when the buffer is full or a timeout occurs. This node is ideal for batching data to optimize API requests.
     </p>
 
     <h3>Inputs</h3>
@@ -81,15 +86,23 @@
             <span class="property-type">object</span>
         </dt>
         <dd>
-            Each incoming message's <code>payload</code> will be added to an internal buffer. Once the buffer is full or a certain interval has passed, the messages are sent to the configured backend.
+            Each incoming message's <code>payload</code> is expected to be a **single computation object** (e.g., <code>{ "value": true, "scope": {...}, "period": {...}, "control_id": "..." }</code>). This is commonly achieved by using a <b>Split node</b> before this node if your data arrives as an array.
+        </dd>
+        <dt>msg.req.body (optional)
+            <span class="property-type">object</span>
+        </dt>
+        <dd>
+            If connected to an HTTP In node, global parameters like <code>backendUrl</code>, <code>accessToken</code>, <code>computationGroup</code>, <code>from</code>, <code>to</code>, and <code>controlId</code> can be overridden dynamically from <code>msg.req.body</code>.
         </dd>
     </dl>
 
     <h3>Outputs</h3>
     <dl class="message-properties">
-        <dt>N/A</dt>
+        <dt>payload
+            <span class="property-type">object</span>
+        </dt>
         <dd>
-            This node does not produce any output. It sends data directly to a backend API.
+            On successful bulk send, a confirmation message is sent. On error, an error object is sent. This output occurs when a batch is sent or when the node closes.
         </dd>
     </dl>
 
@@ -97,62 +110,69 @@
     <p>
         The "Status Storer" node works as follows:
         <ul>
-            <li>Each incoming message's <code>payload</code> is stored in a buffer.</li>
-            <li>Once the buffer reaches a certain size (specified by the <code>bufferSize</code> parameter), or after a defined interval (specified by the <code>flushInterval</code> parameter), the contents of the buffer are sent in a single POST request to the backend API.</li>
-            <li>The backend URL, access token, buffer size, and flush interval can be configured in the node settings, or overridden by values in the incoming message's request body.</li>
+            <li>Incoming messages, each containing an individual computation object in their <code>payload</code>, are added to an internal buffer.</li>
+            <li>When the buffer reaches the configured <code>bufferSize</code>, or when the <code>flushInterval</code> (in milliseconds) expires, the buffered messages are sent in a single POST request to the <code>backendUrl</code>.</li>
+            <li>The payload sent to the backend will be an object like <code>{ computations: [...], done: boolean }</code>.</li>
+            <li>Configuration values (Backend URL, Access Token, Buffer Size, Flush Interval, and optional default computation properties) can be set directly in the node's properties.</li>
+            <li>Default computation properties (<code>computationGroup</code>, <code>from</code>, <code>to</code>, <code>controlId</code>) set here will be applied to individual computations if they are not present in the incoming <code>msg.payload</code> or overridden by <code>msg.req.body</code>.</li>
         </ul>
     </p>
 
     <h3>Node Configuration</h3>
     <dl class="message-properties">
-        <dt>backendUrl
+        <dt>Name
             <span class="property-type">string</span>
         </dt>
         <dd>
-            The URL of the backend API where the messages will be sent. Default: <code>http://localhost:3001/api/computations</code>.
+            An optional name for the node in the flow.
         </dd>
-
-        <dt>accessToken
+        <dt>Backend URL
             <span class="property-type">string</span>
         </dt>
         <dd>
-            The access token for authorization in the backend API. Default: <code>secret</code>.
+            The URL of the backend API where the messages will be sent (e.g., <code>http://status-backend:3001/api/v1/computations/bulk</code>). This can be overridden by <code>msg.req.body.backendUrl</code>.
         </dd>
-
-        <dt>bufferSize
+        <dt>Access Token
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            The access token for authorization (sent in the <code>x-access-token</code> header). Can be overridden by <code>msg.req.headers['x-access-token']</code> or <code>msg.req.cookies.accessToken</code>.
+        </dd>
+        <dt>Buffer Size
             <span class="property-type">integer</span>
         </dt>
         <dd>
-            The number of messages to collect before sending them in a bulk request. Default: <code>10</code>.
+            The maximum number of messages to collect before sending a bulk request. Default: <code>2</code>.
         </dd>
-
-        <dt>flushInterval
+        <dt>Flush Interval (ms)
             <span class="property-type">integer</span>
         </dt>
         <dd>
-            The time interval (in milliseconds) after which the buffered messages are automatically sent to the backend, even if the buffer is not full. Default: <code>5000</code> ms.
+            The time interval (in milliseconds) after which buffered messages are automatically sent, even if the buffer is not full. Default: <code>2000</code> ms.
+        </dd>
+        <dt>Comp. Group ID
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            An optional default computation group ID. This will be used if <code>computationGroup</code> is not provided in the incoming message's payload or via <code>msg.req.body.computationGroup</code>.
+        </dd>
+        <dt>Default Period From
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            An optional default start date/time (ISO 8601) for the computation period. Used if <code>period.from</code> is not present in the incoming message's payload or <code>msg.req.body.from</code>.
+        </dd>
+        <dt>Default Period To
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            An optional default end date/time (ISO 8601) for the computation period. Used if <code>period.to</code> is not present in the incoming message's payload or <code>msg.req.body.to</code>.
+        </dd>
+        <dt>Default Control ID
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            An optional default control identifier. Used if <code>controlId</code> (or <code>control_id</code>) is not present in the incoming message's payload or <code>msg.req.body.controlId</code>.
         </dd>
     </dl>
-
-    <h3>Examples of Use:</h3>
-    <ul>
-        <li><strong>Example 1:</strong>
-            <ul>
-                <li>Input payloads: <code>{ "result": true }</code>, <code>{ "result": false }</code>, etc.</li>
-                <li>Configuration: <code>bufferSize=2</code>, <code>flushInterval=5000</code>.</li>
-                <li>Behavior: After receiving two messages, they will be sent as a bulk request to the backend.</li>
-            </ul>
-        </li>
-        <li><strong>Example 2:</strong>
-            <ul>
-                <li>Input payloads: Multiple messages with arbitrary content.</li>
-                <li>Configuration: <code>bufferSize=10</code>, <code>flushInterval=30000</code>.</li>
-                <li>Behavior: Messages are sent in batches of 10, or after 30 seconds if fewer than 10 messages have been received.</li>
-            </ul>
-        </li>
-    </ul>
-
-    <p>
-        This node is ideal when you want to optimize the number of requests sent to a backend by batching data. It can help reduce network overhead and improve performance in cases where frequent individual requests are not efficient.
-    </p>
 </script>
