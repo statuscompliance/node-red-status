@@ -1,7 +1,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('status-storer', {
         category: 'status',
-        color: '#DDAA99',
+        color: '#DDAA91', // Un color ligeramente diferente si quieres distinguirlo
         defaults: {
             name: { value: "" },
             backendUrl: { value: "http://status-backend:3001/api/v1/computations/bulk" }, 
@@ -15,16 +15,19 @@
             controlId: { value: "" },
         },
         inputs: 1,
-        outputs: 1,
+        outputs: 1, // El nodo ahora puede enviar mensajes de error/éxito por su salida
         icon: 'font-awesome/fa-database', 
         label: function () {
             return this.name || 'status-storer';
         },
         oneditprepare: function () {
+            // No hay lógica compleja de UI por ahora, pero se puede añadir aquí si es necesario
         },
         oneditsave: function () {
+            // Lógica al guardar los cambios del nodo
         },
         oneditcancel: function () {
+            // Lógica al cancelar los cambios del nodo
         },
     });
 </script>

@@ -32,7 +32,6 @@ module.exports = function (RED) {
             currentIntervalId = setInterval(() => {
                 if (buffer.length > 0) {
                     node.warn(`[StatusStorer] Flush interval triggered. Sending ${buffer.length} remaining items.`);
-                    // Force 'done: true' for interval-triggered flushes.
                     sendToBackend(lastMessageReceived || {}, true);
                 }
             }, flushInterval);
@@ -50,10 +49,9 @@ module.exports = function (RED) {
             }
 
             const payloadsToProcess = buffer.slice();
-            buffer = []; // Clear buffer immediately
+            buffer = [];
 
             let currentIsFinal = forceFinal;
-            // Determine if this is the final batch based on msg.parts.count, if not forced final.
             if (msg && typeof msg.parts?.count === 'number' && !forceFinal) {
                 currentIsFinal = (totalPayloadsSentInSequence + payloadsToProcess.length) >= msg.parts.count;
             }
@@ -83,22 +81,21 @@ module.exports = function (RED) {
                 node.status({ fill: "green", shape: "dot", text: `Sent ${payloadToSend.computations.length} items. Total: ${totalPayloadsSentInSequence}` });
                 node.debug(`[StatusStorer] Backend response status: ${response.status}`);
 
-                // If this batch marks the end of the sequence
                 if (currentIsFinal) {
                     node.status({ fill: "blue", shape: "dot", text: `Completed. Final total: ${totalPayloadsSentInSequence}` });
-                    totalPayloadsSentInSequence = 0; // Reset for the next sequence
+                    totalPayloadsSentInSequence = 0;
 
                     if (lastMessageReceived) {
                         lastMessageReceived.payload = {
                             message: "Computations successfully stored",
-                            details: response.data // Include backend response
+                            details: response.data
                         };
-                        node.send(lastMessageReceived); // Send success message
+                        node.send(lastMessageReceived);
                     }
-                    lastMessageReceived = null; // Clear for next sequence
+                    lastMessageReceived = null;
                 } else {
                     if (msg) {
-                        lastMessageReceived = msg; // Update lastMessageReceived only if msg is valid
+                        lastMessageReceived = msg;
                     }
                 }
 
