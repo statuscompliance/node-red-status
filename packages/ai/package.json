@@ -1,0 +1,42 @@
+{
+  "name": "@statuscompliance/ai",
+  "version": "1.0.0",
+  "description": "Collection of STATUS project components that are responsible for performing ai resquest / responses to Google Gemini API",
+  "license": "Apache-2.0",
+  "keywords": [
+    "node-red",
+    "status",
+    "compliance",
+    "ai",
+    "ia",
+    "llm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/statuscompliance/node-red-status"
+  },
+  "author": {
+    "name": "Álvaro Bernal",
+    "url": "https://github.com/alvarobernal2412"
+  },
+  "contributors": [
+    {
+      "name": "Francisco Montero",
+      "url": "https://github.com/FJMonteroInformatica"
+    }
+  ],
+  "files": [
+    "nodes/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "node-red": {
+    "version": ">=4.0.9",
+    "nodes": {
+      "ai-response": "nodes/ai-response.js"
+    }
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.14.0"
+  }
+}

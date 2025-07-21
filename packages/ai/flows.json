@@ -1,0 +1,104 @@
+[
+    {
+        "id": "b5993a09b0ad6fc7",
+        "type": "tab",
+        "label": "Simple AI usage",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6d0dae394c0d7620",
+        "type": "http in",
+        "z": "b5993a09b0ad6fc7",
+        "name": "",
+        "url": "/ai",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 140,
+        "wires": [
+            [
+                "1ed08bec5695ba5c"
+            ]
+        ]
+    },
+    {
+        "id": "856ce097b72d8e70",
+        "type": "http response",
+        "z": "b5993a09b0ad6fc7",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 670,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "39af1c42600bc508",
+        "type": "ai-response",
+        "z": "b5993a09b0ad6fc7",
+        "name": "",
+        "apiKey": "",
+        "model": "gemini-2.5-flash",
+        "maxTokens": 200,
+        "temperature": 0.7,
+        "topP": 0.9,
+        "topK": 1,
+        "systemPrompt": "You are a helpful and friendly assistant.",
+        "maxHistory": 10,
+        "userInput": "",
+        "aiPayloadType": "property",
+        "x": 540,
+        "y": 140,
+        "wires": [
+            [
+                "856ce097b72d8e70"
+            ]
+        ]
+    },
+    {
+        "id": "1ed08bec5695ba5c",
+        "type": "function",
+        "z": "b5993a09b0ad6fc7",
+        "name": "simple payload property",
+        "func": "msg.payload.example = \"Hello, how are you doing?\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 140,
+        "wires": [
+            [
+                "39af1c42600bc508"
+            ]
+        ]
+    },
+    {
+        "id": "1509f6563a5682a8",
+        "type": "inject",
+        "z": "b5993a09b0ad6fc7",
+        "name": "REQUEST BODY",
+        "props": [
+            {
+                "p": "req.body",
+                "v": "{\"apiKey\":\"YOU_API_KEY\",\"model\":\"gemini-2.5-flash\",\"systemPrompt\":\"You are a helpful assistant that always answers with the same input as me but with a random word at the end. Example: User= Hello You= Hello banana\",\"aiPayloadType\":\"property\",\"userInput\":\"payload.example\"}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 260,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    }
+]
