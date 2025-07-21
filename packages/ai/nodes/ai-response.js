@@ -36,7 +36,35 @@ module.exports = function (RED) {
 
             let chatHistory = node.context().get('aiChatHistory') || [];
 
-            const userInput = String(msg.payload);
+            const aiPayloadType = msg.req?.body?.aiPayloadType ?? config.aiPayloadType ?? "request";
+
+            const rawUserInput = msg.req?.body?.userInput ?? msg.payload ?? config.userInput ?? "";
+            
+            let userInput;
+            if (aiPayloadType === "property" && rawUserInput) {
+                try {
+                    const propertyPath = String(rawUserInput);
+                    const pathParts = propertyPath.split('.');
+                    let value = msg;
+                    
+                    for (const part of pathParts) {
+                        if (value && typeof value === 'object' && part in value) {
+                            value = value[part];
+                        } else {
+                            value = undefined;
+                            break;
+                        }
+                    }
+                    
+                    userInput = String(value ?? "");
+                } catch (e) {
+                    node.warn(`Error accessing property path "${rawUserInput}": ${e.message}`);
+                    userInput = String(rawUserInput);
+                }
+            } else {
+                userInput = String(rawUserInput);
+            }
+
             chatHistory.push({ "role": "user", "content": userInput });
 
             if (chatHistory.length > currentMaxHistory * 2) {
@@ -66,8 +94,6 @@ module.exports = function (RED) {
 
             try {
                 const model = genAI.getGenerativeModel({ model: currentModel });
-
-                node.warn(`AI Node: Sending contents to Gemini: ${JSON.stringify(geminiContents)}`);
 
                 const result = await model.generateContent({
                     contents: geminiContents,

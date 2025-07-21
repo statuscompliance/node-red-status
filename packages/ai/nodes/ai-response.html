@@ -38,6 +38,17 @@
         <label for="node-input-maxHistory"><i class="fa fa-history"></i> Max. History</label>
         <input type="number" id="node-input-maxHistory" placeholder="10" min="0">
     </div>
+    <div class="form-row">
+        <label for="node-input-userInput"><i class="fa fa-keyboard-o"></i> User Input</label>
+        <textarea id="node-input-userInput" style="height: 60px;" placeholder="Optional: Default user input text (can be overridden by msg.payload or msg.req.body.userInput)"></textarea>
+    </div>
+    <div class="form-row">
+        <label for="node-input-aiPayloadType"><i class="fa fa-cog"></i> AI Payload Type</label>
+        <select id="node-input-aiPayloadType" style="width: 100%;">
+            <option value="request">Request (Use text as-is)</option>
+            <option value="property">Property (Use as msg property path)</option>
+        </select>
+    </div>
 
     <div class="form-tips">
         Tip: The API Key is necessary for communication with Gemini. For production environments, consider using a more secure credential storage method.
@@ -45,12 +56,14 @@
         <b>Note on System Prompt:</b> This node always forces Gemini to respond in English, regardless of the system prompt configured here or in <code>msg.req.body</code>. The provided prompt will be prepended with this instruction.
         <br/>
         <b>Note on Overrides:</b> Configured parameters here can be overridden by values sent in <code>msg.req.body</code>.
+        <br/>
+        <b>Note on AI Payload Type:</b> When set to "Property", the User Input will be treated as a path to access message properties (e.g., "payload.data.text" accesses <code>msg.payload.data.text</code>). When set to "Request", the text is used as-is.
     </div>
 </script>
 
 <script type="text/html" data-help-name="ai-response">
     <p>A Node-RED node that interacts with <b>Google Gemini's</b> Large Language Model (LLM), managing both response generation and conversation <b>context and history</b>.</p>
-    <p>It expects the user's input text in <code>msg.payload</code>. The node will automatically manage conversation history and apply the system prompt before querying Gemini.</p>
+    <p>It expects the user's input text in <code>msg.payload</code>, <code>msg.req.body.userInput</code>, or can use the configured User Input field as a fallback. The <b>AI Payload Type</b> setting determines how the input is interpreted: as literal text (<b>Request</b>) or as a message property path (<b>Property</b>). The node will automatically manage conversation history and apply the system prompt before querying Gemini.</p>
     <p><b>Important Note on Language:</b> This node is designed to <b>always force Gemini to respond in English</b>. An explicit instruction to respond in English is prepended to the system prompt before sending it to the Gemini API, overriding any language preferences you might set in the system prompt itself.</p>
     <p><b>Parameter Flexibility:</b> All configuration parameters (API Key, Model, System Prompt, etc.) can be overridden at runtime if sent in <code>msg.req.body</code>. If not specified in <code>msg.req.body</code>, the node will use the values configured in its properties, or if not configured there, internal defaults.</p>
     <h3>Configuration</h3>
@@ -73,6 +86,12 @@
         <dd>Initial instructions for the LLM regarding its role, personality, or response guidelines. It will be prepended with an instruction to always respond in English.</dd>
         <dt>Max. History <span class="property-type">number</span></dt>
         <dd>The maximum number of interactions (user/assistant pairs) to remember in the conversation history for this node instance.</dd>
+        <dt>User Input <span class="property-type">string</span></dt>
+        <dd>Optional default user input text. This value can be overridden by <code>msg.req.body.userInput</code> or <code>msg.payload</code> at runtime.</dd>
+        <dt>AI Payload Type <span class="property-type">string</span></dt>
+        <dd>Determines how the user input should be interpreted:<br/>
+            - <b>Request</b>: Use the input text as-is<br/>
+            - <b>Property</b>: Treat the input as a property path (e.g., "payload.section" will use <code>msg.payload.section</code>)</dd>
     </dl>
     <h3>Output</h3>
     <p>The output message (<code>msg.payload</code>) will contain a JSON object with the generated text response from Gemini in its <code>payload</code> property (e.g., <code>{"payload": "AI response text"}</code>).</p>
@@ -84,20 +103,22 @@
         color: '#E0FFB5',
         defaults: {
             name: {value:""},
-            apiKey: {value:"", required: true},
-            model: {value:"gemini-pro", required: true}, 
+            apiKey: {value:""},
+            model: {value:"gemini-2.5-flash", required: true}, 
             maxTokens: {value:200, validate:RED.validators.number()},
             temperature: {value:0.7, validate:RED.validators.number()},
             topP: {value:0.9, validate:RED.validators.number()},
             topK: {value:1, validate:RED.validators.number()},
             systemPrompt: {value:"You are a helpful and friendly assistant.", required: true},
-            maxHistory: {value:10, validate:RED.validators.number()}
+            maxHistory: {value:10, validate:RED.validators.number()},
+            userInput: {value:""},
+            aiPayloadType: {value:"request", required: true}
         },
         inputs:1,
         outputs:1,
         icon: "font-awesome/fa-comments",
         label: function() {
-            return this.name||"AI Response (Gemini)";
+            return this.name||"AI Node";
         },
         labelStyle: function() {
             return this.name ? "node_label_italic" : "";
