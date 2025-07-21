@@ -75,8 +75,8 @@ module.exports = function (RED) {
                         timestamp: eventTimes.eventB,
                         value: eventBName
                     }
-                }
-                , result, 
+                },
+                result, 
                 storeEvidences
             );
             node.send(msg);
