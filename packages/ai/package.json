@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/ai",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Collection of STATUS project components that are responsible for performing ai resquest / responses to Google Gemini API",
   "license": "Apache-2.0",
   "keywords": [
@@ -31,7 +31,7 @@
     "LICENSE"
   ],
   "node-red": {
-    "version": ">=4.0.9",
+    "version": ">=3.1.3",
     "nodes": {
       "ai-response": "nodes/ai-response.js"
     }
