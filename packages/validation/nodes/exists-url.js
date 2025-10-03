@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { addEvidence } = require('node-red-status-commons')
+const { addEvidence } = require('@statuscompliance/commons')
 
 module.exports = function (RED) {
     function ExistsUrlNode(config) {

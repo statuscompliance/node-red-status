@@ -1,6 +1,6 @@
 const axios = require("axios");
 const pdfParse = require("pdf-parse");
-const { addEvidence, existSection , extractTextFromPDF } = require('node-red-status-commons')
+const { addEvidence, existSection , extractTextFromPDF } = require('@statuscompliance/commons')
 
 module.exports = function (RED) {
     function ExistsSectionInDocNode(config) {

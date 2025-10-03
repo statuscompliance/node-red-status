@@ -1,5 +1,5 @@
 {
-  "name": "node-red-status-commons",
+  "name": "@statuscompliance/commons",
   "version": "1.0.0",
   "description": "Common utilities for STATUS compliance Node-RED packages",
   "main": "index.js",

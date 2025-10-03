@@ -5,13 +5,13 @@ Common utilities for STATUS compliance Node-RED packages.
 ## Installation
 
 ```bash
-npm install node-red-status-commons
+npm install @statuscompliance/commons
 ```
 
 ## Usage
 
 ```javascript
-const { addEvidence, existSection, extractTextFromPDF } = require('node-red-status-commons');
+const { addEvidence, existSection, extractTextFromPDF } = require('@statuscompliance/commons');
 ```
 
 ## Functions
