@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/control-flow",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Collection of STATUS project components that are responsible for performing control-flow checks.",
   "license": "Apache-2.0",
   "keywords": [
@@ -37,5 +37,7 @@
       "chain-response": "nodes/chain-response.js"
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "node-red-status-commons": "1.0.0"
+  }
 }
