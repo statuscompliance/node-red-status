@@ -19,7 +19,7 @@ jobs:
     uses: ./.github/workflows/__package.yml
     secrets: inherit
     with:
-        packages: '["control-flow", "extraction", "filtering", "integration", "logic", "status", "validation", "ai"]'
+        packages: '["control-flow", "extraction", "filtering", "integration", "logic", "status", "validation", "ai", "commons"]'
 
   trigger-docker:
     if: (github.event.pull_request && github.event.label.name == '🐳 Dockerize')  || github.event_name == 'push'
