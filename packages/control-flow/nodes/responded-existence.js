@@ -5,7 +5,7 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
-        this.on("input", function (msg) {
+        this.on("input", async function (msg) {
             let eventAName = msg.req?.body?.eventAName ?? config.eventAName;
             let eventBName = msg.req?.body?.eventBName ?? config.eventBName;
             let negate = msg.req?.body?.negate ?? config.negate;
@@ -60,7 +60,7 @@ module.exports = function (RED) {
 
             newMsg.payload.result = result;
 
-            addEvidence(newMsg, `${eventAName}-${eventBName}`, [eventTimestamps.eventA, eventTimestamps.eventB], result, storeEvidences);
+            await addEvidence(newMsg, `${eventAName}-${eventBName}`, [eventTimestamps.eventA, eventTimestamps.eventB], result, storeEvidences);
 
             node.send(newMsg);
         });

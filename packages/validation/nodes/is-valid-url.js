@@ -4,7 +4,7 @@ module.exports = function (RED) {
     function IsValidURL(config) {
         RED.nodes.createNode(this, config);
         var node = this;
-        node.on("input", function (msg) {
+        node.on("input", async function (msg) {
             let property = msg.req?.body?.property ?? config.property;
             const storeEvidences = config.storeEvidences;
             const urlPattern = new RegExp(
@@ -23,7 +23,7 @@ module.exports = function (RED) {
             msg.payload.result = result
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
 
-            addEvidence(msg, "url", msg.payload[property], result, storeEvidences);
+            await addEvidence(msg, "url", msg.payload[property], result, storeEvidences);
 
             node.send(msg);
         });

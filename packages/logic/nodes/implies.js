@@ -1,4 +1,13 @@
-const { v4: uuidv4 } = require('uuid');
+let uuidv4 = null;
+
+// Función para inicializar uuid de forma asíncrona
+async function initUuid() {
+    if (!uuidv4) {
+        const { v4 } = await import('uuid');
+        uuidv4 = v4;
+    }
+    return uuidv4;
+}
 
 module.exports = function (RED) {
     function BooleanImplicationNode(config) {
@@ -8,7 +17,7 @@ module.exports = function (RED) {
         let payloads = [];
         let evidences = [];
 
-        node.on("input", function (msg) {
+        node.on("input", async function (msg) {
             let expectedStatus = msg.req?.query?.status;
             let newMsg = { ...msg };
             let storeEvidences = config.storeEvidences;
@@ -28,8 +37,9 @@ module.exports = function (RED) {
                 if (implies === true && expectedStatus === "true" || expectedStatus === "false" || expectedStatus === undefined) {
                     newMsg.payload.result = implies;
                     if(storeEvidences){
+                        const uuid = await initUuid();
                         evidences.push({
-                            id: uuidv4(),
+                            id: uuid(),
                             key: 'IMPLIES operation',
                             value: [A, B],
                             result: implies,

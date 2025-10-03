@@ -1,4 +1,13 @@
-const { v4: uuidv4 } = require('uuid');
+let uuidv4 = null;
+
+// Función para inicializar uuid de forma asíncrona
+async function initUuid() {
+    if (!uuidv4) {
+        const { v4 } = await import('uuid');
+        uuidv4 = v4;
+    }
+    return uuidv4;
+}
 
 module.exports = function (RED) {
     function BooleanAndNode(config) {
@@ -8,7 +17,7 @@ module.exports = function (RED) {
         let payloads = [];
         let evidences = [];
 
-        node.on("input", function (msg) {
+        node.on("input", async function (msg) {
             let newMsg = { ...msg };
             let storeEvidences = config.storeEvidences;
             newMsg.payload.evidences = Array.isArray(newMsg.payload.evidences) ? newMsg.payload.evidences : [];
@@ -21,8 +30,9 @@ module.exports = function (RED) {
                 let B = payloads[1];
                 let and = A && B;
                 if(storeEvidences){
+                    const uuid = await initUuid();
                     evidences.push({
-                        id: uuidv4(),
+                        id: uuid(),
                         key: 'AND operation',
                         value: [A, B],
                         result: and,

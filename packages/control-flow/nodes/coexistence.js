@@ -5,7 +5,7 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
-        this.on("input", function (msg) {
+        this.on("input", async function (msg) {
             let eventAName = msg.req?.body?.eventAName ?? config.eventAName;
             let eventBName = msg.req?.body?.eventBName ?? config.eventBName;
             let negate = msg.req?.body?.negate ?? config.negate;
@@ -55,7 +55,7 @@ module.exports = function (RED) {
             msg.payload.result = result
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
 
-            addEvidence(msg, "Coexistence", [eventAName, eventBName], result, storeEvidences);
+            await addEvidence(msg, "Coexistence", [eventAName, eventBName], result, storeEvidences);
 
             node.send(msg);
         });

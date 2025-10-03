@@ -45,7 +45,7 @@ module.exports = function (RED) {
             msg.payload.result = result.length > 0;
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
             
-            addEvidence(msg, conceptName, result.map((item) => item.item), result.length > 0, storeEvidences);
+            await addEvidence(msg, conceptName, result.map((item) => item.item), result.length > 0, storeEvidences);
             
             node.send(msg);
         });

@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/validation",
-  "version": "2.1.4",
+  "version": "2.1.7",
   "description": "Collection of STATUS project components used for compliance checks",
   "license": "Apache-2.0",
   "keywords": [
@@ -43,6 +43,6 @@
     "axios": "1.12.0",
     "fuse.js": "7.1.0",
     "pdf-parse": "2.1.1",
-    "@statuscompliance/commons": "1.0.0"
+    "@statuscompliance/commons": "1.0.4"
   }
 }

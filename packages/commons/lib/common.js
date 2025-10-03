@@ -1,4 +1,13 @@
-const { v4: uuidv4 } = require('uuid');
+let uuidv4 = null;
+
+// Función para inicializar uuid de forma asíncrona
+async function initUuid() {
+    if (!uuidv4) {
+        const uuid = await import('uuid');
+        uuidv4 = uuid.v4;
+    }
+    return uuidv4;
+}
 
 function existSection(msg, storeEvidences, config, node) {
     let data = msg.payload.result;
@@ -13,7 +22,7 @@ function existSection(msg, storeEvidences, config, node) {
     node.send(msg);
 }
 
-function extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse) {
+async function extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse) {
     if (!pdfParse) {
         node.error("pdf-parse module not provided");
         msg.payload.result = false;
@@ -22,25 +31,25 @@ function extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse) {
         return;
     }
     
-    pdfParse(pdfContent)
-        .then((data) => {
-            msg.payload.result = data.text;
-            node.send(msg);
-        })
-        .catch((error) => {
-            node.error(
-                "Error extracting text from PDF: " + error.message
-            );
-            msg.payload.result = false;
-            addEvidence(msg, "PDF", "Error extracting text from PDF", false, storeEvidences);
-            node.send(msg);
-        });
+    try {
+        const data = await pdfParse(pdfContent);
+        msg.payload.result = data.text;
+        node.send(msg);
+    } catch (error) {
+        node.error(
+            "Error extracting text from PDF: " + error.message
+        );
+        msg.payload.result = false;
+        addEvidence(msg, "PDF", "Error extracting text from PDF", false, storeEvidences);
+        node.send(msg);
+    }
 }
 
-function addEvidence(msg, key, value, result, storeEvidences) {
+async function addEvidence(msg, key, value, result, storeEvidences) {
     if (storeEvidences) {
+        const uuid = await initUuid();
         msg.payload.evidences.push({
-            id: uuidv4(),
+            id: uuid(),
             key,
             value,
             result
@@ -51,5 +60,6 @@ function addEvidence(msg, key, value, result, storeEvidences) {
 module.exports = {
     existSection,
     extractTextFromPDF,
-    addEvidence
+    addEvidence,
+    initUuid
 };

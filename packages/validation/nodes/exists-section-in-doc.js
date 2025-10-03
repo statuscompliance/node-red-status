@@ -1,6 +1,14 @@
 const axios = require("axios");
-const pdfParse = require("pdf-parse");
 const { addEvidence, existSection , extractTextFromPDF } = require('@statuscompliance/commons')
+let pdfParse = null;
+
+// Función para inicializar pdf-parse de forma asíncrona
+async function initPdfParse() {
+    if (!pdfParse) {
+        pdfParse = (await import('pdf-parse')).default;
+    }
+    return pdfParse;
+}
 
 module.exports = function (RED) {
     function ExistsSectionInDocNode(config) {
@@ -23,7 +31,7 @@ module.exports = function (RED) {
                     if (!user || !repo || !path || !docName || !githubToken) {
                         node.error("Missing required parameters");
                         msg.payload.result = false;
-                        addEvidence(msg, "Missing required parameters", "Missing required parameters", false, storeEvidences);
+                        await addEvidence(msg, "Missing required parameters", "Missing required parameters", false, storeEvidences);
                         node.send(msg);
                         return;
                     }
@@ -38,14 +46,15 @@ module.exports = function (RED) {
 
                         axios
                             .get(pdfUrl, { responseType: "arraybuffer" })
-                            .then((response) => {
+                            .then(async (response) => {
                                 const pdfContent = Buffer.from(response.data);
-                                extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse);
+                                const pdfParseModule = await initPdfParse();
+                                await extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParseModule);
                             })
-                            .catch((error) => {
+                            .catch(async (error) => {
                                 node.error("Error fetching PDF:", error);
                                 msg.payload.result = false;
-                                addEvidence(msg, "PDF", "Error fetching PDF", false, storeEvidences);
+                                await addEvidence(msg, "PDF", "Error fetching PDF", false, storeEvidences);
                                 node.send(msg);
                             });
                     } catch (error) {
@@ -60,7 +69,7 @@ module.exports = function (RED) {
                     if (!url) {
                         node.error("URL not provided");
                         msg.payload.result = false;
-                        addEvidence(msg, "URL", "URL not provided", false, storeEvidences);
+                        await addEvidence(msg, "URL", "URL not provided", false, storeEvidences);
                         node.send(msg);
                         return;
                     }
@@ -68,27 +77,28 @@ module.exports = function (RED) {
                     if (url.endsWith(".pdf")) {
                         axios
                             .get(url, { responseType: "arraybuffer" })
-                            .then((response) => {
+                            .then(async (response) => {
                                 const pdfContent = Buffer.from(response.data);
-                                extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse);
+                                const pdfParseModule = await initPdfParse();
+                                await extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParseModule);
                             })
-                            .catch((error) => {
+                            .catch(async (error) => {
                                 node.error("Error fetching PDF:", error);
                                 msg.payload.result = false;
-                                addEvidence(msg, "PDF", "Error fetching PDF", false, storeEvidences);
+                                await addEvidence(msg, "PDF", "Error fetching PDF", false, storeEvidences);
                                 node.send(msg);
                             });
                     } else if (url.endsWith(".txt")) {
                         axios
                             .get(url)
-                            .then((response) => {
+                            .then(async (response) => {
                                 msg.payload.result = response.data;
-                                existSection(msg, storeEvidences, config, node);
+                                await existSection(msg, storeEvidences, config, node);
                             })
-                            .catch((error) => {
+                            .catch(async (error) => {
                                 node.error("Error fetching TXT:", error);
                                 msg.payload.result = false;
-                                addEvidence(msg, "TXT", "Error fetching TXT", false, storeEvidences);
+                                await addEvidence(msg, "TXT", "Error fetching TXT", false, storeEvidences);
                                 node.send(msg);
                             });
                     } else {

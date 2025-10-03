@@ -18,7 +18,7 @@ module.exports = function (RED) {
             msg.payload.evidences = Array.isArray(msg.payload.evidences) ? msg.payload.evidences : [];
 
             if (!isValidUrl(msg.payload) || !["body", "config", "payload"].includes(urlType)) {
-                addEvidence(msg, "URL", "Invalid URL Type", false, storeEvidences);
+                await addEvidence(msg, "URL", "Invalid URL Type", false, storeEvidences);
                 return node.send(msg);
             }
 
@@ -27,7 +27,7 @@ module.exports = function (RED) {
                 await processAttachments(response.data, githubToken, msg, node, storeEvidences);
             } catch (error) {
                 node.error("Error fetching Trello attachments:", error);
-                addEvidence(msg, "Trello attachments", "Error fetching Trello attachments", false, storeEvidences);
+                await addEvidence(msg, "Trello attachments", "Error fetching Trello attachments", false, storeEvidences);
                 node.send(msg);
             }
         });
@@ -45,14 +45,14 @@ module.exports = function (RED) {
             const githubAttachment = attachments.find(att => att.url.includes("github"));
             if (!githubAttachment) {
                 node.error("No GitHub repository URL found in the card");
-                addEvidence(msg, "GitHub repository", "No GitHub repository URL found", false, storeEvidences);
+                await addEvidence(msg, "GitHub repository", "No GitHub repository URL found", false, storeEvidences);
                 return node.send(msg);
             }
 
             let match = githubAttachment.url.match(/^https:\/\/github\.com\/([^\/]+)\/([^\/]+)(?:\/tree\/[^\/]+)?\/?$/);
             if (!match) {
                 node.error("Invalid GitHub repository URL");
-                addEvidence(msg, "GitHub repository", "Invalid GitHub repository URL", false, storeEvidences);
+                await addEvidence(msg, "GitHub repository", "Invalid GitHub repository URL", false, storeEvidences);
                 return node.send(msg);
             }
 
@@ -62,11 +62,11 @@ module.exports = function (RED) {
                     headers: { Authorization: githubToken }
                 });
                 const result = response.status === 200;
-                addEvidence(msg, "GitHub repository", githubAttachment.url, result, storeEvidences);
+                await addEvidence(msg, "GitHub repository", githubAttachment.url, result, storeEvidences);
                 msg.payload.result = result;
             } catch (error) {
                 node.error("Error fetching GitHub repository:", error);
-                addEvidence(msg, "GitHub repository", "Error fetching GitHub repository", false, storeEvidences);
+                await addEvidence(msg, "GitHub repository", "Error fetching GitHub repository", false, storeEvidences);
             }
             node.send(msg);
         }

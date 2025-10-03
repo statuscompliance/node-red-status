@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/commons",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Common utilities for STATUS compliance Node-RED packages",
   "main": "index.js",
   "license": "Apache-2.0",
@@ -31,6 +31,6 @@
     "LICENSE"
   ],
   "dependencies": {
-    "uuid": "^13.0.0"
+    "uuid": "8.3.2"
   }
 }

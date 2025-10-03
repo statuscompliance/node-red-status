@@ -1,4 +1,13 @@
-const { v4: uuidv4 } = require('uuid');
+let uuidv4 = null;
+
+// Función para inicializar uuid de forma asíncrona
+async function initUuid() {
+    if (!uuidv4) {
+        const { v4 } = await import('uuid');
+        uuidv4 = v4;
+    }
+    return uuidv4;
+}
 
 module.exports = function (RED) {
     function LesserNode(config) {
@@ -7,7 +16,7 @@ module.exports = function (RED) {
         let payloads = [];
         let evidences = [];
 
-        node.on("input", function (msg) {
+        node.on("input", async function (msg) {
             let newMsg = { ...msg };
             payloads[Number(newMsg.position) - 1] = newMsg.payload;
             let storeEvidences = config.storeEvidences;
@@ -20,8 +29,9 @@ module.exports = function (RED) {
                 const result = isValidNumber(firstPayload?.result) && isValidNumber(secondPayload?.result) && firstPayload?.result < secondPayload?.result;
 
                 if (storeEvidences) {
+                    const uuid = await initUuid();
                     evidences.push({
-                        id: uuidv4(),
+                        id: uuid(),
                         name: "LESSER_THAN operation",
                         value: [firstPayload?.result, secondPayload?.result],
                         result: result,

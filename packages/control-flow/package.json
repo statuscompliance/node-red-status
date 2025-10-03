@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/control-flow",
-  "version": "2.1.4",
+  "version": "2.1.6",
   "description": "Collection of STATUS project components that are responsible for performing control-flow checks.",
   "license": "Apache-2.0",
   "keywords": [
@@ -38,6 +38,6 @@
     }
   },
   "dependencies": {
-    "@statuscompliance/commons": "1.0.0"
+    "@statuscompliance/commons": "1.0.4"
   }
 }
