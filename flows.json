@@ -9,6 +9,7 @@
         "id": "ce8fc522a364e5e3",
         "type": "tab",
         "label": "Check section prueba",
+        "disabled": false,
         "info": "**Description**\nThis flow is designed to check if a specific section exists in a document. It listens for a GET request on the `/check` endpoint. The flow includes a custom node called `exists-section-in-doc` that will verify the presence of the specified section in the document.\n\n**Details**\n1. HTTP In: This node sets up the `/check` endpoint to trigger the flow.\n2. Exists-section-in-doc: Custom node that checks if the given section exists in the document.\n3. HTTP Response: This node sends an HTTP response based on the result of the section check."
     },
     {
@@ -21,6 +22,7 @@
         "id": "06d0899c3d2b4d31",
         "type": "tab",
         "label": "Check section in document",
+        "disabled": false,
         "info": "**Description**\nThis flow checks for the existence of a specific section (\"sección de prueba\") in a document. It can be triggered via a GET request on the /checkSectionInProject endpoint.\n\n**Details**\n1. _**Http in**_: This node defines the /checkSectionInProject endpoint to trigger the flow.\n2. _**Exists-section-in-doc**_: This node checks if the document contains the specified section (\"sección de prueba\").\n3. _**Http response**_: This node sends an HTTP response after processing the request. \n\nDo you need any further assistance with this flow?"
     },
     {
@@ -31,7 +33,15 @@
         "info": "Check if a section exists within the GitHub repository documents associated with cards on a trello board."
     },
     {
-        "id": "90075ea031ad30f3",
+        "id": "0d63fc92a70b0a63",
+        "type": "tab",
+        "label": "Example Flow",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "cb486f3dd774a375",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -85,11 +95,11 @@
         "type": "http in",
         "z": "ce8fc522a364e5e3",
         "name": "",
-        "url": "/check",
+        "url": "/check3",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 150,
+        "x": 110,
         "y": 180,
         "wires": [
             [
@@ -263,114 +273,206 @@
         ]
     },
     {
-        "id": "ae697e6ac9c20124",
-        "type": "url-to-doc",
-        "z": "90075ea031ad30f3",
+        "id": "57606808aecb6ca0",
+        "type": "split",
+        "z": "0d63fc92a70b0a63",
         "name": "",
-        "x": 180,
-        "y": 200,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "423cfb9c97fdbddf",
-        "type": "exists-pipe",
-        "z": "90075ea031ad30f3",
-        "count": 0,
-        "x": 370,
-        "y": 260,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c67bea0799e2c339",
-        "type": "exists-url",
-        "z": "90075ea031ad30f3",
-        "name": "",
-        "x": 400,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "filterByDate",
-        "type": "filter-by-date",
-        "z": "90075ea031ad30f3",
-        "name": "",
-        "attribute": "",
-        "startDate": "",
-        "endDate": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
         "x": 430,
-        "y": 340,
+        "y": 160,
         "wires": [
-            []
+            [
+                "e92e661eafb65594",
+                "7fb26c8b5db58520"
+            ]
         ]
     },
     {
-        "id": "",
-        "type": "filter-by",
-        "z": "90075ea031ad30f3",
+        "id": "917d02da8b5261c0",
+        "type": "function",
+        "z": "0d63fc92a70b0a63",
+        "name": "function 1",
+        "func": "msg.payload = [\n    {\n        \"value\": false,\n        \"scope\": {\n            \"project\": \"showcase-GH-governify_bluejay-showcase\",\n            \"class\": \"showcase\",\n            \"member\": \"Alice_Smith\"\n        },\n        \"evidences\": [\n            {\n                \"document\": \"Report detailing the analysis\"\n            }\n        ],\n        \"period\": {\n            \"from\": \"2025-01-01T01:00:00.000Z\",\n            \"to\": \"2025-01-01T01:59:59.999Z\"\n        }\n    },\n    {\n        \"value\": true,\n        \"scope\": {\n            \"project\": \"showcase-GH-governify_bluejay-showcase\",\n            \"class\": \"showcase\",\n            \"member\": \"Bob_Jones\"\n        },\n        \"evidences\": [\n            {\n                \"document\": \"Verification log from system\"\n            }\n        ],\n        \"period\": {\n            \"from\": \"2025-01-01T01:00:00.000Z\",\n            \"to\": \"2025-01-01T01:59:59.999Z\"\n        }\n    },\n    {\n        \"value\": false,\n        \"scope\": {\n            \"project\": \"showcase-GH-governify_bluejay-showcase\",\n            \"class\": \"showcase\",\n            \"member\": \"Charlie_Lee\"\n        },\n        \"evidences\": [\n            {\n                \"document\": \"Data logs supporting computation\"\n            }\n        ],\n        \"period\": {\n            \"from\": \"2025-01-01T01:00:00.000Z\",\n            \"to\": \"2025-01-01T01:59:59.999Z\"\n        }\n    },\n    {\n        \"value\": true,\n        \"scope\": {\n            \"project\": \"showcase-GH-governify_bluejay-showcase\",\n            \"class\": \"showcase\",\n            \"member\": \"Diana_Wilson\"\n        },\n        \"evidences\": [\n            {\n                \"document\": \"Audit record of computation\"\n            }\n        ],\n        \"period\": {\n            \"from\": \"2025-01-01T01:00:00.000Z\",\n            \"to\": \"2025-01-01T01:59:59.999Z\"\n        }\n    }\n];\nmsg.size = 4;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 160,
+        "wires": [
+            [
+                "57606808aecb6ca0"
+            ]
+        ]
+    },
+    {
+        "id": "13b9ee2f76db0205",
+        "type": "http in",
+        "z": "0d63fc92a70b0a63",
         "name": "",
-        "valueType": "Clasification",
-        "attribute": "",
-        "value": "",
-        "x": 440,
-        "y": 400,
+        "url": "/test",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 160,
         "wires": [
-            []
+            [
+                "917d02da8b5261c0",
+                "c3d4778d4b0361fb",
+                "52eec34d552d31f9"
+            ]
         ]
     },
     {
-        "id": "08a485a042d4130f",
-        "type": "project-to-url",
-        "z": "90075ea031ad30f3",
+        "id": "e7e2714543070ef0",
+        "type": "http response",
+        "z": "0d63fc92a70b0a63",
         "name": "",
-        "x": 330,
-        "y": 460,
-        "wires": [
-            []
-        ]
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 780,
+        "y": 160,
+        "wires": []
     },
     {
-        "id": "c89e80b0f663049a",
-        "type": "exists-section-in-doc",
-        "z": "90075ea031ad30f3",
-        "name": "",
-        "section": "",
-        "x": 280,
-        "y": 540,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "trello-collector",
-        "type": "trello-collector",
-        "z": "90075ea031ad30f3",
-        "boardId": "",
-        "key": "",
-        "token": "",
-        "x": 200,
-        "y": 80,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "github-collector",
-        "type": "github-collector",
-        "z": "90075ea031ad30f3",
-        "username": "",
-        "repoName": "",
-        "path": "",
-        "token": "",
-        "x": 640,
+        "id": "e92e661eafb65594",
+        "type": "debug",
+        "z": "0d63fc92a70b0a63",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
         "y": 200,
+        "wires": []
+    },
+    {
+        "id": "c3d4778d4b0361fb",
+        "type": "debug",
+        "z": "0d63fc92a70b0a63",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.body",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 270,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "52eec34d552d31f9",
+        "type": "debug",
+        "z": "0d63fc92a70b0a63",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.headers",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 210,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "7fb26c8b5db58520",
+        "type": "status-storer",
+        "z": "0d63fc92a70b0a63",
+        "name": "",
+        "backendUrl": "",
+        "accessToken": "",
+        "bufferSize": "",
+        "flushInterval": "",
+        "from": "",
+        "to": "",
+        "controlId": "",
+        "params": {
+            "from": "string",
+            "to": "string",
+            "controlId": "string",
+            "backendUrl": "string",
+            "accessToken": "string",
+            "bufferSize": "number",
+            "flushInterval": "number"
+        },
+        "x": 610,
+        "y": 120,
         "wires": [
-            []
+            [
+                "e7e2714543070ef0"
+            ]
+        ]
+    },
+    {
+        "id": "45cd45f69a70573f",
+        "type": "http response",
+        "z": "cb486f3dd774a375",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ce7fbc378175f658",
+        "type": "ai-response",
+        "z": "cb486f3dd774a375",
+        "name": "",
+        "apiKey": "",
+        "model": "gemini-2.5-flash",
+        "maxTokens": 200,
+        "temperature": 0.7,
+        "topP": 0.9,
+        "topK": 1,
+        "systemPrompt": "You are a helpful and friendly assistant.",
+        "maxHistory": 10,
+        "userInput": "",
+        "aiPayloadType": "request",
+        "x": 530,
+        "y": 140,
+        "wires": [
+            [
+                "45cd45f69a70573f"
+            ]
+        ]
+    },
+    {
+        "id": "06ffb75fd9570b94",
+        "type": "http in",
+        "z": "cb486f3dd774a375",
+        "name": "",
+        "url": "/example",
+        "method": "post",
+        "upload": false,
+        "x": 310,
+        "y": 140,
+        "wires": [
+            [
+                "ce7fbc378175f658"
+            ]
         ]
     }
 ]
