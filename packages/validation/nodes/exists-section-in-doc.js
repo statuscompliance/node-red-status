@@ -1,5 +1,6 @@
 const axios = require("axios");
-const { addEvidence, existSection , extractTextFromPDF } = require('../../../utils/common.js')
+const pdfParse = require("pdf-parse");
+const { addEvidence, existSection , extractTextFromPDF } = require('node-red-status-commons')
 
 module.exports = function (RED) {
     function ExistsSectionInDocNode(config) {
@@ -39,7 +40,7 @@ module.exports = function (RED) {
                             .get(pdfUrl, { responseType: "arraybuffer" })
                             .then((response) => {
                                 const pdfContent = Buffer.from(response.data);
-                                extractTextFromPDF(pdfContent, node, msg, storeEvidences);
+                                extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse);
                             })
                             .catch((error) => {
                                 node.error("Error fetching PDF:", error);
@@ -69,7 +70,7 @@ module.exports = function (RED) {
                             .get(url, { responseType: "arraybuffer" })
                             .then((response) => {
                                 const pdfContent = Buffer.from(response.data);
-                                extractTextFromPDF(pdfContent, node, msg, storeEvidences);
+                                extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse);
                             })
                             .catch((error) => {
                                 node.error("Error fetching PDF:", error);
@@ -82,7 +83,7 @@ module.exports = function (RED) {
                             .get(url)
                             .then((response) => {
                                 msg.payload.result = response.data;
-                                existSection(msg, storeEvidences);
+                                existSection(msg, storeEvidences, config, node);
                             })
                             .catch((error) => {
                                 node.error("Error fetching TXT:", error);

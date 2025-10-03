@@ -1,5 +1,5 @@
 const Fuse = require("fuse.js");
-const { addEvidence } = require('../../../utils/common.js')
+const { addEvidence } = require('node-red-status-commons')
 
 module.exports = function (RED) {
     function CheckConceptNameNode(config) {

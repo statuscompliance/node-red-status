@@ -1,4 +1,6 @@
-export function existSection(msg, storeEvidences) {
+const { v4: uuidv4 } = require('uuid');
+
+function existSection(msg, storeEvidences, config, node) {
     let data = msg.payload.result;
     let section = msg.req?.body?.section ?? config.section;
     const result = data.includes(section).toString();
@@ -11,11 +13,19 @@ export function existSection(msg, storeEvidences) {
     node.send(msg);
 }
 
-export function extractTextFromPDF(url, node, msg, storeEvidences) {
-    pdfParse(url)
+function extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse) {
+    if (!pdfParse) {
+        node.error("pdf-parse module not provided");
+        msg.payload.result = false;
+        addEvidence(msg, "PDF", "pdf-parse module not available", false, storeEvidences);
+        node.send(msg);
+        return;
+    }
+    
+    pdfParse(pdfContent)
         .then((data) => {
             msg.payload.result = data.text;
-            existSection(msg);
+            node.send(msg);
         })
         .catch((error) => {
             node.error(
@@ -27,7 +37,7 @@ export function extractTextFromPDF(url, node, msg, storeEvidences) {
         });
 }
 
-export function addEvidence(msg, key, value, result, storeEvidences) {
+function addEvidence(msg, key, value, result, storeEvidences) {
     if (storeEvidences) {
         msg.payload.evidences.push({
             id: uuidv4(),
@@ -37,3 +47,9 @@ export function addEvidence(msg, key, value, result, storeEvidences) {
         });
     }
 }
+
+module.exports = {
+    existSection,
+    extractTextFromPDF,
+    addEvidence
+};

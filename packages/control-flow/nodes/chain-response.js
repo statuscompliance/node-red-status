@@ -1,4 +1,4 @@
-const { addEvidence } = require('../../../utils/common.js')
+const { addEvidence } = require('node-red-status-commons')
 module.exports = function (RED) {
     function ChainResponseNode(config) {
         RED.nodes.createNode(this, config);

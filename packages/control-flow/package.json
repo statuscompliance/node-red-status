@@ -38,6 +38,6 @@
     }
   },
   "dependencies": {
-    "uuid": "13.0.0"
+    "node-red-status-commons": "*"
   }
 }
