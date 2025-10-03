@@ -1,4 +1,13 @@
-const { v4: uuidv4 } = require('uuid');
+let uuidv4 = null;
+
+// Función para inicializar uuid de forma asíncrona
+async function initUuid() {
+    if (!uuidv4) {
+        const { v4 } = await import('uuid');
+        uuidv4 = v4;
+    }
+    return uuidv4;
+}
 
 function existSection(msg, storeEvidences, config, node) {
     let data = msg.payload.result;
@@ -37,10 +46,11 @@ function extractTextFromPDF(pdfContent, node, msg, storeEvidences, pdfParse) {
         });
 }
 
-function addEvidence(msg, key, value, result, storeEvidences) {
+async function addEvidence(msg, key, value, result, storeEvidences) {
     if (storeEvidences) {
+        const uuid = await initUuid();
         msg.payload.evidences.push({
-            id: uuidv4(),
+            id: uuid(),
             key,
             value,
             result
@@ -51,5 +61,6 @@ function addEvidence(msg, key, value, result, storeEvidences) {
 module.exports = {
     existSection,
     extractTextFromPDF,
-    addEvidence
+    addEvidence,
+    initUuid
 };

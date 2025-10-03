@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/commons",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Common utilities for STATUS compliance Node-RED packages",
   "main": "index.js",
   "license": "Apache-2.0",

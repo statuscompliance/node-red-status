@@ -1,5 +1,13 @@
-const pdfParse = require("pdf-parse");
 const axios = require("axios");
+let pdfParse = null;
+
+// Función para inicializar pdf-parse de forma asíncrona
+async function initPdfParse() {
+    if (!pdfParse) {
+        pdfParse = (await import('pdf-parse')).default;
+    }
+    return pdfParse;
+}
 
 module.exports = function (RED) {
     function TextExtractorNode(config) {
@@ -105,20 +113,20 @@ module.exports = function (RED) {
             }
         });
 
-        function extractTextFromPDF(url, node, msg) {
-            pdfParse(url)
-                .then((data) => {
-                    msg.payload = data.text;
-                    node.send(msg);
-                })
-                .catch((error) => {
-                    node.error(
-                        "Error extracting text from PDF: " + error.message
-                    );
-                    msg.payload =
-                        "Error extracting text from PDF: " + error.message;
-                    node.send(msg);
-                });
+        async function extractTextFromPDF(url, node, msg) {
+            try {
+                const pdfParseModule = await initPdfParse();
+                const data = await pdfParseModule(url);
+                msg.payload = data.text;
+                node.send(msg);
+            } catch (error) {
+                node.error(
+                    "Error extracting text from PDF: " + error.message
+                );
+                msg.payload =
+                    "Error extracting text from PDF: " + error.message;
+                node.send(msg);
+            }
         }
     }
 
