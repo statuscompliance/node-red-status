@@ -30,12 +30,15 @@
             "7b2ad4f2ec851520",
             "f70d9249c9d89a8a",
             "c8d3f2c394c20453",
-            "3ec1f2608ac5f60e"
+            "3ec1f2608ac5f60e",
+            "a1b2c3d4e5f6g7h8",
+            "b2c3d4e5f6g7h8i9",
+            "c3d4e5f6g7h8i9j0"
         ],
         "x": 74,
         "y": 239,
         "w": 1042,
-        "h": 422
+        "h": 482
     },
     {
         "id": "e530ed812f727e1b",
@@ -300,6 +303,78 @@
         "info": "The @statuscompliance/control-flow package is a collection of Node-RED components \\n specifically designed for the STATUS project, focusing on performing control-flow checks \\n  within workflows. This set of nodes helps ensure the correct sequencing and coexistence  \\n of events, enabling more robust compliance and control flow management.",
         "x": 590,
         "y": 140,
+        "wires": []
+    },
+    {
+        "id": "a1b2c3d4e5f6g7h8",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "PCM Example: Complex process trace for ML analysis",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"processInstance\": \"proc_12345\", \"events\": [{\"activity\": \"ContractSubmission\", \"timestamp\": \"2024-10-16T09:00:00Z\", \"resource\": \"user_alice\", \"attributes\": {\"amount\": 50000, \"priority\": \"high\"}}, {\"activity\": \"InitialReview\", \"timestamp\": \"2024-10-16T09:15:00Z\", \"resource\": \"user_bob\", \"attributes\": {\"status\": \"approved\", \"duration\": 900}}, {\"activity\": \"ComplianceCheck\", \"timestamp\": \"2024-10-16T09:45:00Z\", \"resource\": \"system_compliance\", \"attributes\": {\"score\": 0.85, \"flags\": [\"high_amount\"]}}, {\"activity\": \"FinalApproval\", \"timestamp\": \"2024-10-16T10:30:00Z\", \"resource\": \"user_manager\", \"attributes\": {\"approved\": true, \"comments\": \"All checks passed\"}}], \"contextData\": {\"department\": \"finance\", \"region\": \"EMEA\", \"riskLevel\": \"medium\"}}",
+        "payloadType": "json",
+        "x": 320,
+        "y": 680,
+        "wires": [
+            [
+                "b2c3d4e5f6g7h8i9"
+            ]
+        ]
+    },
+    {
+        "id": "b2c3d4e5f6g7h8i9",
+        "type": "chain-response",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "PCM Chain Response",
+        "eventAName": "",
+        "eventBName": "",
+        "negate": false,
+        "time": 0,
+        "enablePCM": true,
+        "mlUrl": "https://compliance-ml.example.com",
+        "mlEndpoint": "/predict/chain-response",
+        "storeEvidences": true,
+        "params": {
+            "eventAName": "string",
+            "eventBName": "string",
+            "negate": "boolean",
+            "time": "number"
+        },
+        "x": 660,
+        "y": 680,
+        "wires": [
+            [
+                "c3d4e5f6g7h8i9j0"
+            ]
+        ]
+    },
+    {
+        "id": "c3d4e5f6g7h8i9j0",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "f3a6ad21d04cc75c",
+        "name": "PCM prediction result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 680,
         "wires": []
     }
 ]

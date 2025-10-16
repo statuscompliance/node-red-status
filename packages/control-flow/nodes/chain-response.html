@@ -9,6 +9,9 @@
             negate: { value: false},
             storeEvidences: { value: false},
             time: { value: 0, validate: RED.validators.number() },
+            enablePCM: { value: false },
+            mlUrl: { value: "" },
+            mlEndpoint: { value: "" },
             params: { value: {
                 eventAName: "string",
                 eventBName: "string",
@@ -24,8 +27,18 @@
             return this.name || 'chain-response';
         },
         oneditprepare: function () {
-            // Manejar la lógica cuando se abre el editor del nodo
-            // Puedes agregar lógica específica aquí
+            function togglePCMFields() {
+                if ($('#node-input-enablePCM').is(':checked')) {
+                    $('#pcm-config').show();
+                    $('#pcm-endpoint').show();
+                } else {
+                    $('#pcm-config').hide();
+                    $('#pcm-endpoint').hide();
+                }
+            }
+            
+            $('#node-input-enablePCM').on('change', togglePCMFields);
+            togglePCMFields();
         },
         oneditsave: function () {
             // Manejar la lógica cuando se guarda la configuración del nodo
@@ -62,6 +75,19 @@
     <div class="form-row">
         <label for="node-input-storeEvidences">Store Evidences</label>
         <input type="checkbox" id="node-input-storeEvidences">
+    </div>
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-enablePCM" style="display:inline-block; width:auto; margin-right:10px;">
+        <label for="node-input-enablePCM" style="width:auto;">ENABLE PCM (Predictive Compliance Monitoring)</label>
+    </div>
+    <div class="form-row" id="pcm-config" style="display:none;">
+        <label for="node-input-mlUrl"><i class="fa fa-globe"></i> ML URL</label>
+        <input type="text" id="node-input-mlUrl" placeholder="http://your-ml-service.com">
+    </div>
+    <div class="form-row" id="pcm-endpoint" style="display:none;">
+        <label for="node-input-mlEndpoint"><i class="fa fa-link"></i> ML Endpoint</label>
+        <input type="text" id="node-input-mlEndpoint" placeholder="/predict">
     </div>
 </script>
 <script type="text/x-red" data-help-name="chain-response">
@@ -114,17 +140,40 @@
          <p>
              The inputs to this node are a set of events and a time limit. The node will produce two outputs: one reflecting the normal logic and another reflecting the negated logic.
          </p>
-         <h3>Examples of Use:</h3>
-            <ul>
-                 <li><strong>Input:</strong> Event A: "ContractSigned", Event B: "NotificationSent", Time: 120 (seconds), Negate: false</li>
-                 <li><strong>Output:</strong> The node will output "true" if "NotificationSent" occurs within 120 seconds after "ContractSigned"; otherwise, it will output "false".</li>
-             </ul>
+         
+         <h3>Predictive Compliance Monitoring (PCM)</h3>
+         <p>
+             When PCM is enabled, the node operates differently by sending the entire payload to a machine learning service for prediction instead of analyzing event timing relationships directly.
+         </p>
+         <p>
+             <strong>PCM Configuration:</strong>
              <ul>
-                 <li><strong>Input:</strong> Event A: "PurchaseApproval", Event B: "AuditLogRecorded", Time: 300 (seconds), Negate: true</li>
-                 <li><strong>Output:</strong> The node will output "true" if "AuditLogRecorded" does <strong>not</strong> occur within 300 seconds after "PurchaseApproval"; otherwise, it will output "false".</li>
+                 <li><strong>ML URL:</strong> The base URL of the machine learning service</li>
+                 <li><strong>ML Endpoint:</strong> The endpoint path for predictions (e.g., /predict)</li>
              </ul>
          </p>
          <p>
-             These examples help ensure that critical procedures for business compliance are completed within the established timeframes or trigger corrective actions when they are not.
+             When PCM is active, the node makes a POST request to <code>mlUrl + mlEndpoint</code> with the <code>msg.payload</code> as the request body. The ML service is expected to return a response containing a <code>prediction</code> property, which becomes the result value.
+         </p>
+         <h3>Examples of Use:</h3>
+         <h4>Standard Mode:</h4>
+         <ul>
+             <li><strong>Input:</strong> Event A: "ContractSigned", Event B: "NotificationSent", Time: 120 (seconds), Negate: false</li>
+             <li><strong>Output:</strong> The node will output "true" if "NotificationSent" occurs within 120 seconds after "ContractSigned"; otherwise, it will output "false".</li>
+         </ul>
+         <ul>
+             <li><strong>Input:</strong> Event A: "PurchaseApproval", Event B: "AuditLogRecorded", Time: 300 (seconds), Negate: true</li>
+             <li><strong>Output:</strong> The node will output "true" if "AuditLogRecorded" does <strong>not</strong> occur within 300 seconds after "PurchaseApproval"; otherwise, it will output "false".</li>
+         </ul>
+         
+         <h4>PCM Mode:</h4>
+         <ul>
+             <li><strong>Input:</strong> Complex event trace with multiple activities and timestamps</li>
+             <li><strong>Configuration:</strong> PCM enabled, mlUrl: "http://compliance-ml.com", mlEndpoint: "/predict/chain-response"</li>
+             <li><strong>ML Service Response:</strong> <code>{ prediction: true }</code></li>
+             <li><strong>Output:</strong> The node will output the ML prediction result directly, bypassing traditional timing analysis.</li>
+         </ul>
+         <p>
+             These examples help ensure that critical procedures for business compliance are completed within the established timeframes or trigger corrective actions when they are not. The PCM mode allows for more sophisticated analysis using machine learning models trained on historical compliance data.
          </p>         
 </script>
