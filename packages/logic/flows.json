@@ -38,12 +38,23 @@
             "6f47711e056c8b0b",
             "720b5d3694668826",
             "78d0e8477b7957e9",
-            "78e1e3a5a03eae06"
+            "78e1e3a5a03eae06",
+            "example1-node",
+            "example1-inject",
+            "example2-node",
+            "example2-inject",
+            "example3-node",
+            "example3-inject1",
+            "example3-inject2",
+            "example1-debug",
+            "example2-debug",
+            "example3-debug",
+            "comment-examples"
         ],
-        "x": 154,
+        "x": 134,
         "y": 219,
-        "w": 752,
-        "h": 442
+        "w": 772,
+        "h": 682
     },
     {
         "id": "f4cdab2561ef4edb",
@@ -446,5 +457,248 @@
                 "1377fc2701723ea9"
             ]
         ]
+    },
+    {
+        "id": "example1-node",
+        "type": "lesser-than",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Example 1: Fixed B Value",
+        "storeEvidences": true,
+        "lesserProperty": "",
+        "aValue": "",
+        "bValue": "11",
+        "x": 490,
+        "y": 720,
+        "wires": [
+            [
+                "example1-debug"
+            ]
+        ]
+    },
+    {
+        "id": "example1-inject",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "10 < 11 (fixed)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "position",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"result\":10,\"evidences\":[]}",
+        "payloadType": "json",
+        "x": 250,
+        "y": 720,
+        "wires": [
+            [
+                "example1-node"
+            ]
+        ]
+    },
+    {
+        "id": "example2-node",
+        "type": "lesser-than",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Example 2: Custom Property + Fixed A",
+        "storeEvidences": true,
+        "lesserProperty": "result.temperature",
+        "aValue": "11",
+        "bValue": "",
+        "x": 500,
+        "y": 760,
+        "wires": [
+            [
+                "example2-debug"
+            ]
+        ]
+    },
+    {
+        "id": "example2-inject",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "11 (fixed) < 10",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "position",
+                "v": "2",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"result\":{\"temperature\":10},\"evidences\":[]}",
+        "payloadType": "json",
+        "x": 250,
+        "y": 760,
+        "wires": [
+            [
+                "example2-node"
+            ]
+        ]
+    },
+    {
+        "id": "example3-node",
+        "type": "lesser-than",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Example 3: Custom Property Dynamic",
+        "storeEvidences": true,
+        "lesserProperty": "temperature",
+        "aValue": "",
+        "bValue": "",
+        "x": 550,
+        "y": 840,
+        "wires": [
+            [
+                "example3-debug"
+            ]
+        ]
+    },
+    {
+        "id": "example3-inject1",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Temperature: 1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "position",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"temperature\":1,\"evidences\":[]}",
+        "payloadType": "json",
+        "x": 260,
+        "y": 820,
+        "wires": [
+            [
+                "example3-node"
+            ]
+        ]
+    },
+    {
+        "id": "example3-inject2",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Temperature: 10",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "position",
+                "v": "2",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"temperature\":10,\"evidences\":[]}",
+        "payloadType": "json",
+        "x": 260,
+        "y": 860,
+        "wires": [
+            [
+                "example3-node"
+            ]
+        ]
+    },
+    {
+        "id": "example1-debug",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Result: true",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "example2-debug",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Result: false",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "example3-debug",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Result: true",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "comment-examples",
+        "type": "comment",
+        "z": "a16837866ec75648",
+        "g": "79104e95baf23b39",
+        "name": "Enhanced Lesser-Than Examples",
+        "info": "These examples demonstrate the new features:\n1. Fixed B value with default property\n2. Custom property path with fixed A value \n3. Dynamic values with custom property path",
+        "x": 490,
+        "y": 680,
+        "wires": []
     }
 ]

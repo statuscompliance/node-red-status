@@ -5,6 +5,9 @@
         defaults: {
             name: { value: "" },
             storeEvidences: { value: false},
+            lesserProperty: { value: "" },
+            aValue: { value: "" },
+            bValue: { value: "" }
         },
         inputs: 1,
         outputs: 1,
@@ -36,74 +39,117 @@
         <label for="node-input-storeEvidences">Store Evidences</label>
         <input type="checkbox" id="node-input-storeEvidences">
     </div>
+    <div class="form-row">
+        <label for="node-input-lesserProperty">Property Path</label>
+        <input type="text" id="node-input-lesserProperty" placeholder="result (default)" title="Path to the property containing the value to compare (e.g., 'result', 'temperature', 'result.value')">
+    </div>
+    <div class="form-row">
+        <label for="node-input-aValue">A Value (Fixed)</label>
+        <input type="text" id="node-input-aValue" placeholder="Leave empty to use dynamic value" title="Fixed value for position A (first value). Leave empty to use value from message.">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bValue">B Value (Fixed)</label>
+        <input type="text" id="node-input-bValue" placeholder="Leave empty to use dynamic value" title="Fixed value for position B (second value). Leave empty to use value from message.">
+    </div>
 </script>
 <script type="text/x-red" data-help-name="lesser-than">
     <p>
-        The "Lesser Than" node compares two numeric values to determine if the first value is less than the second value. The node collects values from incoming messages based on their positions and performs the comparison once both values are received.
+        The "Lesser Than" node compares two numeric values to determine if the first value is less than the second value. The node supports dynamic property paths and fixed values for flexible comparison scenarios.
     </p>
+
+    <h3>Configuration</h3>
+    <dl class="message-properties">
+        <dt>Property Path
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Specifies the path to the property containing the value to compare. Default is "result". Supports nested properties using dot notation (e.g., "result.value", "temperature"). Can be overridden by <code>msg.req.body.lesserProperty</code>.
+        </dd>
+        <dt>A Value (Fixed)
+            <span class="property-type">number</span>
+        </dt>
+        <dd>
+            Optional fixed value for position A (first value). If set, this value will be used instead of the dynamic value from the message with position 1.
+        </dd>
+        <dt>B Value (Fixed)
+            <span class="property-type">number</span>
+        </dt>
+        <dd>
+            Optional fixed value for position B (second value). If set, this value will be used instead of the dynamic value from the message with position 2.
+        </dd>
+    </dl>
 
     <h3>Inputs</h3>
     <dl class="message-properties">
         <dt>payload
-            <span class="property-type">number</span>
+            <span class="property-type">object</span>
         </dt>
         <dd>
-            The numeric value to be compared. The node expects two numeric values to perform the comparison.
+            Object containing the value to be compared. The specific property is determined by the "Property Path" configuration.
         </dd>
         <dt>position
             <span class="property-type">number</span>
         </dt>
         <dd>
-            The position of the value in the comparison. This determines the order of the values for comparison. The first value should have `position` set to 1, and the second value should have `position` set to 2.
+            The position of the value in the comparison (1 for first value, 2 for second value). Only required if not using fixed values.
+        </dd>
+        <dt>req.body.lesserProperty
+            <span class="property-type">string</span>
+        </dt>
+        <dd>
+            Optional runtime override for the property path. Takes precedence over the configured Property Path.
         </dd>
     </dl>
 
     <h3>Outputs</h3>
     <dl class="message-properties">
-        <dt>payload
+        <dt>payload.result
             <span class="property-type">boolean</span>
         </dt>
         <dd>
-            The result of the comparison. The output will be <code>true</code> if the first value is less than the second value, otherwise <code>false</code>.
+            The result of the comparison. Will be <code>true</code> if A &lt; B, otherwise <code>false</code>.
+        </dd>
+        <dt>payload.evidences
+            <span class="property-type">array</span>
+        </dt>
+        <dd>
+            Array of evidence objects if "Store Evidences" is enabled, including comparison details.
         </dd>
     </dl>
 
-    <h3>Details</h3>
-    <p>
-        The "Lesser Than" node operates as follows:
-        <ul>
-            <li>The node collects two numeric values from incoming messages, using the `position` property to determine which value comes first.</li>
-            <li>Once both values are received, the node compares them to check if the first value is less than the second value.</li>
-            <li>If both values are not numeric, the result will be <code>false</code>.</li>
-            <li>The result of the comparison is sent as the `payload` of the output message.</li>
-        </ul>
-    </p>
-
     <h3>Examples of Use:</h3>
     <ul>
-        <li><strong>Example 1:</strong>
+        <li><strong>Example 1 - Fixed B Value:</strong>
             <ul>
-                <li>Input 1: <code>msg.payload = 5</code> with <code>msg.position = 1</code></li>
-                <li>Input 2: <code>msg.payload = 10</code> with <code>msg.position = 2</code></li>
-                <li>Output: Message is sent with <code>payload = true</code>, since <code>5 &lt; 10</code>.</li>
+                <li>Config: Property Path = "", A Value = "", B Value = "11"</li>
+                <li>Input: <code>msg.payload.result = 10</code>, <code>msg.position = 1</code></li>
+                <li>Output: <code>payload.result = true</code> (10 &lt; 11)</li>
             </ul>
         </li>
-        <li><strong>Example 2:</strong>
+        <li><strong>Example 2 - Custom Property with Fixed A Value:</strong>
             <ul>
-                <li>Input 1: <code>msg.payload = 20</code> with <code>msg.position = 1</code></li>
-                <li>Input 2: <code>msg.payload = 15</code> with <code>msg.position = 2</code></li>
-                <li>Output: Message is sent with <code>payload = false</code>, since <code>20 &lt; 15</code> is false.</li>
+                <li>Config: Property Path = "result.temperature", A Value = "11", B Value = ""</li>
+                <li>Input: <code>msg.payload.result.temperature = 10</code>, <code>msg.position = 2</code></li>
+                <li>Output: <code>payload.result = false</code> (11 &lt; 10 is false)</li>
             </ul>
         </li>
-        <li><strong>Example 3:</strong>
+        <li><strong>Example 3 - Dynamic Values with Custom Property:</strong>
             <ul>
-                <li>Input 1: <code>msg.payload = "string"</code> with <code>msg.position = 1</code></li>
-                <li>Input 2: <code>msg.payload = 5</code> with <code>msg.position = 2</code></li>
-                <li>Output: Message is sent with <code>payload = false</code>, since the first value is not a number.</li>
+                <li>Config: Property Path = "temperature", A Value = "", B Value = ""</li>
+                <li>Input 1: <code>msg.payload.temperature = 1</code>, <code>msg.position = 1</code></li>
+                <li>Input 2: <code>msg.payload.temperature = 10</code>, <code>msg.position = 2</code></li>
+                <li>Output: <code>payload.result = true</code> (1 &lt; 10)</li>
+            </ul>
+        </li>
+        <li><strong>Example 4 - Runtime Property Override:</strong>
+            <ul>
+                <li>Config: Property Path = "result"</li>
+                <li>Input: <code>msg.req.body.lesserProperty = "customValue"</code>, <code>msg.payload.customValue = 5</code></li>
+                <li>Output: Uses "customValue" property instead of "result"</li>
             </ul>
         </li>
     </ul>
     <p>
-        This node is useful for scenarios where you need to compare two numeric values and determine if one is less than the other, based on their order of arrival.
+        This node provides flexible comparison capabilities with support for custom property paths, fixed values, and runtime configuration overrides.
     </p>
 </script>
