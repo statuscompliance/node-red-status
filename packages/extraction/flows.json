@@ -30,12 +30,15 @@
             "9bd68e9747fb4d53",
             "d4671da30291ef44",
             "00289b074cf17b09",
-            "c6194ce1aec9cbc8"
+            "c6194ce1aec9cbc8",
+            "a8f5b3c2d9e4f1a7",
+            "b7e6c4d1a8f2b9c5",
+            "e3f8d5a1b6c9e2f4"
         ],
         "x": 134,
         "y": 279,
         "w": 1052,
-        "h": 262
+        "h": 322
     },
     {
         "id": "f4cdab2561ef4edb",
@@ -266,5 +269,70 @@
                 "7a5eb927b0dcdcc1"
             ]
         ]
+    },
+    {
+        "id": "a8f5b3c2d9e4f1a7",
+        "type": "inject",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "PCM Example: Sends sensor data for ML prediction",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"temperature\": 85.5, \"humidity\": 60.2, \"pressure\": 1013.25, \"vibration\": 0.15, \"timestamp\": \"2024-10-16T14:30:00Z\"}",
+        "payloadType": "json",
+        "x": 380,
+        "y": 560,
+        "wires": [
+            [
+                "b7e6c4d1a8f2b9c5"
+            ]
+        ]
+    },
+    {
+        "id": "b7e6c4d1a8f2b9c5",
+        "type": "get-property-value",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "PCM Enabled",
+        "propertyToGet": "",
+        "enablePCM": true,
+        "mlUrl": "https://api.example-ml.com",
+        "mlEndpoint": "/predict/compliance",
+        "params": {
+            "propertyToGet": "string"
+        },
+        "x": 850,
+        "y": 560,
+        "wires": [
+            [
+                "e3f8d5a1b6c9e2f4"
+            ]
+        ]
+    },
+    {
+        "id": "e3f8d5a1b6c9e2f4",
+        "type": "debug",
+        "z": "a16837866ec75648",
+        "g": "c3d3f204f653a75a",
+        "name": "PCM prediction",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "value",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 560,
+        "wires": []
     }
 ]

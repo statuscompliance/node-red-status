@@ -5,6 +5,9 @@
         defaults: {
             name: { value: "" },
             propertyToGet: { value: "" },
+            enablePCM: { value: false },
+            mlUrl: { value: "" },
+            mlEndpoint: { value: "" },
             params: {
                 value: {
                     propertyToGet: 'string',
@@ -18,8 +21,22 @@
             return this.name || 'get-property-value';
         },
         oneditprepare: function () {
-            // Manejar la lógica cucheck-propertyo se abre el editor del nodo
-            // Puedes agregar lógica específica aquí
+            // Mostrar/ocultar campos de PCM según el checkbox
+            function togglePCMFields() {
+                if ($('#node-input-enablePCM').is(':checked')) {
+                    $('#pcm-config').show();
+                    $('#pcm-endpoint').show();
+                } else {
+                    $('#pcm-config').hide();
+                    $('#pcm-endpoint').hide();
+                }
+            }
+            
+            // Configurar el evento del checkbox
+            $('#node-input-enablePCM').on('change', togglePCMFields);
+            
+            // Configurar estado inicial
+            togglePCMFields();
         },
         oneditsave: function () {
             // Manejar la lógica cucheck-propertyo se guarda la configuración del nodo
@@ -40,6 +57,19 @@
     <div class="form-row">
         <label for="node-input-propertyToGet"><i class="fa fa-font"></i> Property</label>
         <input type="text" id="node-input-propertyToGet" placeholder="Property">
+    </div>
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-enablePCM" style="display:inline-block; width:auto; margin-right:10px;">
+        <label for="node-input-enablePCM" style="width:auto;">ENABLE PCM (Predictive Compliance Monitoring)</label>
+    </div>
+    <div class="form-row" id="pcm-config" style="display:none;">
+        <label for="node-input-mlUrl"><i class="fa fa-globe"></i> ML URL</label>
+        <input type="text" id="node-input-mlUrl" placeholder="http://your-ml-service.com">
+    </div>
+    <div class="form-row" id="pcm-endpoint" style="display:none;">
+        <label for="node-input-mlEndpoint"><i class="fa fa-link"></i> ML Endpoint</label>
+        <input type="text" id="node-input-mlEndpoint" placeholder="/predict">
     </div>
 </script>
 <script type="text/x-red" data-help-name="get-property-value">
@@ -74,8 +104,24 @@
     <p>
         If the specified property is found within the input object, the node outputs its value. If the property is not found or the input is not valid, the output will be <code>null</code>.
     </p>
+    
+    <h3>Predictive Compliance Monitoring (PCM)</h3>
+    <p>
+        When PCM is enabled, the node operates differently by sending the entire payload to a machine learning service for prediction instead of extracting a property value directly.
+    </p>
+    <p>
+        <strong>PCM Configuration:</strong>
+        <ul>
+            <li><strong>ML URL:</strong> The base URL of the machine learning service</li>
+            <li><strong>ML Endpoint:</strong> The endpoint path for predictions (e.g., /predict)</li>
+        </ul>
+    </p>
+    <p>
+        When PCM is active, the node makes a POST request to <code>mlUrl + mlEndpoint</code> with the <code>msg.payload</code> as the request body. The ML service is expected to return a response containing a <code>prediction</code> property, which becomes the output value.
+    </p>
 
     <h3>Examples of Use:</h3>
+    <h4>Standard Mode:</h4>
     <ul>
         <li><strong>Input:</strong> payload: <code>{ id: 1, name: "Alice", age: 30 }</code>, propertyToGet: "name"</li>
         <li><strong>Output:</strong> The node will output the value <code>"Alice"</code> if "name" is found as a property in the input object.</li>
@@ -84,7 +130,15 @@
         <li><strong>Input:</strong> payload: <code>{ product: "Laptop", price: 1200 }</code>, propertyToGet: "price"</li>
         <li><strong>Output:</strong> The node will output the value <code>1200</code> if "price" is found as a property in the input object.</li>
     </ul>
+    
+    <h4>PCM Mode:</h4>
+    <ul>
+        <li><strong>Input:</strong> payload: <code>{ temperature: 85, humidity: 60, pressure: 1013 }</code></li>
+        <li><strong>Configuration:</strong> PCM enabled, mlUrl: "http://ml-service.com", mlEndpoint: "/predict"</li>
+        <li><strong>ML Service Response:</strong> <code>{ prediction: "normal" }</code></li>
+        <li><strong>Output:</strong> The node will output <code>"normal"</code> as the predicted value.</li>
+    </ul>
     <p>
-        These examples demonstrate how the node can be used to retrieve specific properties from various objects, which can be useful for data processing, filtering, and conditional logic in Node-RED flows.
+        These examples demonstrate how the node can be used both for direct property extraction and for predictive compliance monitoring using machine learning services.
     </p>
 </script>
