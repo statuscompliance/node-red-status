@@ -39,6 +39,6 @@
   },
   "dependencies": {
     "@statuscompliance/commons": "1.0.4",
-    "axios": "1.6.0"
+    "axios": "1.12.0"
   }
 }
