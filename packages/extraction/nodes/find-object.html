@@ -6,6 +6,7 @@
             name: { value: "" },
             key: { value: "" },
             keyValue: { value: "" },
+            keyValueType: { value: "str" },
             params: { 
                 value: {
                     key: 'string',
@@ -20,8 +21,11 @@
             return this.name || 'find-object';
         },
         oneditprepare: function () {
-            // Manejar la lógica cucheck-propertyo se abre el editor del nodo
-            // Puedes agregar lógica específica aquí
+            $("#node-input-keyValue").typedInput({
+                default: 'str',
+                typeField: "#node-input-keyValueType",
+                types:['msg','flow','global','str','num','bool','json','date','jsonata','env']
+            });
         },
         oneditsave: function () {
             // Manejar la lógica cucheck-propertyo se guarda la configuración del nodo
@@ -46,6 +50,7 @@
     <div class="form-row">
         <label for="node-input-keyValue"><i class="fa fa-font"></i> Value</label>
         <input type="text" id="node-input-keyValue" placeholder="Value">
+        <input type="hidden" id="node-input-keyValueType">
     </div>
 </script>
 <script type="text/x-red" data-help-name="find-object">
@@ -58,9 +63,9 @@
         </dt>
         <dd>The key to search for within the objects of the array.</dd>
         <dt>keyValue
-            <span class="property-type">string</span>
+            <span class="property-type">string | number | boolean | object | date</span>
         </dt>
-        <dd>The value that the key should match within the objects of the array.</dd>
+        <dd>The value that the key should match within the objects of the array. The value type can be configured using the dropdown selector.</dd>
         <dt>payload
             <span class="property-type">array</span>
         </dt>
@@ -84,19 +89,37 @@
         The "find-object" node searches through an array of objects for the first object that contains a specific key-value pair. The search key and value can be configured in the node settings or passed dynamically through the input message.
     </p>
     <p>
+        The value type can be specified using the dropdown selector, supporting various data types including:
+        <ul>
+            <li><strong>string</strong> - Text values</li>
+            <li><strong>number</strong> - Numeric values</li>
+            <li><strong>boolean</strong> - true/false values</li>
+            <li><strong>JSON</strong> - Objects and arrays</li>
+            <li><strong>msg</strong> - Property from the input message</li>
+            <li><strong>flow/global</strong> - Context variables</li>
+            <li><strong>env</strong> - Environment variables</li>
+            <li><strong>date</strong> - Date objects</li>
+            <li><strong>JSONata</strong> - JSONata expressions</li>
+        </ul>
+    </p>
+    <p>
         If the specified key-value pair is found within one of the objects in the array, the node outputs that object; otherwise, it outputs <code>null</code>. The original array is also included in the output as a separate message property.
     </p>
 
     <h3>Examples of Use:</h3>
     <ul>
-        <li><strong>Input:</strong> payload: <code>[{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]</code>, key: "name", keyValue: "Bob"</li>
-        <li><strong>Output:</strong> The node will output the object <code>{ id: 2, name: "Bob" }</code> if "name" matches "Bob".</li>
+        <li><strong>String search:</strong> payload: <code>[{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]</code>, key: "name", keyValue: "Bob" (type: string)</li>
+        <li><strong>Output:</strong> <code>{ id: 2, name: "Bob" }</code></li>
     </ul>
     <ul>
-        <li><strong>Input:</strong> payload: <code>[{ id: 1, status: "active" }, { id: 2, status: "inactive" }]</code>, key: "status", keyValue: "active"</li>
-        <li><strong>Output:</strong> The node will output the object <code>{ id: 1, status: "active" }</code> if "status" matches "active".</li>
+        <li><strong>Boolean search:</strong> payload: <code>[{"result":true,"evidences":[]},{"result":false,"evidences":[]}]</code>, key: "result", keyValue: true (type: boolean)</li>
+        <li><strong>Output:</strong> <code>{"result":true,"evidences":[]}</code></li>
+    </ul>
+    <ul>
+        <li><strong>Number search:</strong> payload: <code>[{ id: 1, score: 95.5 }, { id: 2, score: 87.2 }]</code>, key: "score", keyValue: 95.5 (type: number)</li>
+        <li><strong>Output:</strong> <code>{ id: 1, score: 95.5 }</code></li>
     </ul>
     <p>
-        These examples demonstrate how to use the node to find objects within an array that match a specific condition, which can be useful in various scenarios, such as filtering data or looking up specific information.
+        These examples demonstrate how to use the node to find objects within an array that match a specific condition with proper type matching, which can be useful in various scenarios, such as filtering data or looking up specific information.
     </p>
 </script>
