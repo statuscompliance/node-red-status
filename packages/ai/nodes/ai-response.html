@@ -1,3 +1,45 @@
+    <script type="text/javascript">
+        RED.nodes.registerType('ai-response',{
+            category: 'AI',
+            color: '#DDAA99',
+            defaults: {
+                name: {value:""},
+                apiKey: {value:""},
+                model: {value:"gemini-2.5-flash", required: true}, 
+                maxTokens: {value:200, validate:RED.validators.number()},
+                temperature: {value:0.7, validate:RED.validators.number()},
+                topP: {value:0.9, validate:RED.validators.number()},
+                topK: {value:1, validate:RED.validators.number()},
+                systemPrompt: {value:"You are a helpful and friendly assistant.", required: true},
+                maxHistory: {value:10, validate:RED.validators.number()},
+                userInput: {value:""},
+                aiPayloadType: {value:"request", required: true},
+                params: { value: {
+                    model: "string",
+                    maxTokens: "number",
+                    temperature: "number",
+                    topP: "number",
+                    topK: "number",
+                    systemPrompt: "string",
+                    maxHistory: "number",
+                    userInput: "string",
+                    aiPayloadType: "string"
+                }},
+                secrets: { value: {
+                    apiKey: "string"
+                }}
+            },
+            inputs:1,
+            outputs:1,
+            icon: "font-awesome/fa-comments",
+            label: function() {
+                return this.name||"AI Node";
+            },
+            labelStyle: function() {
+                return this.name ? "node_label_italic" : "";
+            }
+        });
+    </script>
 <script type="text/html" data-template-name="ai-response">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -95,33 +137,4 @@
     </dl>
     <h3>Output</h3>
     <p>The output message (<code>msg.payload</code>) will contain a JSON object with the generated text response from Gemini in its <code>payload</code> property (e.g., <code>{"payload": "AI response text"}</code>).</p>
-</script>
-
-<script type="text/javascript">
-    RED.nodes.registerType('ai-response',{
-        category: 'AI',
-        color: '#E0FFB5',
-        defaults: {
-            name: {value:""},
-            apiKey: {value:""},
-            model: {value:"gemini-2.5-flash", required: true}, 
-            maxTokens: {value:200, validate:RED.validators.number()},
-            temperature: {value:0.7, validate:RED.validators.number()},
-            topP: {value:0.9, validate:RED.validators.number()},
-            topK: {value:1, validate:RED.validators.number()},
-            systemPrompt: {value:"You are a helpful and friendly assistant.", required: true},
-            maxHistory: {value:10, validate:RED.validators.number()},
-            userInput: {value:""},
-            aiPayloadType: {value:"request", required: true}
-        },
-        inputs:1,
-        outputs:1,
-        icon: "font-awesome/fa-comments",
-        label: function() {
-            return this.name||"AI Node";
-        },
-        labelStyle: function() {
-            return this.name ? "node_label_italic" : "";
-        }
-    });
 </script>

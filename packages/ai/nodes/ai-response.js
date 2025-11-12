@@ -13,11 +13,11 @@ module.exports = function (RED) {
         let genAI = null;
 
         node.on('input', async function (msg) {
-            const currentModel = msg.req?.body?.model ?? node.defaultModel ?? "gemini-pro";
-            const currentApiKey = msg.req?.body?.apiKey ?? node.defaultApiKey;
-            const userProvidedSystemPrompt = msg.req?.body?.systemPrompt ?? node.defaultSystemPrompt ?? "";
+            const currentModel = msg.req?.body?.model ?? config.model ?? "gemini-pro";
+            const currentApiKey = msg.req?.body?.apiKey ?? config.apiKey;
+            const userProvidedSystemPrompt = msg.req?.body?.systemPrompt ?? config.systemPrompt ?? "You are a helpful and friendly assistant. Respond in English.";
             const currentSystemPrompt = "Always respond in English. " + userProvidedSystemPrompt;
-            const currentMaxHistory = msg.req?.body?.maxHistory ?? node.defaultMaxHistory ?? 10;
+            const currentMaxHistory = msg.req?.body?.maxHistory ?? config.maxHistory ?? 10;
 
             const currentMaxOutputTokens = msg.req?.body?.maxOutputTokens ?? config.maxTokens ?? 200;
             const currentTemperature = msg.req?.body?.temperature ?? config.temperature ?? 0.7;
@@ -38,7 +38,7 @@ module.exports = function (RED) {
 
             const aiPayloadType = msg.req?.body?.aiPayloadType ?? config.aiPayloadType ?? "request";
 
-            const rawUserInput = msg.req?.body?.userInput ?? msg.payload ?? config.userInput ?? "";
+            const rawUserInput = msg.req?.body?.userInput ?? config.userInput ?? msg.payload ?? "";
             
             let userInput;
             if (aiPayloadType === "property" && rawUserInput) {

@@ -1,6 +1,6 @@
 {
   "name": "@statuscompliance/integration",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "Collection of STATUS project components that are responsible for collecting information from different data sources such as GitHub, trello and others.",
   "license": "Apache-2.0",
   "keywords": [

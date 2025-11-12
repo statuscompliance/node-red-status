@@ -37,7 +37,7 @@ Or add the dependency to your `package.json`:
 
 This package includes the following STATUS integration nodes:
 
--   **status-parser**: Parses STATUS project-specific data formats.
+-   **filter-scope**: Filters messages based on scope criteria for targeted processing.
 -   **status-storer**: Buffers and sends bulk messages to a backend API, reducing network overhead and improving performance.
 
 ## License
