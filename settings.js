@@ -124,10 +124,36 @@ module.exports = {
      * The `pass` field is a bcrypt hash of the password.
      * See http://nodered.org/docs/security.html#generating-the-password-hash
      */
-    httpNodeAuth: {
-        user: "admin",
-        pass: "$2a$12$/Z7s4pOH6i6f58r0PGAW7OLdG/cQEltS813rOA6XuB11W6SlCKPvy",
-    },
+    // Allow authentication via Basic auth (Authorization header).
+  // Validates credentials against adminAuth.users using bcrypt.
+  httpNodeMiddleware: function(req, res, next) {
+    const bcrypt = require('bcrypt');
+    const adminUsers = (module.exports && module.exports.adminAuth && module.exports.adminAuth.users) || [];
+
+    function validateBasic(username, password) {
+      const match = adminUsers.find(u => u.username === username);
+      if (!match || !match.password) return false;
+      try { 
+        return bcrypt.compareSync(password, match.password);
+      } catch (e) { 
+        return false;
+      }
+    }
+
+    const auth = req.headers && req.headers.authorization;
+    if (auth && auth.indexOf('Basic ') === 0) {
+      const creds = Buffer.from(auth.slice(6), 'base64').toString('utf8').split(':');
+      const username = creds.shift();
+      const password = creds.join(':');
+      if (validateBasic(username, password)) {
+        return next();
+      }
+    }
+
+    res.setHeader('WWW-Authenticate', 'Basic realm="Node-RED"');
+    res.statusCode = 401;
+    res.end('Unauthorized');
+  },
     //httpStaticAuth: {user:"user",pass:"$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN."},
 
     /*******************************************************************************
