@@ -1,110 +1,115 @@
 [
     {
-        "id": "8cf0baba89e4886a",
+        "id": "databinder_flow_tab",
         "type": "tab",
-        "label": "Flow 1 ",
+        "label": "DataBinder Examples",
         "disabled": false,
-        "info": "",
+        "info": "Examples of using the @statuscompliance/status databinder node with different datasources and HTTP endpoints",
         "env": []
     },
     {
-        "id": "4f4e407755ef2334",
+        "id": "databinder_group",
         "type": "group",
-        "z": "8cf0baba89e4886a",
-        "name": "Status nodes",
+        "z": "databinder_flow_tab",
+        "name": "DataBinder HTTP Endpoints",
         "style": {
-            "stroke": "#c8e7a7",
-            "fill": "#e3f3d3",
-            "fill-opacity": "0.7",
+            "stroke": "#7FB3D5",
+            "fill": "#EBF5FB",
             "label": true,
             "label-position": "n",
-            "color": "#000000"
+            "fill-opacity": "0.6"
         },
         "nodes": [
-            "5831ed1bd562c414",
-            "86a042f75bb66446",
-            "138bba2903413604",
-            "edc65dd086092ecd",
-            "0057584d7f536751",
-            "0d995640157930e9"
+            "http_in_rest_api",
+            "databinder_rest_api",
+            "http_response_rest_api",
+            "http_in_github",
+            "databinder_github",
+            "http_response_github",
+            "http_in_msgraph",
+            "databinder_msgraph",
+            "http_response_msgraph",
+            "http_in_multi",
+            "databinder_multi",
+            "http_response_multi",
+            "http_in_todos",
+            "databinder_todos",
+            "http_response_todos",
+            "debug_rest",
+            "debug_github",
+            "debug_msgraph",
+            "debug_multi",
+            "debug_todos"
         ],
-        "x": 228,
-        "y": 259,
-        "w": 764,
-        "h": 468
+        "x": 74,
+        "y": 179,
+        "w": 1226,
+        "h": 762
     },
     {
-        "id": "0d995640157930e9",
-        "type": "group",
-        "z": "8cf0baba89e4886a",
-        "g": "4f4e407755ef2334",
-        "name": "",
-        "style": {
-            "stroke": "#c8e7a7",
-            "fill": "#e3f3d3",
-            "label": true,
-            "color": "#000000"
+        "id": "http_in_rest_api",
+        "type": "http in",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "REST API Endpoint",
+        "url": "/databinder/rest-api",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "databinder_rest_api"
+            ]
+        ]
+    },
+    {
+        "id": "databinder_rest_api",
+        "type": "databinder",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "REST API DataBinder",
+        "datasourceId": "",
+        "linker": "",
+        "methodName": "default",
+        "responseFormat": "full",
+        "batchSize": 100,
+        "storeEvidences": true,
+        "params": {
+            "datasourceId": "string",
+            "linker": "object",
+            "methodName": "string",
+            "responseFormat": "string",
+            "batchSize": "number"
         },
-        "nodes": [
-            "5f14bd97f5ea906f",
-            "4d8ace46c3a2d8f4"
-        ],
-        "x": 254,
-        "y": 503,
-        "w": 712,
-        "h": 198
+        "x": 380,
+        "y": 220,
+        "wires": [
+            [
+                "debug_rest",
+                "http_response_rest_api"
+            ]
+        ]
     },
     {
-        "id": "5831ed1bd562c414",
-        "type": "status-parser",
-        "z": "8cf0baba89e4886a",
-        "g": "4f4e407755ef2334",
-        "name": "",
+        "id": "http_response_rest_api",
+        "type": "http response",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "REST API Response",
+        "statusCode": "",
+        "headers": {},
         "x": 630,
-        "y": 360,
-        "wires": [
-            [
-                "138bba2903413604"
-            ]
-        ]
+        "y": 220,
+        "wires": []
     },
     {
-        "id": "86a042f75bb66446",
-        "type": "inject",
-        "z": "8cf0baba89e4886a",
-        "g": "4f4e407755ef2334",
-        "name": "Opt 1: status=true",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "req.query",
-                "v": "{\"status\": \"true\" }",
-                "vt": "json"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "[{\"id\":1,\"name\":\"Item 1\",\"result\":true},{\"id\":2,\"name\":\"Item 2\",\"result\":false},{\"id\":3,\"name\":\"Item 3\",\"result\":true}]",
-        "payloadType": "json",
-        "x": 410,
-        "y": 300,
-        "wires": [
-            [
-                "5831ed1bd562c414"
-            ]
-        ]
-    },
-    {
-        "id": "138bba2903413604",
+        "id": "debug_rest",
         "type": "debug",
-        "z": "8cf0baba89e4886a",
-        "g": "4f4e407755ef2334",
-        "name": "result",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "REST Debug",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -113,45 +118,352 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 810,
-        "y": 360,
+        "x": 620,
+        "y": 280,
         "wires": []
     },
     {
-        "id": "5f14bd97f5ea906f",
-        "type": "status-storer",
-        "z": "8cf0baba89e4886a",
-        "g": "0d995640157930e9",
-        "name": "",
-        "backendUrl": "",
-        "accessToken": "",
-        "bufferSize": "",
-        "flushInterval": "",
-        "params": {
-            "backendUrl": "string",
-            "accessToken": "string",
-            "bufferSize": "number",
-            "flushInterval": "number"
-        },
-        "x": 610,
-        "y": 660,
+        "id": "http_in_github",
+        "type": "http in",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "GitHub API Endpoint",
+        "url": "/databinder/github",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 340,
         "wires": [
-            []
+            [
+                "databinder_github"
+            ]
         ]
     },
     {
-        "id": "edc65dd086092ecd",
+        "id": "databinder_github",
+        "type": "databinder",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "GitHub DataBinder",
+        "datasourceId": "",
+        "linker": "",
+        "methodName": "getIssues",
+        "responseFormat": "batch",
+        "batchSize": 20,
+        "storeEvidences": true,
+        "params": {
+            "datasourceId": "string",
+            "linker": "object",
+            "methodName": "string",
+            "responseFormat": "string",
+            "batchSize": "number"
+        },
+        "x": 370,
+        "y": 340,
+        "wires": [
+            [
+                "debug_github",
+                "http_response_github"
+            ]
+        ]
+    },
+    {
+        "id": "http_response_github",
+        "type": "http response",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "GitHub Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 620,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "debug_github",
+        "type": "debug",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "GitHub Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "http_in_msgraph",
+        "type": "http in",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "MS Graph Endpoint",
+        "url": "/databinder/msgraph",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 460,
+        "wires": [
+            [
+                "databinder_msgraph"
+            ]
+        ]
+    },
+    {
+        "id": "databinder_msgraph",
+        "type": "databinder",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "MS Graph DataBinder",
+        "datasourceId": "",
+        "linker": "",
+        "methodName": "listSiteItems",
+        "responseFormat": "iterator",
+        "batchSize": 50,
+        "storeEvidences": true,
+        "params": {
+            "datasourceId": "string",
+            "linker": "object",
+            "methodName": "string",
+            "responseFormat": "string",
+            "batchSize": "number"
+        },
+        "x": 380,
+        "y": 460,
+        "wires": [
+            [
+                "debug_msgraph",
+                "http_response_msgraph"
+            ]
+        ]
+    },
+    {
+        "id": "http_response_msgraph",
+        "type": "http response",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "MS Graph Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 640,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "debug_msgraph",
+        "type": "debug",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "MS Graph Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "http_in_multi",
+        "type": "http in",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "Multi-Source Endpoint",
+        "url": "/databinder/multi",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 580,
+        "wires": [
+            [
+                "databinder_multi"
+            ]
+        ]
+    },
+    {
+        "id": "databinder_multi",
+        "type": "databinder",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "Multi-Source DataBinder",
+        "datasourceId": "all",
+        "linker": "",
+        "methodName": "default",
+        "responseFormat": "batch",
+        "batchSize": 25,
+        "storeEvidences": true,
+        "params": {
+            "datasourceId": "string",
+            "linker": "object",
+            "methodName": "string",
+            "responseFormat": "string",
+            "batchSize": "number"
+        },
+        "x": 390,
+        "y": 580,
+        "wires": [
+            [
+                "debug_multi",
+                "http_response_multi"
+            ]
+        ]
+    },
+    {
+        "id": "http_response_multi",
+        "type": "http response",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "Multi-Source Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 650,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "debug_multi",
+        "type": "debug",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "Multi Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "http_in_todos",
+        "type": "http in",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "JSONPlaceholder Todos",
+        "url": "/databinder/todos",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 700,
+        "wires": [
+            [
+                "databinder_todos"
+            ]
+        ]
+    },
+    {
+        "id": "databinder_todos",
+        "type": "databinder",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "JSONPlaceholder Todos DataBinder",
+        "datasourceId": "jsonplaceholder-todos",
+        "linker": "{\"datasources\":[{\"definitionId\":\"RestApiDatasource\",\"id\":\"jsonplaceholder-todos\",\"config\":{\"baseUrl\":\"https://jsonplaceholder.typicode.com\",\"endpoints\":{\"default\":\"/todos\"},\"headers\":{\"Content-Type\":\"application/json\"}}}],\"datasourceConfigs\":{\"jsonplaceholder-todos\":{\"propertyMapping\":{\"userId\":\"user_id\",\"id\":\"todo_id\",\"title\":\"task_title\",\"completed\":\"is_completed\"}}}}",
+        "methodName": "default",
+        "responseFormat": "full",
+        "batchSize": 50,
+        "storeEvidences": true,
+        "params": {
+            "datasourceId": "string",
+            "linker": "object",
+            "methodName": "string",
+            "responseFormat": "string",
+            "batchSize": "number"
+        },
+        "x": 420,
+        "y": 700,
+        "wires": [
+            [
+                "debug_todos",
+                "http_response_todos"
+            ]
+        ]
+    },
+    {
+        "id": "http_response_todos",
+        "type": "http response",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "Todos Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 680,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "debug_todos",
+        "type": "debug",
+        "z": "databinder_flow_tab",
+        "g": "databinder_group",
+        "name": "Todos Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "test_endpoints_group",
+        "type": "group",
+        "z": "databinder_flow_tab",
+        "name": "Test Endpoints (Inject Nodes)",
+        "style": {
+            "stroke": "#58D68D",
+            "fill": "#E8F8F5",
+            "label": true,
+            "label-position": "n",
+            "fill-opacity": "0.6"
+        },
+        "nodes": [
+            "test_rest_api",
+            "test_github_api",
+            "test_msgraph_api",
+            "test_multi_api",
+            "test_simple_api",
+            "test_todos_api"
+        ],
+        "x": 794,
+        "y": 179,
+        "w": 506,
+        "h": 702
+    },
+    {
+        "id": "test_rest_api",
         "type": "inject",
-        "z": "8cf0baba89e4886a",
-        "g": "4f4e407755ef2334",
-        "name": "Opt 2: status=false",
+        "z": "databinder_flow_tab",
+        "g": "test_endpoints_group",
+        "name": "Test REST API (Todos)",
         "props": [
             {
                 "p": "payload"
             },
             {
-                "p": "req.query",
-                "v": "{\"status\": \"false\" }",
+                "p": "req",
+                "v": "{\"body\":{\"datasourceId\":\"jsonplaceholder\",\"linker\":{\"datasources\":[{\"definitionId\":\"RestApiDatasource\",\"id\":\"jsonplaceholder\",\"config\":{\"baseUrl\":\"https://jsonplaceholder.typicode.com/todos\",\"headers\":{\"Content-Type\":\"application/json\"}}}],\"datasourceConfigs\":{\"jsonplaceholder\":{\"propertyMapping\":{\"userId\":\"user_id\"}}}},\"methodName\":\"default\",\"responseFormat\":\"full\"}}",
                 "vt": "json"
             }
         ],
@@ -160,25 +472,30 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "[{\"id\":1,\"name\":\"Item 1\",\"result\":true},{\"id\":2,\"name\":\"Item 2\",\"result\":false},{\"id\":3,\"name\":\"Item 3\",\"result\":true}]",
+        "payload": "{}",
         "payloadType": "json",
-        "x": 410,
-        "y": 360,
+        "x": 870,
+        "y": 220,
         "wires": [
             [
-                "5831ed1bd562c414"
+                "databinder_rest_api"
             ]
         ]
     },
     {
-        "id": "0057584d7f536751",
+        "id": "test_github_api",
         "type": "inject",
-        "z": "8cf0baba89e4886a",
-        "g": "4f4e407755ef2334",
-        "name": "Opt 3: undefined status",
+        "z": "databinder_flow_tab",
+        "g": "test_endpoints_group",
+        "name": "Test GitHub API",
         "props": [
             {
                 "p": "payload"
+            },
+            {
+                "p": "req",
+                "v": "{\"body\":{\"datasourceId\":\"github-repo\",\"linker\":{\"datasources\":[{\"definitionId\":\"GithubApiDatasource\",\"id\":\"github-repo\",\"config\":{\"personalAccessToken\":\"YOUR_GITHUB_TOKEN\",\"defaultOrg\":\"statuscompliance\",\"defaultRepo\":\"node-red-status\"}}]},\"methodName\":\"getIssues\",\"responseFormat\":\"batch\",\"batchSize\":10}}",
+                "vt": "json"
             }
         ],
         "repeat": "",
@@ -186,35 +503,148 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "[{\"id\":1,\"name\":\"Item 1\",\"result\":true},{\"id\":2,\"name\":\"Item 2\",\"result\":false},{\"id\":3,\"name\":\"Item 3\",\"result\":true}]",
+        "payload": "{}",
         "payloadType": "json",
-        "x": 420,
-        "y": 420,
+        "x": 880,
+        "y": 340,
         "wires": [
             [
-                "5831ed1bd562c414"
+                "databinder_github"
             ]
         ]
     },
     {
-        "id": "f46926caca41a1cd",
-        "type": "comment",
-        "z": "8cf0baba89e4886a",
-        "name": "The `@statuscompliance/status` package provides essential components for integrating \\n the STATUS project with Node-RED. It includes nodes that facilitate storing and parsing data, \\n enabling seamless communication between Node-RED and system backends.",
-        "info": "The `@statuscompliance/status` package provides essential components for integrating \\n the STATUS project with Node-RED. It includes nodes that facilitate storing and parsing data, \\n enabling seamless communication between Node-RED and system backends.",
-        "x": 600,
-        "y": 160,
-        "wires": []
+        "id": "test_msgraph_api",
+        "type": "inject",
+        "z": "databinder_flow_tab",
+        "g": "test_endpoints_group",
+        "name": "Test MS Graph API",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "req",
+                "v": "{\"body\":{\"datasourceId\":\"msgraph-site\",\"linker\":{\"datasources\":[{\"definitionId\":\"MicrosoftGraphDatasource\",\"id\":\"msgraph-site\",\"config\":{\"tenantId\":\"YOUR_TENANT_ID\",\"clientId\":\"YOUR_CLIENT_ID\",\"clientSecret\":\"YOUR_CLIENT_SECRET\",\"scopes\":[\"https://graph.microsoft.com/.default\"]}}]},\"methodName\":\"listSiteItems\",\"responseFormat\":\"iterator\",\"batchSize\":25}}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 890,
+        "y": 460,
+        "wires": [
+            [
+                "databinder_msgraph"
+            ]
+        ]
     },
     {
-        "id": "4d8ace46c3a2d8f4",
-        "type": "comment",
-        "z": "8cf0baba89e4886a",
-        "g": "0d995640157930e9",
-        "name": "The \"Status Storer\" Node-RED custom node takes as input messages with a payload to buffer, \\n and optionally configuration values (e.g., backendUrl, accessToken, bufferSize, flushInterval); \\n it produces no direct output but sends buffered messages in bulk to a backend API, \\n confirming success with a status message when applicable (See the help guide for more info).",
-        "info": "",
-        "x": 610,
+        "id": "test_multi_api",
+        "type": "inject",
+        "z": "databinder_flow_tab",
+        "g": "test_endpoints_group",
+        "name": "Test Multi-Source",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "req",
+                "v": "{\"body\":{\"datasourceId\":\"all\",\"linker\":{\"datasources\":[{\"definitionId\":\"RestApiDatasource\",\"id\":\"api1\",\"config\":{\"baseUrl\":\"https://jsonplaceholder.typicode.com\",\"endpoints\":{\"default\":\"/todos\"},\"auth\":{\"type\":\"none\"}}},{\"definitionId\":\"RestApiDatasource\",\"id\":\"api2\",\"config\":{\"baseUrl\":\"https://httpbin.org\",\"endpoints\":{\"default\":\"/json\"},\"auth\":{\"type\":\"none\"}}}],\"datasourceConfigs\":{\"api1\":{\"propertyMapping\":{\"title\":\"task_name\",\"userId\":\"user_id\"}},\"api2\":{\"propertyMapping\":{\"slideshow\":\"content\"}}}},\"methodName\":\"default\",\"responseFormat\":\"batch\",\"batchSize\":15}}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 890,
         "y": 580,
+        "wires": [
+            [
+                "databinder_multi"
+            ]
+        ]
+    },
+    {
+        "id": "test_simple_api",
+        "type": "inject",
+        "z": "databinder_flow_tab",
+        "g": "test_endpoints_group",
+        "name": "Simple Test (Mock)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "req",
+                "v": "{\"body\":{\"datasourceId\":\"mock-api\",\"linker\":{\"datasources\":[{\"definitionId\":\"mock-datasource\",\"id\":\"mock-api\",\"config\":{\"baseUrl\":\"https://httpbin.org/json\"}}]},\"methodName\":\"default\",\"responseFormat\":\"full\"}}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 890,
+        "y": 640,
+        "wires": [
+            [
+                "databinder_rest_api"
+            ]
+        ]
+    },
+    {
+        "id": "test_todos_api",
+        "type": "inject",
+        "z": "databinder_flow_tab",
+        "g": "test_endpoints_group",
+        "name": "Test Todos API",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "req",
+                "v": "{\"body\":{\"datasourceId\":\"jsonplaceholder-todos\",\"linker\":{\"datasources\":[{\"definitionId\":\"RestApiDatasource\",\"id\":\"jsonplaceholder-todos\",\"config\":{\"baseUrl\":\"https://jsonplaceholder.typicode.com\",\"endpoints\":{\"default\":\"/todos\"},\"headers\":{\"Content-Type\":\"application/json\"}}}],\"datasourceConfigs\":{\"jsonplaceholder-todos\":{\"propertyMapping\":{\"userId\":\"user_id\",\"id\":\"todo_id\",\"title\":\"task_title\",\"completed\":\"is_completed\"}}}},\"methodName\":\"default\",\"responseFormat\":\"full\",\"batchSize\":50}}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 870,
+        "y": 700,
+        "wires": [
+            [
+                "databinder_rest_api"
+            ]
+        ]
+    },
+    {
+        "id": "comment_databinder",
+        "type": "comment",
+        "z": "databinder_flow_tab",
+        "name": "DataBinder Node Examples - HTTP Endpoints\\n\\nThe @statuscompliance/status databinder node integrates with the @statuscompliance/databinder package\\nto collect data from different datasources (REST APIs, GitHub, Microsoft Graph).\\n\\nEach endpoint expects POST requests with configuration in msg.req.body:\\n- datasourceId: ID of the datasource or 'all' for all datasources\\n- linker: Configuration object with datasources and mappings\\n- methodName: Method to call (default, getIssues, listSiteItems, etc.)\\n- responseFormat: full, batch, or iterator\\n- batchSize: Number of items per batch\\n\\nExamples:\\nPOST /databinder/rest-api - Fetch from REST API\\nPOST /databinder/github - Fetch GitHub issues\\nPOST /databinder/msgraph - Fetch MS Graph data\\nPOST /databinder/multi - Fetch from multiple sources\\nGET /databinder/todos - Fetch JSONPlaceholder todos (pre-configured)\\n\\nIMPORTANT: Use correct definitionId values:\\n- RestApiDatasource for REST APIs\\n- GithubApiDatasource for GitHub\\n- MicrosoftGraphDatasource for MS Graph",
+        "info": "",
+        "x": 630,
+        "y": 100,
         "wires": []
     }
 ]

@@ -13,7 +13,9 @@ The `@statuscompliance/status` package provides essential components for integra
 
 -   Collect and store data from incoming messages.
 -   Batch processing and efficient data transfer to backend APIs.
--   Parsing capabilities for incoming STATUS project data formats.
+-   Data integration from multiple sources (REST APIs, GitHub, Microsoft Graph) through databinder.
+-   Configurable data source management with authentication and property mapping support.
+-   Evidence storage for audit and compliance purposes.
 
 ## Installation
 
@@ -37,8 +39,9 @@ Or add the dependency to your `package.json`:
 
 This package includes the following STATUS integration nodes:
 
--   **filter-scope**: Filters messages based on scope criteria for targeted processing.
 -   **status-storer**: Buffers and sends bulk messages to a backend API, reducing network overhead and improving performance.
+-   **filter-scope**: Filters data based on scope criteria.
+-   **databinder**: Integrates with the @statuscompliance/databinder package to collect data from different datasources using datasource ID and linker configuration.
 
 ## License
 

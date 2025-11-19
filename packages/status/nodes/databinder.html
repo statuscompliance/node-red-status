@@ -1,0 +1,266 @@
+<script type="text/javascript">
+    RED.nodes.registerType('databinder', {
+        category: 'status',
+        color: '#DDAA99',
+        defaults: {
+            name: { value: "" },
+            datasourceId: { value: "" },
+            linker: { value: "" },
+            methodName: { value: "default" },
+            responseFormat: { value: "full" },
+            batchSize: { value: 100 },
+            storeEvidences: { value: false },
+            params: { value: {
+                datasourceId: "string",
+                linker: "object",
+                methodName: "string",
+                responseFormat: "string",
+                batchSize: "number"
+            }}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'font-awesome/fa-database',
+        label: function () {
+            return this.name || 'databinder';
+        },
+        oneditprepare: function () {
+            // Initialize JSON editor for linker configuration
+            const linkerTextarea = document.getElementById('node-input-linker');
+            if (linkerTextarea && this.linker) {
+                try {
+                    const parsed = typeof this.linker === 'string' ? JSON.parse(this.linker) : this.linker;
+                    linkerTextarea.value = JSON.stringify(parsed, null, 2);
+                } catch (e) {
+                    linkerTextarea.value = this.linker;
+                }
+            }
+        },
+        oneditsave: function () {
+            // Validate and save linker configuration
+            const linkerTextarea = document.getElementById('node-input-linker');
+            if (linkerTextarea) {
+                try {
+                    const parsed = JSON.parse(linkerTextarea.value);
+                    this.linker = JSON.stringify(parsed);
+                } catch (e) {
+                    this.linker = linkerTextarea.value;
+                }
+            }
+        },
+        oneditcancel: function () {
+            // No special cleanup needed
+        },
+    });
+</script>
+
+<script type="text/x-red" data-template-name="databinder">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-datasourceId"><i class="fa fa-id-badge"></i> Datasource ID</label>
+        <input type="text" id="node-input-datasourceId" placeholder="Datasource ID or 'all' for all datasources">
+        <div class="form-tips">
+            <b>Tip:</b> Use 'all' to fetch from all configured datasources, or specify a specific datasource ID.
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-linker"><i class="fa fa-cogs"></i> Linker Configuration</label>
+        <textarea id="node-input-linker" rows="10" style="width: 100%; font-family: monospace;" placeholder='{"datasources": [{"definitionId": "rest-api", "id": "api1", "config": {"baseUrl": "https://api.example.com"}}]}'></textarea>
+        <div class="form-tips">
+            <b>JSON format:</b> Configure datasources and their mappings. See documentation for examples.
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-methodName"><i class="fa fa-play"></i> Method Name</label>
+        <select id="node-input-methodName">
+            <option value="default">default</option>
+            <option value="getById">getById</option>
+            <option value="search">search</option>
+            <option value="getRepositories">getRepositories (GitHub)</option>
+            <option value="getIssues">getIssues (GitHub)</option>
+            <option value="getPullRequest">getPullRequest (GitHub)</option>
+            <option value="getSiteIdByPath">getSiteIdByPath (MS Graph)</option>
+            <option value="listSiteItems">listSiteItems (MS Graph)</option>
+        </select>
+        <div class="form-tips">
+            <b>Tip:</b> Method to call on the datasource. Available methods depend on the datasource type.
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-responseFormat"><i class="fa fa-format"></i> Response Format</label>
+        <select id="node-input-responseFormat">
+            <option value="full">Full</option>
+            <option value="batch">Batch</option>
+            <option value="iterator">Iterator</option>
+        </select>
+        <div class="form-tips">
+            <b>Full:</b> Complete response with metadata<br>
+            <b>Batch:</b> Paginated batches<br>
+            <b>Iterator:</b> Async generator for streaming
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-batchSize"><i class="fa fa-list"></i> Batch Size</label>
+        <input type="number" id="node-input-batchSize" placeholder="100" min="1" max="1000">
+        <div class="form-tips">
+            <b>Tip:</b> Number of items per batch when using batch or iterator format.
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeEvidences"><i class="fa fa-archive"></i> Store Evidences</label>
+        <input type="checkbox" id="node-input-storeEvidences">
+        <div class="form-tips">
+            <b>Tip:</b> Enable to store execution evidences for audit purposes.
+        </div>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="databinder">
+    <p>Integrates with the @statuscompliance/databinder package to collect data from different datasources using a datasource ID and linker configuration.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>datasourceId <span class="property-type">string</span></dt>
+        <dd>ID of the datasource to fetch from, or 'all' to fetch from all configured datasources. Can be provided via msg.datasourceId or msg.req.body.datasourceId.</dd>
+        
+        <dt>linker <span class="property-type">object</span></dt>
+        <dd>Linker configuration containing datasources and their configurations. Can be provided via msg.linker or msg.req.body.linker.</dd>
+        
+        <dt>methodName <span class="property-type">string</span></dt>
+        <dd>Optional. Method to call on the datasource (default: 'default'). Can be overridden via msg.req.body.methodName.</dd>
+        
+        <dt>responseFormat <span class="property-type">string</span></dt>
+        <dd>Optional. Response format: 'full', 'batch', or 'iterator' (default: 'full'). Can be overridden via msg.req.body.responseFormat.</dd>
+        
+        <dt>batchSize <span class="property-type">number</span></dt>
+        <dd>Optional. Number of items per batch when using batch/iterator format (default: 100). Can be overridden via msg.req.body.batchSize.</dd>
+        
+        <dt>fetchOptions <span class="property-type">object</span></dt>
+        <dd>Optional. Additional options to pass to the datasource fetch method via msg.fetchOptions.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Success output
+            <dl class="message-properties">
+                <dt>payload.result <span class="property-type">boolean</span></dt>
+                <dd>true if data was successfully fetched</dd>
+                <dt>payload.data <span class="property-type">any</span></dt>
+                <dd>The fetched data from the datasource(s)</dd>
+                <dt>payload.metadata <span class="property-type">object</span></dt>
+                <dd>Metadata including datasourceId, methodName, responseFormat, and timestamp</dd>
+                <dt>payload.evidences <span class="property-type">array</span></dt>
+                <dd>Execution evidences (if storeEvidences is enabled)</dd>
+            </dl>
+        </li>
+        <li>Error output
+            <dl class="message-properties">
+                <dt>payload.result <span class="property-type">boolean</span></dt>
+                <dd>false if an error occurred</dd>
+                <dt>payload.error <span class="property-type">string</span></dt>
+                <dd>Error message describing what went wrong</dd>
+                <dt>payload.metadata <span class="property-type">object</span></dt>
+                <dd>Available metadata and timestamp</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The "databinder" node provides a Node-RED interface to the @statuscompliance/databinder package, which simplifies integration with multiple data sources in a generic and extensible way.
+    </p>
+    
+    <h4>Supported Datasources:</h4>
+    <ul>
+        <li><strong>REST API:</strong> Generic REST API integration with authentication support</li>
+        <li><strong>GitHub API:</strong> GitHub repositories, issues, pull requests, etc.</li>
+        <li><strong>Microsoft Graph:</strong> SharePoint sites, documents, and other Microsoft 365 resources</li>
+    </ul>
+
+    <h4>Linker Configuration Format:</h4>
+    <pre><code>{
+  "datasources": [
+    {
+      "definitionId": "rest-api",
+      "id": "api1", 
+      "config": {
+        "baseUrl": "https://api.example.com",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "auth": {
+          "type": "bearer",
+          "token": "your-token"
+        }
+      }
+    }
+  ],
+  "datasourceConfigs": {
+    "api1": {
+      "id": "api1",
+      "propertyMapping": {
+        "title": "name"
+      }
+    }
+  },
+  "defaultMethodName": "default"
+}</code></pre>
+
+    <h4>GitHub Datasource Example:</h4>
+    <pre><code>{
+  "datasources": [
+    {
+      "definitionId": "github-api",
+      "id": "github1",
+      "config": {
+        "personalAccessToken": "your-github-pat",
+        "defaultOrg": "your-organization",
+        "defaultRepo": "your-repository"
+      }
+    }
+  ]
+}</code></pre>
+
+    <h4>Microsoft Graph Datasource Example:</h4>
+    <pre><code>{
+  "datasources": [
+    {
+      "definitionId": "microsoft-graph",
+      "id": "msgraph1",
+      "config": {
+        "tenantId": "your-tenant-id",
+        "clientId": "your-client-id", 
+        "clientSecret": "your-client-secret",
+        "scopes": ["https://graph.microsoft.com/.default"]
+      }
+    }
+  ]
+}</code></pre>
+
+    <h3>Examples of Use:</h3>
+    
+    <h4>Example 1: Fetch from REST API</h4>
+    <ul>
+        <li><strong>Input:</strong> datasourceId: "api1", linker with REST API configuration</li>
+        <li><strong>Output:</strong> Data from the configured REST API endpoint</li>
+    </ul>
+
+    <h4>Example 2: Fetch GitHub Issues</h4>
+    <ul>
+        <li><strong>Input:</strong> datasourceId: "github1", methodName: "getIssues", linker with GitHub configuration</li>
+        <li><strong>Output:</strong> List of GitHub issues from the configured repository</li>
+    </ul>
+
+    <h4>Example 3: Fetch All Datasources in Batch Mode</h4>
+    <ul>
+        <li><strong>Input:</strong> datasourceId: "all", responseFormat: "batch", batchSize: 50</li>
+        <li><strong>Output:</strong> Paginated batches of data from all configured datasources</li>
+    </ul>
+
+    <p>
+        This node is ideal for integrating Node-RED flows with external data sources in a standardized and configurable way, supporting authentication, property mapping, and various response formats for different use cases.
+    </p>
+</script>
