@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@statuscompliance/commons": "1.0.4",
-    "@statuscompliance/databinder": "1.0.1",
+    "@statuscompliance/databinder": "1.2.3",
     "axios": "1.12.0",
     "uuid": "13.0.0"
   }
